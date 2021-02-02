@@ -1,19 +1,29 @@
-import { useEffect } from 'react';
-import { appTitle } from '../config';
-import logo from '../icons/logo.svg';
-import classes from './App.module.css';
+import { Component } from 'react';
+import { Drawer } from '../components/Drawer/Drawer';
+import { Main } from '../pages/Main';
 
-export const App = () => {
-  useEffect(() => {
-    document.title = appTitle;
-  }, []);
+export class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      drawerOpen: false,
+    };
+  }
 
-  return (
-    <div className={classes.App}>
-      <header className={classes.Header}>
-        <img src={logo} className={classes.Logo} alt='logo' />
-        <h1 className={classes.Text}>Learn React with Dev Incubator</h1>
-      </header>
-    </div>
-  );
-};
+  drawerToggle = () => {
+    const { drawerOpen } = this.state;
+    this.setState({
+      drawerOpen: !drawerOpen,
+    });
+  };
+
+  render() {
+    const { drawerOpen } = this.state;
+    return (
+      <div>
+        <Drawer showDrawer={drawerOpen} toggle={this.drawerToggle} />
+        <Main showDrawer={drawerOpen} toggle={this.drawerToggle} />
+      </div>
+    );
+  }
+}

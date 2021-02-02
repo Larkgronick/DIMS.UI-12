@@ -1,0 +1,76 @@
+@font-face {
+  font-family: 'Roboto-Bold';
+  src: url('../../assets/fonts/Roboto\ Bold.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Roboto-Regular';
+  src: url('../../assets/fonts/Roboto\ Regular.ttf') format('ttf');
+}
+
+.header-login {
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+  background-color: #000;
+}
+.dev-logo-login {
+  margin: 15px;
+  height: 60px;
+}
+
+.header-button {
+  border: none;
+  color: #fff;
+  background-color: #000;
+  outline: none;
+  font-family: 'Roboto-Regular';
+  font-size: 16pt;
+  width: 100px;
+  height: 100%;
+  cursor: pointer;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Roboto-Regular';
+}
+
+.input-fields {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-form h2 {
+  margin: 100px auto;
+  text-align: center;
+}
+.login-form span {
+  padding-left: 10px;
+  color: #008f02;
+}
+
+.login-form input {
+  width: 350px;
+  margin: 15px 0px;
+  border: none;
+  outline: none;
+  padding-left: 45px;
+  height: 35px;
+  border-bottom: 2px solid #d4d9e3;
+}
+
+.login-field {
+  background: url('../../assets/images/loginIcon.png') no-repeat scroll 5px 5px;
+}
+
+.password-field {
+  background: url('../../assets/images/passwordIcon.png') no-repeat scroll 5px 5px;
+}
+
+.button {
+  font-family: 'Roboto-Regular';
+}

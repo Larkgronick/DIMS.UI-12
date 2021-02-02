@@ -5,37 +5,31 @@ import './styles/Table.css';
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
 import { Button } from '../components/Buttons/Button/Button';
 
-import educationIcon from '../assets/images/educationIcon.png';
 import startIcon from '../assets/images/startIcon.png';
+import deadlineIcon from '../assets/images/deadlineIcon.png';
 
-const pageName = 'Members';
-const menuItems = ['Name / Direction', 'Education', 'Start', 'Age', 'Email', 'Actions'];
-const membersBody = [
+const pageName = 'Tasks';
+const menuItems = ['Name', 'Start', 'Deadline', 'Actions'];
+const TasksBody = [
   {
     name: 'Create the DB',
-    direction: 'JAVA',
-    education: 'BSUIR',
-    education_img: educationIcon,
     start: '28.01.2021',
     start_img: startIcon,
-    age: '21',
-    e_mail: 'johndoe@design.com',
+    deadline: '28.01.2021',
+    deadline_img: deadlineIcon,
     buttons: 'buttons',
   },
   {
-    name: 'Petya Petrow',
-    direction: '.NET',
-    education: 'BSU',
-    education_img: educationIcon,
-    start: '30.01.2021',
+    name: 'Implement the props',
+    start: '28.01.2021',
     start_img: startIcon,
-    age: '22',
-    e_mail: 'johndoe2@design.com',
+    deadline: '28.01.2021',
+    deadline_img: deadlineIcon,
     buttons: 'buttons',
   },
 ];
 
-export function Members(props) {
+export function Tasks(props) {
   const { showDrawer, toggle } = props;
   return (
     <article>
@@ -45,7 +39,7 @@ export function Members(props) {
       </header>
       <p className='page-name'>
         {pageName}
-        <span>{`(${membersBody.length})`}</span>
+        <span>{`(${TasksBody.length})`}</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
@@ -54,22 +48,17 @@ export function Members(props) {
           ))}
         </thead>
         <tbody className='table-body'>
-          {membersBody.map((item) => (
+          {TasksBody.map((item) => (
             <tr className='row'>
-              <th className='name'>
-                {item.name}
-                <span className='attention'>{item.direction}</span>
-              </th>
+              <th className='name'>{item.name}</th>
               <td>
-                <img className='logo' src={item.education_img} alt='education' />
-                <span>{item.education}</span>
-              </td>
-              <td>
-                <img className='logo' src={item.start_img} alt='education' />
+                <img className='logo' src={item.start_img} alt='start' />
                 <span className='attention'>{item.start}</span>
               </td>
-              <td>{item.age}</td>
-              <td>{item.e_mail}</td>
+              <td>
+                <img className='logo' src={item.deadline_img} alt='deadline' />
+                <span>{item.deadline}</span>
+              </td>
               <td>{item.buttons}</td>
             </tr>
           ))}
@@ -79,12 +68,12 @@ export function Members(props) {
   );
 }
 
-Members.propTypes = {
+Tasks.propTypes = {
   showDrawer: PropTypes.func,
   toggle: PropTypes.bool,
 };
 
-Members.defaultProps = {
+Tasks.defaultProps = {
   showDrawer: PropTypes.func,
   toggle: PropTypes.bool,
 };

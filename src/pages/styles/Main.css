@@ -1,0 +1,28 @@
+body {
+  width: 90vw;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.header {
+  border-bottom: 2px solid #dadee7;
+  padding: 15px;
+}
+
+.drawer-open {
+  transform: translateX(250px);
+  transition: transform 0.3s ease-out;
+  width: 90vw;
+}
+
+.page-content {
+  background-color: #f6f7fa;
+}
+
+.page-name {
+  font-size: 20pt;
+}
+
+.page-name span {
+  margin: 0 15px;
+}
