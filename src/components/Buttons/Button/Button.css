@@ -1,11 +1,16 @@
+:root {
+  --text: #fff;
+  --dev-color: #008f02;
+}
+
 .button {
   border: 2px solid white;
   width: 150px;
   height: 50px;
   margin-left: 15px;
   font-size: 18px;
-  color: white;
-  background-color: green;
+  color: var(--text);
+  background-color: var(--dev-color);
   border-radius: 50px;
   outline: none;
   cursor: pointer;

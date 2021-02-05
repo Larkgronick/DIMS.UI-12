@@ -1,3 +1,8 @@
+:root {
+  --text-thead: #8492af;
+  --table-line: #dadee7;
+}
+
 @font-face {
   font-family: 'Roboto-Bold';
   src: url('/src/assets/fonts/Roboto\ Bold.ttf') format('ttf');
@@ -15,7 +20,7 @@
 }
 
 .table-head {
-  color: #8492af;
+  color: var(--text-thead);
   margin-bottom: 10px;
 }
 
@@ -26,7 +31,7 @@
 }
 
 .attention {
-  color: #8492af;
+  color: var(--text-thead);
 }
 
 .logo {
@@ -35,8 +40,9 @@
 
 .row {
   height: 60px;
-  border: 2px solid #dadee7;
+  border: 2px solid var(--table-line);
 }
+
 td {
   text-align: center;
 }

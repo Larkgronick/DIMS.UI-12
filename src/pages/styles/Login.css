@@ -1,3 +1,10 @@
+:root {
+  --text: #fff;
+  --line-bg: #000;
+  --dev-color: #008f02;
+  --input-line: #dadee7;
+}
+
 @font-face {
   font-family: 'Roboto-Bold';
   src: url('../../assets/fonts/Roboto\ Bold.ttf') format('ttf');
@@ -11,8 +18,8 @@
 .header-login {
   display: flex;
   justify-content: space-between;
-  color: #fff;
-  background-color: #000;
+  color: var(--text);
+  background-color: var(--line-bg);
 }
 .dev-logo-login {
   margin: 15px;
@@ -21,8 +28,8 @@
 
 .header-button {
   border: none;
-  color: #fff;
-  background-color: #000;
+  color: var(--text);
+  background-color: var(--line-bg);
   outline: none;
   font-family: 'Roboto-Regular';
   font-size: 16pt;
@@ -48,9 +55,10 @@
   margin: 100px auto;
   text-align: center;
 }
+
 .login-form span {
   padding-left: 10px;
-  color: #008f02;
+  color: var(--dev-color);
 }
 
 .login-form input {
@@ -60,7 +68,7 @@
   outline: none;
   padding-left: 45px;
   height: 35px;
-  border-bottom: 2px solid #d4d9e3;
+  border-bottom: 2px solid var(--input-line);
 }
 
 .login-field {

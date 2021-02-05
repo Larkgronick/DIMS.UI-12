@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import './Button.css';
 
-export function Button(props) {
-  const { name } = props;
+export function Button({ name }) {
   return (
     <button type='button' className='button'>
       {name}
@@ -11,8 +10,5 @@ export function Button(props) {
 }
 
 Button.propTypes = {
-  name: PropTypes.string,
-};
-Button.defaultProps = {
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
 };

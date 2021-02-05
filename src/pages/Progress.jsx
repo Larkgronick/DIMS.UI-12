@@ -34,8 +34,7 @@ const ProgressBody = [
   },
 ];
 
-export function Progress(props) {
-  const { showDrawer, toggle } = props;
+export function Progress({ showDrawer, toggle }) {
   return (
     <article>
       <header className='header'>
@@ -70,11 +69,6 @@ export function Progress(props) {
 }
 
 Progress.propTypes = {
-  showDrawer: PropTypes.func,
-  toggle: PropTypes.bool,
-};
-
-Progress.defaultProps = {
-  showDrawer: PropTypes.func,
-  toggle: PropTypes.bool,
+  showDrawer: PropTypes.func.isRequired,
+  toggle: PropTypes.bool.isRequired,
 };

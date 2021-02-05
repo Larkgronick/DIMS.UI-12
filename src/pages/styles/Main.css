@@ -1,3 +1,8 @@
+:root {
+  --header-line: #dadee7;
+  --page-bg: #f6f7fa;
+}
+
 body {
   width: 90vw;
   margin: 0 auto;
@@ -5,7 +10,7 @@ body {
 }
 
 .header {
-  border-bottom: 2px solid #dadee7;
+  border-bottom: 2px solid var(--header-line);
   padding: 15px;
 }
 
@@ -16,7 +21,7 @@ body {
 }
 
 .page-content {
-  background-color: #f6f7fa;
+  background-color: var(--page-bg);
 }
 
 .page-name {

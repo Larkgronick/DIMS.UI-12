@@ -12,16 +12,9 @@ const menuItems = [
   { name: 'Progress', path: '/progress', img: progressIcon },
 ];
 
-export function Drawer(props) {
-  let drawerClasses = 'side-drawer';
-  const { showDrawer, toggle } = props;
-
-  if (showDrawer) {
-    drawerClasses = 'side-drawer open';
-  }
-
+export function Drawer({ showDrawer, toggle }) {
   return (
-    <aside className={drawerClasses}>
+    <aside className={showDrawer ? 'side-drawer open' : 'side-drawer'}>
       <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
       {menuItems.map((item) => (
         <Link onClick={toggle} to={item.path} key={item.name} className='drawer-item'>
@@ -34,11 +27,6 @@ export function Drawer(props) {
 }
 
 Drawer.propTypes = {
-  showDrawer: PropTypes.bool,
-  toggle: PropTypes.func,
-};
-
-Drawer.defaultProps = {
-  showDrawer: false,
-  toggle: PropTypes.func,
+  showDrawer: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
 };

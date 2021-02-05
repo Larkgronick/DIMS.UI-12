@@ -1,26 +1,15 @@
 import PropTypes from 'prop-types';
 import './Hamburger.css';
 
-export function Hamburger(props) {
-  let hamburgerClasses = 'bt-menu-trigger';
-  const { showDrawer, toggle } = props;
-
-  if (showDrawer) {
-    hamburgerClasses = 'bt-menu-trigger bt-menu-open';
-  }
+export function Hamburger({ showDrawer, toggle }) {
   return (
-    <button onClick={toggle} className={hamburgerClasses} type='button'>
+    <button onClick={toggle} className={showDrawer ? 'bt-menu-trigger bt-menu-open' : 'bt-menu-trigger'} type='button'>
       <span />
     </button>
   );
 }
 
 Hamburger.propTypes = {
-  showDrawer: PropTypes.bool,
-  toggle: PropTypes.bool,
-};
-
-Hamburger.defaultProps = {
-  showDrawer: PropTypes.bool,
-  toggle: PropTypes.bool,
+  showDrawer: PropTypes.bool.isRequired,
+  toggle: PropTypes.bool.isRequired,
 };

@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types';
-
 import './styles/Table.css';
-
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
 import { Button } from '../components/Buttons/Button/Button';
-
 import educationIcon from '../assets/images/educationIcon.png';
 import startIcon from '../assets/images/startIcon.png';
 
@@ -35,8 +32,7 @@ const membersBody = [
   },
 ];
 
-export function Members(props) {
-  const { showDrawer, toggle } = props;
+export function Members({ showDrawer, toggle }) {
   return (
     <article>
       <header className='header'>
@@ -80,11 +76,6 @@ export function Members(props) {
 }
 
 Members.propTypes = {
-  showDrawer: PropTypes.func,
-  toggle: PropTypes.bool,
-};
-
-Members.defaultProps = {
-  showDrawer: PropTypes.func,
-  toggle: PropTypes.bool,
+  showDrawer: PropTypes.func.isRequired,
+  toggle: PropTypes.bool.isRequired,
 };
