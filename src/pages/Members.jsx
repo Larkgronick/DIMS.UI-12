@@ -1,59 +1,36 @@
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './styles/Table.css';
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
 import { Button } from '../components/Buttons/Button/Button';
-import educationIcon from '../assets/images/educationIcon.png';
-import startIcon from '../assets/images/startIcon.png';
+import { NewMember } from '../components/Popups/NewMember';
 
-const pageName = 'Members';
-const menuItems = ['Name / Direction', 'Education', 'Start', 'Age', 'Email', 'Actions'];
-const membersBody = [
-  {
-    name: 'Create the DB',
-    direction: 'JAVA',
-    education: 'BSUIR',
-    education_img: educationIcon,
-    start: '28.01.2021',
-    start_img: startIcon,
-    age: '21',
-    e_mail: 'johndoe@design.com',
-    buttons: 'buttons',
-  },
-  {
-    name: 'Petya Petrow',
-    direction: '.NET',
-    education: 'BSU',
-    education_img: educationIcon,
-    start: '30.01.2021',
-    start_img: startIcon,
-    age: '22',
-    e_mail: 'johndoe2@design.com',
-    buttons: 'buttons',
-  },
-];
+import { membersHeaders } from '../services/constants';
 
-export function Members({ showDrawer, toggle }) {
+export function Members({ members, addMember, modalToggle, selectMember, openModal, showDrawer, toggle, logOut }) {
   return (
     <article>
+      {openModal ? <NewMember addMember={addMember} modalToggle={modalToggle} /> : null}
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name={pageName} />
+        <Button name='Register' action={modalToggle} color='dev' />
+        <Button name='Log Out' action={logOut} color='danger' />
       </header>
       <p className='page-name'>
-        {pageName}
-        <span>{`(${membersBody.length})`}</span>
+        Members
+        <span>{`(${members.length})`}</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
-          {menuItems.map((item) => (
+          {membersHeaders.map((item) => (
             <th>{item}</th>
           ))}
         </thead>
         <tbody className='table-body'>
-          {membersBody.map((item) => (
+          {members.map((item) => (
             <tr className='row'>
               <th className='name'>
-                {item.name}
+                <span>{item.name}</span>
                 <span className='attention'>{item.direction}</span>
               </th>
               <td>
@@ -65,8 +42,15 @@ export function Members({ showDrawer, toggle }) {
                 <span className='attention'>{item.start}</span>
               </td>
               <td>{item.age}</td>
-              <td>{item.e_mail}</td>
-              <td>{item.buttons}</td>
+              <td>{item.email}</td>
+              <td>
+                <Button name='Progress' color='dev' />
+                <Link to='/tasks'>
+                  <Button name='Tasks' action={(e) => selectMember(e)} color='tasks' />
+                </Link>
+                <Button name='Edit' color='edit' />
+                <Button name='Delete' color='danger' />
+              </td>
             </tr>
           ))}
         </tbody>
@@ -76,6 +60,12 @@ export function Members({ showDrawer, toggle }) {
 }
 
 Members.propTypes = {
+  members: PropTypes.instanceOf(Array).isRequired,
+  addMember: PropTypes.func.isRequired,
+  modalToggle: PropTypes.func.isRequired,
+  selectMember: PropTypes.func.isRequired,
+  openModal: PropTypes.bool.isRequired,
   showDrawer: PropTypes.func.isRequired,
+  logOut: PropTypes.func.isRequired,
   toggle: PropTypes.bool.isRequired,
 };

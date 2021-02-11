@@ -19,6 +19,11 @@
   border-collapse: collapse;
 }
 
+header {
+  display: flex;
+  justify-content: space-around;
+}
+
 .table-head {
   color: var(--text-thead);
   margin-bottom: 10px;

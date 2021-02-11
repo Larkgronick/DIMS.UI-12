@@ -1,17 +1,35 @@
 :root {
   --text: #fff;
   --dev-color: #008f02;
+  --danger: #da514b;
+  --tasks-color: #009afb;
+  --edit-color: #50c4df;
 }
 
 .button {
   border: 2px solid white;
-  width: 150px;
+  width: 130px;
   height: 50px;
   margin-left: 15px;
   font-size: 18px;
   color: var(--text);
-  background-color: var(--dev-color);
   border-radius: 50px;
   outline: none;
   cursor: pointer;
+}
+
+.dev {
+  background-color: var(--dev-color);
+}
+
+.tasks {
+  background-color: var(--tasks-color);
+}
+
+.danger {
+  background-color: var(--danger);
+}
+
+.edit {
+  background-color: var(--edit-color);
 }

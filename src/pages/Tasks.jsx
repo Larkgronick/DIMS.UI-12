@@ -1,54 +1,32 @@
 import PropTypes from 'prop-types';
-
 import './styles/Table.css';
-
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
 import { Button } from '../components/Buttons/Button/Button';
+import { NewTask } from '../components/Popups/NewTask';
+import { tasksHeaders } from '../services/constants';
 
-import startIcon from '../assets/images/startIcon.png';
-import deadlineIcon from '../assets/images/deadlineIcon.png';
-
-const pageName = 'Tasks';
-const menuItems = ['Name', 'Start', 'Deadline', 'Actions'];
-const TasksBody = [
-  {
-    name: 'Create the DB',
-    start: '28.01.2021',
-    start_img: startIcon,
-    deadline: '28.01.2021',
-    deadline_img: deadlineIcon,
-    buttons: 'buttons',
-  },
-  {
-    name: 'Implement the props',
-    start: '28.01.2021',
-    start_img: startIcon,
-    deadline: '28.01.2021',
-    deadline_img: deadlineIcon,
-    buttons: 'buttons',
-  },
-];
-
-export function Tasks(props) {
-  const { showDrawer, toggle } = props;
+export function Tasks({ members, addTask, modalToggle, openModal, showDrawer, toggle, logOut, selected }) {
+  const tasks = members.map((el) => el.tasks);
   return (
     <article>
+      {openModal ? <NewTask addTask={addTask} modalToggle={modalToggle} /> : null}
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name={pageName} />
+        <Button name='Create' action={modalToggle} color='tasks' />
+        <Button name='Log Out' action={logOut} color='danger' />
       </header>
       <p className='page-name'>
-        {pageName}
-        <span>{`(${TasksBody.length})`}</span>
+        {`${members[selected].name}'s Tasks`}
+        <span>{`(${tasks[selected].length})`}</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
-          {menuItems.map((item) => (
+          {tasksHeaders.map((item) => (
             <th>{item}</th>
           ))}
         </thead>
         <tbody className='table-body'>
-          {TasksBody.map((item) => (
+          {tasks[selected].map((item) => (
             <tr className='row'>
               <th className='name'>{item.name}</th>
               <td>
@@ -59,7 +37,10 @@ export function Tasks(props) {
                 <img className='logo' src={item.deadline_img} alt='deadline' />
                 <span>{item.deadline}</span>
               </td>
-              <td>{item.buttons}</td>
+              <td>
+                <Button name='Edit' action={console.log(1)} color='edit' />
+                <Button name='Delete' action={console.log(1)} color='danger' />
+              </td>
             </tr>
           ))}
         </tbody>
@@ -69,11 +50,12 @@ export function Tasks(props) {
 }
 
 Tasks.propTypes = {
-  showDrawer: PropTypes.func,
-  toggle: PropTypes.bool,
-};
-
-Tasks.defaultProps = {
-  showDrawer: PropTypes.func,
-  toggle: PropTypes.bool,
+  members: PropTypes.instanceOf(Array).isRequired,
+  addTask: PropTypes.func.isRequired,
+  modalToggle: PropTypes.func.isRequired,
+  openModal: PropTypes.bool.isRequired,
+  showDrawer: PropTypes.func.isRequired,
+  logOut: PropTypes.func.isRequired,
+  toggle: PropTypes.bool.isRequired,
+  selected: PropTypes.number.isRequired,
 };

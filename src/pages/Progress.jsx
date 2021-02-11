@@ -34,11 +34,14 @@ const ProgressBody = [
   },
 ];
 
-export function Progress({ showDrawer, toggle }) {
+export function Progress({ showDrawer, toggle, logOut }) {
   return (
     <article>
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
+        <button onClick={logOut} type='button'>
+          Log Out
+        </button>
       </header>
       <p className='page-name'>
         {`${memberName}'s ${pageName}`}
@@ -70,5 +73,6 @@ export function Progress({ showDrawer, toggle }) {
 
 Progress.propTypes = {
   showDrawer: PropTypes.func.isRequired,
+  logOut: PropTypes.func.isRequired,
   toggle: PropTypes.bool.isRequired,
 };

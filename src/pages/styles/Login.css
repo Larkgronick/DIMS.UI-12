@@ -3,6 +3,7 @@
   --line-bg: #000;
   --dev-color: #008f02;
   --input-line: #dadee7;
+  --error: red;
 }
 
 @font-face {
@@ -27,7 +28,6 @@
 }
 
 .header-button {
-  border: none;
   color: var(--text);
   background-color: var(--line-bg);
   outline: none;
@@ -36,6 +36,10 @@
   width: 100px;
   height: 100%;
   cursor: pointer;
+}
+
+.selected {
+  color: var(--dev-color);
 }
 
 .login-form {
@@ -71,14 +75,35 @@
   border-bottom: 2px solid var(--input-line);
 }
 
-.login-field {
+#email-field {
   background: url('../../assets/images/loginIcon.png') no-repeat scroll 5px 5px;
 }
 
-.password-field {
+#password-field {
   background: url('../../assets/images/passwordIcon.png') no-repeat scroll 5px 5px;
 }
 
 .button {
   font-family: 'Roboto-Regular';
+}
+
+.check-button {
+  border: 2px solid white;
+  width: 150px;
+  height: 50px;
+  margin-left: 15px;
+  font-size: 18px;
+  color: var(--text);
+  background-color: var(--dev-color);
+  border-radius: 50px;
+  outline: none;
+  cursor: pointer;
+}
+
+.error-message {
+  color: var(--error);
+  font-size: 12px;
+  text-align: center;
+  width: 50%;
+  margin: 5px 0;
 }
