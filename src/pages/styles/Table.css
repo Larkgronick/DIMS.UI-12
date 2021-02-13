@@ -1,6 +1,8 @@
 :root {
   --text-thead: #8492af;
   --table-line: #dadee7;
+  --dev: #008f02;
+  --danger: red;
 }
 
 @font-face {
@@ -50,4 +52,12 @@ header {
 
 td {
   text-align: center;
+}
+
+.active {
+  color: var(--dev);
+}
+
+.failed {
+  color: var(--danger);
 }

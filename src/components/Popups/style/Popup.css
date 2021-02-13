@@ -38,7 +38,8 @@
 
 input,
 select,
-textarea {
+textarea,
+#assigners {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -57,4 +58,16 @@ textarea {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+#assigners {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+}
+
+.assigner {
+  display: flex;
+  margin: 7px 0px;
+  width: 20%;
 }

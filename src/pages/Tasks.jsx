@@ -1,23 +1,50 @@
 import PropTypes from 'prop-types';
+// import { Link } from 'react-router-dom';
 import './styles/Table.css';
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
 import { Button } from '../components/Buttons/Button/Button';
 import { NewTask } from '../components/Popups/NewTask';
 import { tasksHeaders } from '../services/constants';
 
-export function Tasks({ members, addTask, modalToggle, openModal, showDrawer, toggle, logOut, selected }) {
-  const tasks = members.map((el) => el.tasks);
+export function Tasks({
+  members,
+  tasks,
+  addTask,
+  saveTask,
+  deleteTask,
+  editSelected,
+  edit,
+  modalToggle,
+  selectItem,
+  openModal,
+  showDrawer,
+  toggle,
+  logOut,
+  selected,
+}) {
   return (
     <article>
-      {openModal ? <NewTask addTask={addTask} modalToggle={modalToggle} /> : null}
+      {openModal ? (
+        <NewTask
+          tasks={tasks}
+          edit={edit}
+          members={members}
+          addTask={addTask}
+          saveTask={saveTask}
+          editSelected={editSelected}
+          modalToggle={modalToggle}
+          selectItem={selectItem}
+          selected={selected}
+        />
+      ) : null}
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
         <Button name='Create' action={modalToggle} color='tasks' />
         <Button name='Log Out' action={logOut} color='danger' />
       </header>
       <p className='page-name'>
-        {`${members[selected].name}'s Tasks`}
-        <span>{`(${tasks[selected].length})`}</span>
+        Dev Incubator Tasks
+        <span>{`(${tasks.length})`}</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
@@ -26,7 +53,7 @@ export function Tasks({ members, addTask, modalToggle, openModal, showDrawer, to
           ))}
         </thead>
         <tbody className='table-body'>
-          {tasks[selected].map((item) => (
+          {tasks.map((item) => (
             <tr className='row'>
               <th className='name'>{item.name}</th>
               <td>
@@ -38,8 +65,15 @@ export function Tasks({ members, addTask, modalToggle, openModal, showDrawer, to
                 <span>{item.deadline}</span>
               </td>
               <td>
-                <Button name='Edit' action={console.log(1)} color='edit' />
-                <Button name='Delete' action={console.log(1)} color='danger' />
+                <Button
+                  name='Edit'
+                  action={(e) => {
+                    selectItem(e);
+                    editSelected(e);
+                  }}
+                  color='dev'
+                />
+                <Button name='Delete' action={(e) => deleteTask(e)} color='danger' />
               </td>
             </tr>
           ))}
@@ -51,8 +85,14 @@ export function Tasks({ members, addTask, modalToggle, openModal, showDrawer, to
 
 Tasks.propTypes = {
   members: PropTypes.instanceOf(Array).isRequired,
+  tasks: PropTypes.instanceOf(Array).isRequired,
   addTask: PropTypes.func.isRequired,
+  saveTask: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
+  editSelected: PropTypes.func.isRequired,
+  edit: PropTypes.bool.isRequired,
   modalToggle: PropTypes.func.isRequired,
+  selectItem: PropTypes.func.isRequired,
   openModal: PropTypes.bool.isRequired,
   showDrawer: PropTypes.func.isRequired,
   logOut: PropTypes.func.isRequired,

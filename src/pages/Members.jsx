@@ -7,13 +7,38 @@ import { NewMember } from '../components/Popups/NewMember';
 
 import { membersHeaders } from '../services/constants';
 
-export function Members({ members, addMember, modalToggle, selectMember, openModal, showDrawer, toggle, logOut }) {
+export function Members({
+  members,
+  registerMember,
+  addMember,
+  editSelected,
+  saveMember,
+  deleteMember,
+  edit,
+  modalToggle,
+  selectItem,
+  openModal,
+  showDrawer,
+  toggle,
+  logOut,
+  selected,
+}) {
   return (
     <article>
-      {openModal ? <NewMember addMember={addMember} modalToggle={modalToggle} /> : null}
+      {openModal ? (
+        <NewMember
+          members={members}
+          edit={edit}
+          addMember={addMember}
+          editSelected={editSelected}
+          saveMember={saveMember}
+          modalToggle={modalToggle}
+          selected={selected}
+        />
+      ) : null}
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name='Register' action={modalToggle} color='dev' />
+        <Button name='Register' action={registerMember} color='dev' />
         <Button name='Log Out' action={logOut} color='danger' />
       </header>
       <p className='page-name'>
@@ -45,11 +70,18 @@ export function Members({ members, addMember, modalToggle, selectMember, openMod
               <td>{item.email}</td>
               <td>
                 <Button name='Progress' color='dev' />
-                <Link to='/tasks'>
-                  <Button name='Tasks' action={(e) => selectMember(e)} color='tasks' />
+                <Link to='/user-tasks'>
+                  <Button name='Tasks' action={(e) => selectItem(e)} color='tasks' />
                 </Link>
-                <Button name='Edit' color='edit' />
-                <Button name='Delete' color='danger' />
+                <Button
+                  name='Edit'
+                  action={(e) => {
+                    selectItem(e);
+                    editSelected(e);
+                  }}
+                  color='edit'
+                />
+                <Button name='Delete' action={(e) => deleteMember(e)} color='danger' />
               </td>
             </tr>
           ))}
@@ -61,11 +93,17 @@ export function Members({ members, addMember, modalToggle, selectMember, openMod
 
 Members.propTypes = {
   members: PropTypes.instanceOf(Array).isRequired,
+  registerMember: PropTypes.func.isRequired,
   addMember: PropTypes.func.isRequired,
+  editSelected: PropTypes.func.isRequired,
+  saveMember: PropTypes.func.isRequired,
+  deleteMember: PropTypes.func.isRequired,
+  edit: PropTypes.bool.isRequired,
   modalToggle: PropTypes.func.isRequired,
-  selectMember: PropTypes.func.isRequired,
+  selectItem: PropTypes.func.isRequired,
   openModal: PropTypes.bool.isRequired,
   showDrawer: PropTypes.func.isRequired,
   logOut: PropTypes.func.isRequired,
   toggle: PropTypes.bool.isRequired,
+  selected: PropTypes.number.isRequired,
 };

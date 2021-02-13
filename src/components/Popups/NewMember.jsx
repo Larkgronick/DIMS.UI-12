@@ -8,23 +8,37 @@ import { directions, roles } from '../../services/constants';
 export class NewMember extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      direction: '',
-      education: '',
-      education_img: educationIcon,
-      start: '',
-      start_img: startIcon,
-      age: '',
-      email: '',
-      role: '',
-    };
+    const { members, selected, edit } = this.props;
+    if (edit) {
+      this.state = {
+        name: members[selected].name,
+        direction: members[selected].direction,
+        education: members[selected].education,
+        education_img: educationIcon,
+        start: members[selected].strat,
+        start_img: startIcon,
+        age: members[selected].age,
+        email: members[selected].email,
+        role: members[selected].role,
+      };
+    } else {
+      this.state = {
+        name: '',
+        direction: '',
+        education: '',
+        education_img: educationIcon,
+        start: '',
+        start_img: startIcon,
+        age: '',
+        email: '',
+        role: '',
+      };
+    }
   }
 
   render() {
-    const { modalToggle, addMember } = this.props;
+    const { modalToggle, addMember, saveMember, edit } = this.props;
     const { name, direction, education, start, age, email, role } = this.state;
-
     return (
       <div className='modal'>
         <div className='modal-content'>
@@ -97,15 +111,27 @@ export class NewMember extends Component {
                 ))}
               </select>
             </label>
-            <button
-              onClick={(e) => {
-                addMember(e, this.state);
-              }}
-              id='submit'
-              type='button'
-            >
-              Register
-            </button>
+            {edit ? (
+              <button
+                onClick={() => {
+                  saveMember(this.state);
+                }}
+                id='submit'
+                type='button'
+              >
+                Edit
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  addMember(this.state);
+                }}
+                id='submit'
+                type='button'
+              >
+                Register
+              </button>
+            )}
           </form>
         </div>
       </div>
@@ -114,6 +140,10 @@ export class NewMember extends Component {
 }
 
 NewMember.propTypes = {
+  members: PropTypes.instanceOf(Array).isRequired,
   modalToggle: PropTypes.func.isRequired,
   addMember: PropTypes.func.isRequired,
+  saveMember: PropTypes.func.isRequired,
+  edit: PropTypes.bool.isRequired,
+  selected: PropTypes.number.isRequired,
 };
