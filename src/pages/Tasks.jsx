@@ -14,7 +14,7 @@ export function Tasks(props) {
       </header>
       <p className='page-name'>
         Tasks
-        <span>{`(${tasksBody.length})`}</span>
+        <span>({tasksBody.length})</span>
       </p>
       <table className='table'>
         <thead className='table-head'>

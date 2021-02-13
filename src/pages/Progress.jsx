@@ -11,7 +11,7 @@ export function Progress({ showDrawer, toggle }) {
       </header>
       <p className='page-name'>
         Ivan&apos;s progress
-        <span>{`(${progressBody.length})`}</span>
+        <span>({progressBody.length})</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
