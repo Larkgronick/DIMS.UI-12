@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types';
-import './Hamburger.css';
+import { Button } from '../Button/Button';
+import './Hamburger.scss';
 
 export function Hamburger({ showDrawer, toggle }) {
-  return (
-    <button onClick={toggle} className={showDrawer ? 'bt-menu-trigger bt-menu-open' : 'bt-menu-trigger'} type='button'>
-      <span />
-    </button>
-  );
+  return <Button name={<span />} action={toggle} styles={`bt-menu-trigger ${showDrawer && 'bt-menu-open'}`} />;
 }
 
 Hamburger.propTypes = {

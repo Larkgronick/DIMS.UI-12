@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import './Button.css';
+import './Button.scss';
 
-export function Button({ name }) {
+export function Button({ name, styles, action }) {
   return (
-    <button type='button' className='button'>
+    <button onClick={action} type='button' className={styles}>
       {name}
     </button>
   );
@@ -11,4 +11,6 @@ export function Button({ name }) {
 
 Button.propTypes = {
   name: PropTypes.string.isRequired,
+  styles: PropTypes.string.isRequired,
+  action: PropTypes.func.isRequired,
 };

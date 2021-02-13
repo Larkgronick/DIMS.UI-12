@@ -1,33 +1,8 @@
 import PropTypes from 'prop-types';
-
-import './styles/Table.css';
-
+import './styles/Table.scss';
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
 import { Button } from '../components/Buttons/Button/Button';
-
-import startIcon from '../assets/images/startIcon.png';
-import deadlineIcon from '../assets/images/deadlineIcon.png';
-
-const pageName = 'Tasks';
-const menuItems = ['Name', 'Start', 'Deadline', 'Actions'];
-const TasksBody = [
-  {
-    name: 'Create the DB',
-    start: '28.01.2021',
-    start_img: startIcon,
-    deadline: '28.01.2021',
-    deadline_img: deadlineIcon,
-    buttons: 'buttons',
-  },
-  {
-    name: 'Implement the props',
-    start: '28.01.2021',
-    start_img: startIcon,
-    deadline: '28.01.2021',
-    deadline_img: deadlineIcon,
-    buttons: 'buttons',
-  },
-];
+import { tasksMenuItems, tasksBody } from '../constants/constants';
 
 export function Tasks(props) {
   const { showDrawer, toggle } = props;
@@ -35,31 +10,31 @@ export function Tasks(props) {
     <article>
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name={pageName} />
+        <Button name='Tasks' styles='button' />
       </header>
       <p className='page-name'>
-        {pageName}
-        <span>{`(${TasksBody.length})`}</span>
+        Tasks
+        <span>{`(${tasksBody.length})`}</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
-          {menuItems.map((item) => (
+          {tasksMenuItems.map((item) => (
             <th>{item}</th>
           ))}
         </thead>
         <tbody className='table-body'>
-          {TasksBody.map((item) => (
+          {tasksBody.map(({ name, start, startImg, deadline, deadlineImg, buttons }) => (
             <tr className='row'>
-              <th className='name'>{item.name}</th>
+              <th className='name'>{name}</th>
               <td>
-                <img className='logo' src={item.start_img} alt='start' />
-                <span className='attention'>{item.start}</span>
+                <img className='logo' src={startImg} alt='start' />
+                <span className='attention'>{start}</span>
               </td>
               <td>
-                <img className='logo' src={item.deadline_img} alt='deadline' />
-                <span>{item.deadline}</span>
+                <img className='logo' src={deadlineImg} alt='deadline' />
+                <span>{deadline}</span>
               </td>
-              <td>{item.buttons}</td>
+              <td>{buttons}</td>
             </tr>
           ))}
         </tbody>
@@ -69,11 +44,6 @@ export function Tasks(props) {
 }
 
 Tasks.propTypes = {
-  showDrawer: PropTypes.func,
-  toggle: PropTypes.bool,
-};
-
-Tasks.defaultProps = {
-  showDrawer: PropTypes.func,
-  toggle: PropTypes.bool,
+  showDrawer: PropTypes.func.isRequired,
+  toggle: PropTypes.bool.isRequired,
 };

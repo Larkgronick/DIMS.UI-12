@@ -1,16 +1,14 @@
-:root {
-  --text: #fff;
-  --dev-color: #008f02;
-}
+$text: #fff;
+$dev-color: #008f02;
 
 .button {
-  border: 2px solid white;
+  border: 2px solid $text;
   width: 150px;
   height: 50px;
   margin-left: 15px;
   font-size: 18px;
-  color: var(--text);
-  background-color: var(--dev-color);
+  color: $text;
+  background-color: $dev-color;
   border-radius: 50px;
   outline: none;
   cursor: pointer;

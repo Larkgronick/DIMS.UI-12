@@ -1,8 +1,8 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import { Drawer } from '../components/Drawer/Drawer';
 import { Main } from '../pages/Main';
 
-export class App extends Component {
+export class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
