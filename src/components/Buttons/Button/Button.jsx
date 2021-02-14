@@ -1,17 +1,16 @@
 import PropTypes from 'prop-types';
-import noop from '../../../shared/noop';
+import './Button.scss';
 
-export const Button = ({ children, onClick, ...restProps }) => (
-  <button type='button' onClick={onClick} {...restProps}>
-    {children}
-  </button>
-);
+export function Button({ name, styles, action }) {
+  return (
+    <button onClick={action} type='button' className={styles}>
+      {name}
+    </button>
+  );
+}
 
 Button.propTypes = {
-  onClick: PropTypes.func,
-  children: PropTypes.node,
-};
-Button.defaultProps = {
-  onClick: noop,
-  children: null,
+  name: PropTypes.string.isRequired,
+  styles: PropTypes.string.isRequired,
+  action: PropTypes.func.isRequired,
 };

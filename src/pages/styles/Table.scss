@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+$roboto-regular: 'Roboto Regular', serif;
+
+$text-thead: #8492af;
+$table-line: #dadee7;
+
+.table {
+  width: 90vw;
+  font-family: $roboto-regular;
+  border-collapse: collapse;
+}
+
+.table-head {
+  color: $text-thead;
+  margin-bottom: 10px;
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px;
+}
+
+.attention {
+  color: $text-thead;
+}
+
+.logo {
+  margin-right: 10px;
+}
+
+.row {
+  height: 60px;
+  border: 2px solid $table-line;
+}
+
+td {
+  text-align: center;
+}

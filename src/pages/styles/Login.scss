@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+$roboto-regular: 'Roboto Regular', serif;
+
+$text: #fff;
+$line-bg: #000;
+$dev-color: #008f02;
+$input-line: #dadee7;
+
+.header-login {
+  display: flex;
+  justify-content: space-between;
+  color: $text;
+  background-color: $line-bg;
+}
+.dev-logo-login {
+  margin: 15px;
+  height: 60px;
+}
+
+.header-button {
+  border: none;
+  color: $text;
+  background-color: $line-bg;
+  outline: none;
+  font-family: $roboto-regular;
+  font-size: 16pt;
+  width: 100px;
+  height: 100%;
+  cursor: pointer;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: $roboto-regular;
+}
+
+.input-fields {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-form h2 {
+  margin: 100px auto;
+  text-align: center;
+}
+
+.login-form span {
+  padding-left: 10px;
+  color: $dev-color;
+}
+
+.login-form input {
+  width: 350px;
+  margin: 15px 0px;
+  border: none;
+  outline: none;
+  padding-left: 45px;
+  height: 35px;
+  border-bottom: 2px solid $input-line;
+}
+
+.login-field {
+  background: url('../../assets/images/loginIcon.png') no-repeat scroll 5px 5px;
+}
+
+.password-field {
+  background: url('../../assets/images/passwordIcon.png') no-repeat scroll 5px 5px;
+}
+
+.button {
+  font-family: $roboto-regular;
+}
