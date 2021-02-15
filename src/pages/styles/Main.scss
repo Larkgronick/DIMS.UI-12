@@ -1,7 +1,5 @@
-:root {
-  --header-line: #dadee7;
-  --page-bg: #f6f7fa;
-}
+$header-line: #dadee7;
+$page-bg: #f6f7fa;
 
 body {
   width: 90vw;
@@ -10,7 +8,7 @@ body {
 }
 
 .header {
-  border-bottom: 2px solid var(--header-line);
+  border-bottom: 2px solid $header-line;
   padding: 15px;
 }
 
@@ -21,7 +19,7 @@ body {
 }
 
 .page-content {
-  background-color: var(--page-bg);
+  background-color: $page-bg;
 }
 
 .page-name {

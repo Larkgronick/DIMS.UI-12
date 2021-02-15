@@ -1,56 +1,11 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import './styles/Main.css';
+import './styles/Main.scss';
 import { Route } from 'react-router-dom';
 import { Members } from './Members';
 import { Tasks } from './Tasks';
 import { Progress } from './Progress';
-import educationIcon from '../assets/images/educationIcon.png';
-import startIcon from '../assets/images/startIcon.png';
-import deadlineIcon from '../assets/images/deadlineIcon.png';
-
-// data example
-const membersBody = [
-  {
-    name: 'Vasya Sidorov',
-    direction: 'JAVA',
-    education: 'BSUIR',
-    education_img: educationIcon,
-    start: '28.01.2021',
-    start_img: startIcon,
-    age: '21',
-    email: 'johndoe@design.com',
-    tasks: [
-      {
-        name: 'Create the DB',
-        description: '',
-        start: '28.01.2021',
-        start_img: startIcon,
-        deadline: '28.01.2021',
-        deadline_img: deadlineIcon,
-      },
-      {
-        name: 'Implement the props',
-        description: '',
-        start: '28.01.2021',
-        start_img: startIcon,
-        deadline: '28.01.2021',
-        deadline_img: deadlineIcon,
-      },
-    ],
-  },
-  {
-    name: 'Petya Petrow',
-    direction: '.NET',
-    education: 'BSU',
-    education_img: educationIcon,
-    start: '30.01.2021',
-    start_img: startIcon,
-    age: '22',
-    email: 'johndoe2@design.com',
-    tasks: [],
-  },
-];
+import { membersBody } from '../services/constants';
 
 export class Main extends Component {
   constructor(props) {

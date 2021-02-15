@@ -1,38 +1,7 @@
 import PropTypes from 'prop-types';
-
-import './styles/Table.css';
-
+import './styles/Table.scss';
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
-
-import startIcon from '../assets/images/startIcon.png';
-
-const memberName = 'Ivan';
-const pageName = 'Progress';
-
-const menuItems = ['Name', 'Start', 'Deadline', 'Actions'];
-const ProgressBody = [
-  {
-    name: 'Create the DB',
-    note: 'Implemented the TaskState table',
-    date: '28.01.2021',
-    date_img: startIcon,
-    buttons: 'buttons',
-  },
-  {
-    name: 'Create the DB',
-    note: 'Created the Member view',
-    date: '29.01.2021',
-    date_img: startIcon,
-    buttons: 'buttons',
-  },
-  {
-    name: 'Implement the props',
-    note: 'Implemented the calc progress proc',
-    date: '30.01.2021',
-    date_img: startIcon,
-    buttons: 'buttons',
-  },
-];
+import { progressMenuItems, progressBody } from '../services/constants';
 
 export function Progress({ showDrawer, toggle, logOut }) {
   return (
@@ -44,25 +13,25 @@ export function Progress({ showDrawer, toggle, logOut }) {
         </button>
       </header>
       <p className='page-name'>
-        {`${memberName}'s ${pageName}`}
-        <span>{`(${ProgressBody.length})`}</span>
+        Ivan&apos; progress
+        <span>({progressBody.length})</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
-          {menuItems.map((item) => (
+          {progressMenuItems.map((item) => (
             <th>{item}</th>
           ))}
         </thead>
         <tbody className='table-body'>
-          {ProgressBody.map((item) => (
+          {progressBody.map(({ name, note, dateImg, date, buttons }) => (
             <tr className='row'>
-              <th className='name'>{item.name}</th>
-              <td>{item.note}</td>
+              <th className='name'>{name}</th>
+              <td>{note}</td>
               <td>
-                <img className='logo' src={item.date_img} alt='note-date' />
-                <span>{item.date}</span>
+                <img className='logo' src={dateImg} alt='note-date' />
+                <span>{date}</span>
               </td>
-              <td>{item.buttons}</td>
+              <td>{buttons}</td>
             </tr>
           ))}
         </tbody>

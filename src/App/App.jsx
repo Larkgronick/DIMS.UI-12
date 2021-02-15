@@ -1,12 +1,10 @@
-import { Component } from 'react';
-
+import { PureComponent } from 'react';
 import config from '../services/firebase';
-
 import { Login } from '../pages/Login';
 import { Drawer } from '../components/Drawer/Drawer';
 import { Main } from '../pages/Main';
 
-export class App extends Component {
+export class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +20,6 @@ export class App extends Component {
   componentDidMount() {
     config.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log(user);
         this.clearErrors();
         this.setState({
           user,
@@ -50,15 +47,9 @@ export class App extends Component {
     this.setState({ password });
   };
 
-  setEmailError = (message) => {
+  setError = (field, error) => {
     this.setState({
-      emailError: message,
-    });
-  };
-
-  setPasswordError = (message) => {
-    this.setState({
-      passwordError: message,
+      [field]: error,
     });
   };
 
@@ -73,10 +64,10 @@ export class App extends Component {
           case 'auth/invalid-email':
           case 'auth/user-disabled':
           case 'auth/user-not-found':
-            this.setEmailError(err.message);
+            this.setError('emailError', err.message);
             break;
           case 'auth/wrong-password':
-            this.setPasswordError(err.message);
+            this.setError('passwordError', err.message);
             break;
           default:
             break;

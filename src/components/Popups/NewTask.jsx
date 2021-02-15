@@ -1,23 +1,28 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { PureComponent } from 'react';
+import { Button } from '../Buttons/Button/Button';
 import startIcon from '../../assets/images/startIcon.png';
 import deadlineIcon from '../../assets/images/deadlineIcon.png';
+import './style/Popup.scss';
 
-import './style/Popup.css';
-
-export class NewTask extends Component {
+export class NewTask extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       name: '',
       description: '',
       start: '',
-      start_img: startIcon,
+      startImg: startIcon,
       deadline: '',
-      deadline_img: deadlineIcon,
+      deadlineImg: deadlineIcon,
       members: 'Get members!',
     };
   }
+
+  inputChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
 
   render() {
     const { modalToggle, addTask } = this.props;
@@ -32,45 +37,34 @@ export class NewTask extends Component {
           <form action=''>
             <label htmlFor='name-field'>
               Task Name:
-              <input
-                id='name-field'
-                placeholder='Task Name'
-                value={name}
-                onChange={(e) => this.setState({ name: e.target.value })}
-              />
+              <input id='name-field' name='name' placeholder='Task Name' value={name} onChange={this.inputChange} />
             </label>
             <label htmlFor='description-field'>
               Description:
               <textarea
                 id='description-field'
+                name='description'
                 placeholder='Task Description'
                 readOnly={false}
                 value={description}
-                onChange={(e) => this.setState({ description: e.target.value })}
+                onChange={this.inputChange}
               />
             </label>
             <label htmlFor='start'>
               Start:
-              <input id='start' type='date' value={start} onChange={(e) => this.setState({ start: e.target.value })} />
+              <input id='start' name='start' type='date' value={start} onChange={this.inputChange} />
             </label>
             <label htmlFor='deadline'>
               Deadline:
-              <input
-                id='deadline'
-                type='date'
-                value={deadline}
-                onChange={(e) => this.setState({ start: e.target.value })}
-              />
+              <input id='deadline' name='deadline' type='date' value={deadline} onChange={this.inputChange} />
             </label>
-            <button
-              onClick={(e) => {
+            <Button
+              name='Create'
+              action={(e) => {
                 addTask(e, this.state);
               }}
-              id='submit'
-              type='button'
-            >
-              Create
-            </button>
+              styles='submit'
+            />
           </form>
         </div>
       </div>
