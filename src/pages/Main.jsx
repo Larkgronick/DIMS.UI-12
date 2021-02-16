@@ -1,70 +1,19 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import './styles/Main.css';
+import './styles/Main.scss';
 import { Route } from 'react-router-dom';
 import { Members } from './Members';
 import { Tasks } from './Tasks';
 import { UserTasks } from './UserTasks';
 import { Progress } from './Progress';
-import educationIcon from '../assets/images/educationIcon.png';
-import startIcon from '../assets/images/startIcon.png';
-import deadlineIcon from '../assets/images/deadlineIcon.png';
-
-// data example
-
-const tasksData = [
-  {
-    assigners: [{ name: 'Vasya Sidorov', status: 'active' }],
-    name: 'Create the DB',
-    description: '',
-    start: '28.01.2021',
-    start_img: startIcon,
-    deadline: '28.01.2021',
-    deadline_img: deadlineIcon,
-  },
-  {
-    assigners: [
-      { name: 'Vasya Sidorov', status: 'active' },
-      { name: 'Petya Petrov', status: 'failed' },
-    ],
-    name: 'Implement the props',
-    description: '',
-    start: '28.01.2021',
-    start_img: startIcon,
-    deadline: '28.01.2021',
-    deadline_img: deadlineIcon,
-  },
-];
-
-const membersData = [
-  {
-    name: 'Vasya Sidorov',
-    direction: 'JAVA',
-    education: 'BSUIR',
-    education_img: educationIcon,
-    start: '28.01.2021',
-    start_img: startIcon,
-    age: '21',
-    email: 'johndoe@design.com',
-  },
-  {
-    name: 'Petya Petrow',
-    direction: '.NET',
-    education: 'BSU',
-    education_img: educationIcon,
-    start: '30.01.2021',
-    start_img: startIcon,
-    age: '22',
-    email: 'johndoe2@design.com',
-  },
-];
+import { membersBody, tasksBody } from '../services/constants';
 
 export class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      members: membersData,
-      tasks: tasksData,
+      members: membersBody,
+      tasks: tasksBody,
       openModal: false,
       selected: 0,
       edit: false,
@@ -153,6 +102,7 @@ export class Main extends Component {
   render() {
     const { members, tasks, openModal, selected, edit } = this.state;
     const { showDrawer, toggle, logOut } = this.props;
+    console.log(tasks);
     return (
       <main className={showDrawer ? 'drawer-open' : ''}>
         <Route

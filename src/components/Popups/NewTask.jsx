@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { PureComponent } from 'react';
+import './style/Popup.scss';
+import { Button } from '../Buttons/Button/Button';
 import startIcon from '../../assets/images/startIcon.png';
 import deadlineIcon from '../../assets/images/deadlineIcon.png';
 
-import './style/Popup.css';
-
-export class NewTask extends Component {
+export class NewTask extends PureComponent {
   constructor(props) {
     super(props);
     const { tasks, selected, edit } = this.props;
@@ -15,9 +15,9 @@ export class NewTask extends Component {
         name: tasks[selected].name,
         description: tasks[selected].description,
         start: tasks[selected].start,
-        start_img: startIcon,
+        startImg: startIcon,
         deadline: tasks[selected].deadline,
-        deadline_img: deadlineIcon,
+        deadlineImg: deadlineIcon,
       };
     } else {
       this.state = {
@@ -25,12 +25,17 @@ export class NewTask extends Component {
         name: '',
         description: '',
         start: '',
-        start_img: startIcon,
+        startImg: startIcon,
         deadline: '',
-        deadline_img: deadlineIcon,
+        deadlineImg: deadlineIcon,
       };
     }
   }
+
+  inputChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
 
   saveAssigner = (e) => {
     const { assigners } = this.state;
@@ -39,7 +44,7 @@ export class NewTask extends Component {
     if (isChecked) {
       assigners.push({ name: item, status: 'active' });
     } else {
-      const removed = assigners.filter((el) => el.name !== item);
+      const removed = assigners.filter((el) => el.name === item);
       this.setState({
         assigners: removed,
       });
@@ -47,49 +52,37 @@ export class NewTask extends Component {
   };
 
   render() {
-    const { tasks, members, modalToggle, edit, addTask, saveTask } = this.props;
+    const { members, modalToggle, edit, addTask, saveTask } = this.props;
     const { name, description, start, deadline, assigners } = this.state;
     const candidates = members.map((el) => el.name);
-    console.log(tasks);
-
+    console.log(assigners);
     return (
       <div className='modal'>
         <div className='modal-content'>
-          <button className='close' onClick={modalToggle} type='button'>
-            &times;
-          </button>
+          <Button name={<span>&times;</span>} action={modalToggle} styles='close' />
           <form action=''>
             <label htmlFor='name-field'>
               Task Name:
-              <input
-                id='name-field'
-                placeholder='Task Name'
-                value={name}
-                onChange={(e) => this.setState({ name: e.target.value })}
-              />
+              <input id='name-field' name='name' placeholder='Task Name' value={name} onChange={this.inputChange} />
             </label>
             <label htmlFor='description-field'>
               Description:
               <textarea
                 id='description-field'
+                name='description'
                 placeholder='Task Description'
                 readOnly={false}
                 value={description}
-                onChange={(e) => this.setState({ description: e.target.value })}
+                onChange={this.inputChange}
               />
             </label>
             <label htmlFor='start'>
               Start:
-              <input id='start' type='date' value={start} onChange={(e) => this.setState({ start: e.target.value })} />
+              <input id='start' name='start' type='date' value={start} onChange={this.inputChange} />
             </label>
             <label htmlFor='deadline'>
               Deadline:
-              <input
-                id='deadline'
-                type='date'
-                value={deadline}
-                onChange={(e) => this.setState({ start: e.target.value })}
-              />
+              <input id='deadline' name='deadline' type='date' value={deadline} onChange={this.inputChange} />
             </label>
             <label htmlFor='assigners'>
               Assigners:
@@ -97,7 +90,7 @@ export class NewTask extends Component {
                 {candidates.map((item) => (
                   <li className='assigner'>
                     <input
-                      defaultChecked={assigners.includes(item)}
+                      defaultChecked={assigners.map((el) => el.name).includes(item)}
                       type='checkbox'
                       value='true'
                       name={item}
@@ -109,25 +102,21 @@ export class NewTask extends Component {
               </ul>
             </label>
             {edit ? (
-              <button
-                onClick={() => {
+              <Button
+                name='Edit'
+                action={(e) => {
                   saveTask(this.state);
                 }}
-                id='submit'
-                type='button'
-              >
-                Edit
-              </button>
+                styles='submit'
+              />
             ) : (
-              <button
-                onClick={() => {
+              <Button
+                name='Create'
+                action={() => {
                   addTask(this.state);
                 }}
-                id='submit'
-                type='button'
-              >
-                Create
-              </button>
+                styles='submit'
+              />
             )}
           </form>
         </div>

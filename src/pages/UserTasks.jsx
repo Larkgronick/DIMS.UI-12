@@ -1,18 +1,15 @@
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
-import './styles/Table.css';
+import './styles/Table.scss';
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
 import { Button } from '../components/Buttons/Button/Button';
-import { usersTasksHeaders } from '../services/constants';
+import { usersMenuItems } from '../services/constants';
 
 export function UserTasks({ tasks, members, showDrawer, toggle, logOut, selected }) {
   const member = members[selected].name;
-  console.log(member);
   const userTasks = tasks.map((el) => el.assigners);
-  console.log(userTasks);
   const userTasksTwo = userTasks.map((el) => el.name);
+  console.log(member);
 
-  console.log(userTasksTwo);
   return (
     <article>
       <header className='header'>
@@ -25,7 +22,7 @@ export function UserTasks({ tasks, members, showDrawer, toggle, logOut, selected
       </p>
       <table className='table'>
         <thead className='table-head'>
-          {usersTasksHeaders.map((item) => (
+          {usersMenuItems.map((item) => (
             <th>{item}</th>
           ))}
         </thead>

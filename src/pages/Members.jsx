@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import './styles/Table.css';
+import './styles/Table.scss';
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
 import { Button } from '../components/Buttons/Button/Button';
 import { NewMember } from '../components/Popups/NewMember';
-
-import { membersHeaders } from '../services/constants';
+import { membersMenuItems } from '../services/constants';
 
 export function Members({
   members,
@@ -38,40 +37,40 @@ export function Members({
       ) : null}
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name='Register' action={registerMember} color='dev' />
-        <Button name='Log Out' action={logOut} color='danger' />
+        <Button name='Register' action={registerMember} styles='button dev' />
+        <Button name='Log Out' action={logOut} styles='button danger' />
       </header>
       <p className='page-name'>
         Members
-        <span>{`(${members.length})`}</span>
+        <span>({members.length})</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
-          {membersHeaders.map((item) => (
+          {membersMenuItems.map((item) => (
             <th>{item}</th>
           ))}
         </thead>
         <tbody className='table-body'>
-          {members.map((item) => (
+          {members.map(({ name, direction, education, educationImg, start, startImg, age, email }) => (
             <tr className='row'>
               <th className='name'>
-                <span>{item.name}</span>
-                <span className='attention'>{item.direction}</span>
+                <span>{name}</span>
+                <span className='attention'>{direction}</span>
               </th>
               <td>
-                <img className='logo' src={item.education_img} alt='education' />
-                <span>{item.education}</span>
+                <img className='logo' src={educationImg} alt='education' />
+                <span>{education}</span>
               </td>
               <td>
-                <img className='logo' src={item.start_img} alt='education' />
-                <span className='attention'>{item.start}</span>
+                <img className='logo' src={startImg} alt='education' />
+                <span className='attention'>{start}</span>
               </td>
-              <td>{item.age}</td>
-              <td>{item.email}</td>
+              <td>{age}</td>
+              <td>{email}</td>
               <td>
-                <Button name='Progress' color='dev' />
+                <Button name='Progress' styles='button dev' />
                 <Link to='/user-tasks'>
-                  <Button name='Tasks' action={(e) => selectItem(e)} color='tasks' />
+                  <Button name='Tasks' action={(e) => selectItem(e)} styles='button tasks' />
                 </Link>
                 <Button
                   name='Edit'
@@ -79,9 +78,9 @@ export function Members({
                     selectItem(e);
                     editSelected(e);
                   }}
-                  color='edit'
+                  styles='button edit'
                 />
-                <Button name='Delete' action={(e) => deleteMember(e)} color='danger' />
+                <Button name='Delete' action={(e) => deleteMember(e)} styles='button danger' />
               </td>
             </tr>
           ))}

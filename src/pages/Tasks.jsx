@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
-import './styles/Table.css';
+import './styles/Table.scss';
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
 import { Button } from '../components/Buttons/Button/Button';
 import { NewTask } from '../components/Popups/NewTask';
-import { tasksHeaders } from '../services/constants';
+import { tasksMenuItems } from '../services/constants';
 
 export function Tasks({
   members,
@@ -39,30 +38,30 @@ export function Tasks({
       ) : null}
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name='Create' action={modalToggle} color='tasks' />
-        <Button name='Log Out' action={logOut} color='danger' />
+        <Button name='Create' action={modalToggle} styles='button tasks' />
+        <Button name='Log Out' action={logOut} styles='button danger' />
       </header>
       <p className='page-name'>
         Dev Incubator Tasks
-        <span>{`(${tasks.length})`}</span>
+        <span>({tasks.length})</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
-          {tasksHeaders.map((item) => (
+          {tasksMenuItems.map((item) => (
             <th>{item}</th>
           ))}
         </thead>
         <tbody className='table-body'>
-          {tasks.map((item) => (
+          {tasks.map(({ name, start, startImg, deadline, deadlineImg }) => (
             <tr className='row'>
-              <th className='name'>{item.name}</th>
+              <th className='name'>{name}</th>
               <td>
-                <img className='logo' src={item.start_img} alt='start' />
-                <span className='attention'>{item.start}</span>
+                <img className='logo' src={startImg} alt='start' />
+                <span className='attention'>{start}</span>
               </td>
               <td>
-                <img className='logo' src={item.deadline_img} alt='deadline' />
-                <span>{item.deadline}</span>
+                <img className='logo' src={deadlineImg} alt='deadline' />
+                <span>{deadline}</span>
               </td>
               <td>
                 <Button
@@ -71,9 +70,9 @@ export function Tasks({
                     selectItem(e);
                     editSelected(e);
                   }}
-                  color='dev'
+                  styles='button dev'
                 />
-                <Button name='Delete' action={(e) => deleteTask(e)} color='danger' />
+                <Button name='Delete' action={(e) => deleteTask(e)} styles='button danger' />
               </td>
             </tr>
           ))}

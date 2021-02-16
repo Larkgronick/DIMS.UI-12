@@ -1,26 +1,17 @@
-:root {
-  --text: #fff;
-  --line-bg: #000;
-  --dev-color: #008f02;
-  --input-line: #dadee7;
-  --error: red;
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+$roboto-regular: 'Roboto Regular', serif;
 
-@font-face {
-  font-family: 'Roboto-Bold';
-  src: url('../../assets/fonts/Roboto\ Bold.ttf') format('ttf');
-}
-
-@font-face {
-  font-family: 'Roboto-Regular';
-  src: url('../../assets/fonts/Roboto\ Regular.ttf') format('ttf');
-}
+$text: #fff;
+$line-bg: #000;
+$dev-color: #008f02;
+$input-line: #dadee7;
+$error: red;
 
 .header-login {
   display: flex;
   justify-content: space-between;
-  color: var(--text);
-  background-color: var(--line-bg);
+  color: $text;
+  background-color: $line-bg;
 }
 .dev-logo-login {
   margin: 15px;
@@ -28,10 +19,10 @@
 }
 
 .header-button {
-  color: var(--text);
-  background-color: var(--line-bg);
+  color: $text;
+  background-color: $line-bg;
   outline: none;
-  font-family: 'Roboto-Regular';
+  font-family: $roboto-regular;
   font-size: 16pt;
   width: 100px;
   height: 100%;
@@ -39,14 +30,14 @@
 }
 
 .selected {
-  color: var(--dev-color);
+  color: $dev-color;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-family: 'Roboto-Regular';
+  font-family: $roboto-regular;
 }
 
 .input-fields {
@@ -62,7 +53,7 @@
 
 .login-form span {
   padding-left: 10px;
-  color: var(--dev-color);
+  color: $dev-color;
 }
 
 .login-form input {
@@ -72,7 +63,7 @@
   outline: none;
   padding-left: 45px;
   height: 35px;
-  border-bottom: 2px solid var(--input-line);
+  border-bottom: 2px solid $input-line;
 }
 
 #email-field {
@@ -84,24 +75,11 @@
 }
 
 .button {
-  font-family: 'Roboto-Regular';
-}
-
-.check-button {
-  border: 2px solid white;
-  width: 150px;
-  height: 50px;
-  margin-left: 15px;
-  font-size: 18px;
-  color: var(--text);
-  background-color: var(--dev-color);
-  border-radius: 50px;
-  outline: none;
-  cursor: pointer;
+  font-family: $roboto-regular;
 }
 
 .error-message {
-  color: var(--error);
+  color: $error;
   font-size: 12px;
   text-align: center;
   width: 50%;

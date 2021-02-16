@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { PureComponent } from 'react';
+import './style/Popup.scss';
+import { Button } from '../Buttons/Button/Button';
 import educationIcon from '../../assets/images/educationIcon.png';
 import startIcon from '../../assets/images/startIcon.png';
-import './style/Popup.css';
 import { directions, roles } from '../../services/constants';
 
-export class NewMember extends Component {
+export class NewMember extends PureComponent {
   constructor(props) {
     super(props);
     const { members, selected, edit } = this.props;
@@ -14,9 +15,9 @@ export class NewMember extends Component {
         name: members[selected].name,
         direction: members[selected].direction,
         education: members[selected].education,
-        education_img: educationIcon,
+        educationImg: educationIcon,
         start: members[selected].strat,
-        start_img: startIcon,
+        startImg: startIcon,
         age: members[selected].age,
         email: members[selected].email,
         role: members[selected].role,
@@ -26,9 +27,9 @@ export class NewMember extends Component {
         name: '',
         direction: '',
         education: '',
-        education_img: educationIcon,
+        educationImg: educationIcon,
         start: '',
-        start_img: startIcon,
+        startImg: startIcon,
         age: '',
         email: '',
         role: '',
@@ -36,42 +37,42 @@ export class NewMember extends Component {
     }
   }
 
+  inputChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
   render() {
     const { modalToggle, addMember, saveMember, edit } = this.props;
     const { name, direction, education, start, age, email, role } = this.state;
     return (
       <div className='modal'>
         <div className='modal-content'>
-          <button className='close' onClick={modalToggle} type='button'>
-            &times;
-          </button>
-          <form action=''>
+          <Button name={<span>&times;</span>} action={modalToggle} styles='close' />
+          <form>
             <label htmlFor='name-field'>
               Name:
               <input
                 id='name-field'
+                name='name'
                 placeholder='Name / Surname'
                 value={name}
-                onChange={(e) => this.setState({ name: e.target.value })}
+                onChange={this.inputChange}
               />
             </label>
             <label htmlFor='education-field'>
               Education:
               <input
                 id='education-field'
+                name='education'
                 placeholder='Education'
                 value={education}
-                onChange={(e) => this.setState({ education: e.target.value })}
+                onChange={this.inputChange}
               />
             </label>
             <label htmlFor='direction'>
               Direction:
-              <select
-                name='direction'
-                id='direction'
-                value={direction}
-                onChange={(e) => this.setState({ direction: e.target.value })}
-              >
+              <select id='direction' name='direction' value={direction} onChange={this.inputChange}>
                 {directions.map((el) => (
                   <option>{el}</option>
                 ))}
@@ -79,16 +80,11 @@ export class NewMember extends Component {
             </label>
             <label htmlFor='date'>
               Date:
-              <input id='date' type='date' value={start} onChange={(e) => this.setState({ start: e.target.value })} />
+              <input id='date' type='date' name='start' value={start} onChange={this.inputChange} />
             </label>
             <label htmlFor='direction'>
               Age:
-              <select
-                name='direction'
-                id='direction'
-                value={age}
-                onChange={(e) => this.setState({ age: e.target.value })}
-              >
+              <select id='age' name='age' value={age} onChange={this.inputChange}>
                 {new Array(100).fill().map((el, i) => (
                   <option>{i + 1}</option>
                 ))}
@@ -96,41 +92,32 @@ export class NewMember extends Component {
             </label>
             <label htmlFor='email'>
               E-mail:
-              <input
-                type='email'
-                placeholder='E-mail'
-                value={email}
-                onChange={(e) => this.setState({ email: e.target.value })}
-              />
+              <input placeholder='E-mail' type='email' name='email' value={email} onChange={this.inputChange} />
             </label>
             <label htmlFor='role'>
               Role:
-              <select name='' id='role' value={role} onChange={(e) => this.setState({ role: e.target.value })}>
+              <select id='role' name='role' value={role} onChange={this.inputChange}>
                 {roles.map((el) => (
                   <option>{el}</option>
                 ))}
               </select>
             </label>
             {edit ? (
-              <button
-                onClick={() => {
+              <Button
+                name='Edit'
+                action={() => {
                   saveMember(this.state);
                 }}
-                id='submit'
-                type='button'
-              >
-                Edit
-              </button>
+                styles='submit'
+              />
             ) : (
-              <button
-                onClick={() => {
+              <Button
+                name='Register'
+                action={() => {
                   addMember(this.state);
                 }}
-                id='submit'
-                type='button'
-              >
-                Register
-              </button>
+                styles='submit'
+              />
             )}
           </form>
         </div>

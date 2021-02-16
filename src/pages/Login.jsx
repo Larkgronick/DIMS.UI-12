@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import './styles/Login.css';
+import './styles/Login.scss';
 import devLogo from '../assets/images/devLogo.png';
 import { Button } from '../components/Buttons/Button/Button';
 
@@ -39,37 +39,27 @@ export class Login extends Component {
   render() {
     const { registrationTab } = this.state;
     const { email, password, setEmail, setPassword, emailError, passwordError, signIn, signUp } = this.props;
-
     const loginMessage = (
       <h2>
         Welcome<span>back!</span>
       </h2>
     );
     const registrationMessage = <h2>Add admin</h2>;
-
-    const loginButton = <Button name='Sign In' action={signIn} color='dev-color' />;
-    const registrationButton = (
-      <button className='check-button' type='button' onClick={signUp}>
-        Sign Up
-      </button>
-    );
+    const loginButton = <Button name='Sign In' action={signIn} styles='button dev' />;
+    const registrationButton = <Button name='Sign Up' action={signUp} styles='button dev' />;
 
     return (
       <div className='login'>
         <header className='header-login'>
           <img className='dev-logo-login' src={devLogo} alt='dev-incubator-logo' />
           <div>
-            <button onClick={this.selectLogin} className='header-button selected' type='button'>
-              Login
-            </button>
-            <button onClick={this.selectRegistration} className='header-button' type='button'>
-              Register
-            </button>
+            <Button name='Login' action={this.selectLogin} styles='header-button selected' />
+            <Button name='Register' action={this.selectRegistration} styles='header-button' />
           </div>
         </header>
         <main className='login-form'>
           {registrationTab ? registrationMessage : loginMessage}
-          <form action=''>
+          <form className='input-fields'>
             <input
               id='email-field'
               value={email}
@@ -92,7 +82,6 @@ export class Login extends Component {
             <label className='error-message' htmlFor='password-field'>
               {passwordError}
             </label>
-
             {registrationTab ? registrationButton : loginButton}
           </form>
         </main>
