@@ -2,9 +2,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import './styles/Main.scss';
 import { Route } from 'react-router-dom';
-import { Members } from './Members';
-import { Tasks } from './Tasks';
-import { Progress } from './Progress';
+import { Members, Tasks, Progress } from './index';
 import { membersBody } from '../services/constants';
 
 export class Main extends Component {
@@ -48,7 +46,7 @@ export class Main extends Component {
 
   render() {
     const { members, openModal, selected } = this.state;
-    const { showDrawer, toggle, logOut } = this.props;
+    const { showDrawer, toggle } = this.props;
     console.log(this.state);
     return (
       <main className={showDrawer ? 'drawer-open' : ''}>
@@ -63,7 +61,6 @@ export class Main extends Component {
               openModal={openModal}
               showDrawer={showDrawer}
               toggle={toggle}
-              logOut={logOut}
             />
           )}
         />
@@ -77,15 +74,11 @@ export class Main extends Component {
               openModal={openModal}
               showDrawer={showDrawer}
               toggle={toggle}
-              logOut={logOut}
               selected={selected}
             />
           )}
         />
-        <Route
-          path='/progress'
-          component={() => <Progress showDrawer={showDrawer} toggle={toggle} logOut={logOut} />}
-        />
+        <Route path='/progress' component={() => <Progress showDrawer={showDrawer} toggle={toggle} />} />
       </main>
     );
   }
@@ -93,6 +86,5 @@ export class Main extends Component {
 
 Main.propTypes = {
   toggle: PropTypes.func.isRequired,
-  logOut: PropTypes.func.isRequired,
   showDrawer: PropTypes.bool.isRequired,
 };

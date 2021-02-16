@@ -5,15 +5,16 @@ import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
 import { Button } from '../components/Buttons/Button/Button';
 import { NewMember } from '../components/Popups/NewMember';
 import { membersMenuItems } from '../services/constants';
+import { logOutFirebase } from '../services/services';
 
-export function Members({ members, addMember, modalToggle, selectMember, openModal, showDrawer, toggle, logOut }) {
+export function Members({ members, addMember, modalToggle, selectMember, openModal, showDrawer, toggle }) {
   return (
     <article>
       {openModal ? <NewMember addMember={addMember} modalToggle={modalToggle} /> : null}
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
         <Button name='Register' action={modalToggle} styles='button dev' />
-        <Button name='Log Out' action={logOut} styles='button danger' />
+        <Button name='Log Out' action={logOutFirebase} styles='button danger' />
       </header>
       <p className='page-name'>
         Members
@@ -65,6 +66,5 @@ Members.propTypes = {
   selectMember: PropTypes.func.isRequired,
   openModal: PropTypes.bool.isRequired,
   showDrawer: PropTypes.func.isRequired,
-  logOut: PropTypes.func.isRequired,
   toggle: PropTypes.bool.isRequired,
 };
