@@ -31,11 +31,11 @@ export function UserTasks({ tasks, members, showDrawer, toggle, logOut, selected
             <tr className='row'>
               <th className='name'>{item.name}</th>
               <td>
-                <img className='logo' src={item.start_img} alt='start' />
+                <img className='logo' src={item.startImg} alt='start' />
                 <span className='attention'>{item.start}</span>
               </td>
               <td>
-                <img className='logo' src={item.deadline_img} alt='deadline' />
+                <img className='logo' src={item.deadlineImg} alt='deadline' />
                 <span>{item.deadline}</span>
               </td>
               <td>
