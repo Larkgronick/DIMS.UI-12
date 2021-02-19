@@ -6,6 +6,7 @@ $strokes: #000;
   outline: none;
   background-color: $intervals;
   font-size: 15px;
+  font-size: 30px;
   position: relative;
   display: inline-block;
   width: 2rem;
@@ -23,7 +24,6 @@ $strokes: #000;
   margin-top: -0.1rem;
   background-color: $strokes;
   user-select: none;
-  -webkit-transition: background-color 0.3s;
   transition: background-color 0.3s;
 }
 

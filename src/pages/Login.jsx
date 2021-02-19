@@ -18,8 +18,6 @@ export class Login extends Component {
   }
 
   async handleClick() {
-    // add check for incorrect input
-    // setErrors, if false => await signInFirebase(email, password)
     const { email, password } = this.state;
     const response = await signInFirebase(email, password);
     if (response) {
@@ -62,4 +60,4 @@ export class Login extends Component {
       </div>
     );
   }
-}
+  

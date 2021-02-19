@@ -82,7 +82,6 @@ export class Main extends Component {
       </main>
     );
   }
-}
 
 Main.propTypes = {
   toggle: PropTypes.func.isRequired,

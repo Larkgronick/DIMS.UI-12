@@ -58,4 +58,3 @@ Tasks.propTypes = {
   logOut: PropTypes.func.isRequired,
   toggle: PropTypes.bool.isRequired,
   selected: PropTypes.number.isRequired,
-};

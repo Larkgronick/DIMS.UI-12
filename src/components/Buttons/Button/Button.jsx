@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import './Button.scss';
 
-export function Button({ name, action, styles }) {
+export function Button({ name, styles, action }) {
   return (
     <button onClick={action} type='button' className={styles}>
       {name}
