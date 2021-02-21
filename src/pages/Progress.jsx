@@ -1,16 +1,19 @@
 import PropTypes from 'prop-types';
 import './styles/Table.scss';
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
-import { progressMenuItems, progressBody } from '../constants/constants';
+import { progressMenuItems, progressBody } from '../services/constants';
 
-export function Progress({ showDrawer, toggle }) {
+export function Progress({ showDrawer, toggle, logOut }) {
   return (
     <article>
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
+        <button onClick={logOut} type='button'>
+          Log Out
+        </button>
       </header>
       <p className='page-name'>
-        Ivan&apos;s progress
+        Ivan&apos; progress
         <span>({progressBody.length})</span>
       </p>
       <table className='table'>
@@ -39,5 +42,6 @@ export function Progress({ showDrawer, toggle }) {
 
 Progress.propTypes = {
   showDrawer: PropTypes.func.isRequired,
+  logOut: PropTypes.func.isRequired,
   toggle: PropTypes.bool.isRequired,
 };

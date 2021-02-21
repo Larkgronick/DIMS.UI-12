@@ -1,19 +1,24 @@
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './styles/Table.scss';
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
 import { Button } from '../components/Buttons/Button/Button';
-import { membersMenuItems, membersBody } from '../constants/constants';
+import { NewMember } from '../components/Popups/NewMember';
+import { membersMenuItems } from '../services/constants';
+import { logOutFirebase } from '../services/services';
 
-export function Members({ showDrawer, toggle }) {
+export function Members({ members, addMember, modalToggle, selectMember, openModal, showDrawer, toggle }) {
   return (
     <article>
+      {openModal ? <NewMember addMember={addMember} modalToggle={modalToggle} /> : null}
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name='Members' styles='button' />
+        <Button name='Register' action={modalToggle} styles='button dev' />
+        <Button name='Log Out' action={logOutFirebase} styles='button danger' />
       </header>
       <p className='page-name'>
         Members
-        <span>{`(${membersBody.length})`}</span>
+        <span>{`(${members.length})`}</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
@@ -22,10 +27,10 @@ export function Members({ showDrawer, toggle }) {
           ))}
         </thead>
         <tbody className='table-body'>
-          {membersBody.map(({ name, direction, education, educationImg, start, startImg, age, email, buttons }) => (
+          {members.map(({ name, direction, education, educationImg, start, startImg, age, email, buttons }) => (
             <tr className='row'>
               <th className='name'>
-                {name}
+                <span>{name}</span>
                 <span className='attention'>{direction}</span>
               </th>
               <td>
@@ -38,7 +43,14 @@ export function Members({ showDrawer, toggle }) {
               </td>
               <td>{age}</td>
               <td>{email}</td>
-              <td>{buttons}</td>
+              <td>
+                <Button name='Progress' styles='button dev' />
+                <Link to='/tasks'>
+                  <Button name='Tasks' action={(e) => selectMember(e)} styles='button tasks' />
+                </Link>
+                <Button name='Edit' styles='button edit' />
+                <Button name='Delete' styles='button danger' />
+              </td>
             </tr>
           ))}
         </tbody>
@@ -48,6 +60,11 @@ export function Members({ showDrawer, toggle }) {
 }
 
 Members.propTypes = {
+  members: PropTypes.instanceOf(Array).isRequired,
+  addMember: PropTypes.func.isRequired,
+  modalToggle: PropTypes.func.isRequired,
+  selectMember: PropTypes.func.isRequired,
+  openModal: PropTypes.bool.isRequired,
   showDrawer: PropTypes.func.isRequired,
   toggle: PropTypes.bool.isRequired,
 };

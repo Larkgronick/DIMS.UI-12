@@ -34,6 +34,10 @@ $input-line: #dadee7;
   cursor: pointer;
 }
 
+.drawer-item img {
+  width: 30px;
+}
+
 .drawer-item-name {
   color: $text;
   font-size: 25px;

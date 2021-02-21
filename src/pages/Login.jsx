@@ -1,30 +1,63 @@
+import { Component } from 'react';
 import './styles/Login.scss';
-import { Link } from 'react-router-dom';
-import { Button } from '../components/Buttons/Button/Button';
 import devLogo from '../assets/images/devLogo.png';
+import { Button } from '../components/Buttons/Button/Button';
+import { signInFirebase } from '../services/services';
 
-export function Login() {
-  return (
-    <div className='login'>
-      <header className='header-login'>
-        <img className='dev-logo-login' src={devLogo} alt='dev-incubator-logo' />
-        <div>
-          <Button name='Register' styles='header-button' />
-          <Button name='Login' styles='header-button' />
-        </div>
-      </header>
-      <main className='login-form'>
-        <h2>
-          Welcome<span>back!</span>
-        </h2>
-        <form className='input-fields'>
-          <input className='login-field' type='email' name='email' placeholder='Login' />
-          <input className='password-field' type='password' name='password' placeholder='Password' />
-          <Link to='/members'>
-            <Button name='Enter' styles='button' />
-          </Link>
-        </form>
-      </main>
-    </div>
-  );
-}
+export class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      emailError: '',
+      passwordError: '',
+    };
+    this.inputChange = this.inputChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  async handleClick() {
+    const { email, password } = this.state;
+    const response = await signInFirebase(email, password);
+    if (response) {
+      console.log(response);
+    }
+  }
+
+  inputChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  }
+
+  render() {
+    const { emailError, passwordError } = this.state;
+    return (
+      <div className='login'>
+        <header className='header-login'>
+          <img className='dev-logo-login' src={devLogo} alt='dev-incubator-logo' />
+        </header>
+        <main className='login-form'>
+          <h2>
+            Welcome<span>back!</span>
+          </h2>
+          <input id='email-field' name='email' onChange={this.inputChange} type='email' placeholder='Login' />
+          <input
+            id='password-field'
+            name='password'
+            onChange={this.inputChange}
+            type='password'
+            placeholder='Password'
+          />
+          <label className='error-message' htmlFor='email-field'>
+            {emailError}
+          </label>
+          <label className='error-message' htmlFor='password-field'>
+            {passwordError}
+          </label>
+          <Button name='Sign In' action={this.handleClick} styles='button dev' />
+        </main>
+      </div>
+    );
+  }
+  

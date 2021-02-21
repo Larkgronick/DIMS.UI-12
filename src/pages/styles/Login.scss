@@ -5,6 +5,8 @@ $text: #fff;
 $line-bg: #000;
 $dev-color: #008f02;
 $input-line: #dadee7;
+$error: red;
+
 
 .header-login {
   display: flex;
@@ -18,7 +20,6 @@ $input-line: #dadee7;
 }
 
 .header-button {
-  border: none;
   color: $text;
   background-color: $line-bg;
   outline: none;
@@ -27,6 +28,10 @@ $input-line: #dadee7;
   width: 100px;
   height: 100%;
   cursor: pointer;
+}
+
+.selected {
+  color: $dev-color;
 }
 
 .login-form {
@@ -62,14 +67,23 @@ $input-line: #dadee7;
   border-bottom: 2px solid $input-line;
 }
 
-.login-field {
+#email-field {
   background: url('../../assets/images/loginIcon.png') no-repeat scroll 5px 5px;
 }
 
-.password-field {
+#password-field {
   background: url('../../assets/images/passwordIcon.png') no-repeat scroll 5px 5px;
 }
 
 .button {
   font-family: $roboto-regular;
 }
+
+.error-message {
+  color: $error;
+  font-size: 12px;
+  text-align: center;
+  width: 50%;
+  margin: 5px 0;
+}
+
