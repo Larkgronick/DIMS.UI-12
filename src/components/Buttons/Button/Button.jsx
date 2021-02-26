@@ -10,7 +10,11 @@ export function Button({ name, action, styles }) {
 }
 
 Button.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   styles: PropTypes.string.isRequired,
-  action: PropTypes.func.isRequired,
+  action: PropTypes.func,
+};
+
+Button.defaultProps = {
+  action: PropTypes.bool,
 };

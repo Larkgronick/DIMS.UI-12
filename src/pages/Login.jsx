@@ -1,79 +1,52 @@
 import { Component } from 'react';
-import PropTypes from 'prop-types';
 import './styles/Login.scss';
 import devLogo from '../assets/images/devLogo.png';
 import { Button } from '../components/Buttons/Button/Button';
+import { signInFirebase } from '../services/services';
 
 export class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      registrationTab: false,
+      email: '',
+      password: '',
+      emailError: '',
+      passwordError: '',
     };
+    this.inputChange = this.inputChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  selectRegistration = (e) => {
-    const { setEmail, setPassword, clearErrors } = this.props;
-    setEmail('');
-    setPassword('');
-    clearErrors();
-    e.target.parentNode.children[1].classList.add('selected');
-    e.target.parentNode.children[0].classList.remove('selected');
-    this.setState({
-      registrationTab: true,
-    });
-  };
+  async handleClick() {
+    // add check for incorrect input
+    // setErrors, if false => await signInFirebase(email, password)
+    const { email, password } = this.state;
+    const response = await signInFirebase(email, password);
+    if (response) {
+      console.log(response);
+    }
+  }
 
-  selectLogin = (e) => {
-    const { setEmail, setPassword, clearErrors } = this.props;
-    setEmail('');
-    setPassword('');
-    clearErrors();
-    e.target.parentNode.children[0].classList.add('selected');
-    e.target.parentNode.children[1].classList.remove('selected');
-    this.setState({
-      registrationTab: false,
-    });
-  };
+  inputChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  }
 
   render() {
-    const { registrationTab } = this.state;
-    const { email, password, setEmail, setPassword, emailError, passwordError, signIn, signUp } = this.props;
-    const loginMessage = (
-      <h2>
-        Welcome<span>back!</span>
-      </h2>
-    );
-    const registrationMessage = <h2>Add admin</h2>;
-    const loginButton = <Button name='Sign In' action={signIn} styles='button dev' />;
-    const registrationButton = <Button name='Sign Up' action={signUp} styles='button dev' />;
-
+    const { emailError, passwordError } = this.state;
     return (
       <div className='login'>
         <header className='header-login'>
           <img className='dev-logo-login' src={devLogo} alt='dev-incubator-logo' />
-          <div>
-            <Button name='Login' action={this.selectLogin} styles='header-button selected' />
-            <Button name='Register' action={this.selectRegistration} styles='header-button' />
-          </div>
         </header>
         <main className='login-form'>
-          {registrationTab ? registrationMessage : loginMessage}
           <form className='input-fields'>
-            <input
-              id='email-field'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type='email'
-              name='email'
-              placeholder='Login'
-            />
+            <input id='email-field' name='email' onChange={this.inputChange} type='email' placeholder='Login' />
             <input
               id='password-field'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type='password'
               name='password'
+              onChange={this.inputChange}
+              type='password'
               placeholder='Password'
             />
             <label className='error-message' htmlFor='email-field'>
@@ -82,22 +55,10 @@ export class Login extends Component {
             <label className='error-message' htmlFor='password-field'>
               {passwordError}
             </label>
-            {registrationTab ? registrationButton : loginButton}
+            <Button name='Sign In' action={this.handleClick} styles='button dev' />
           </form>
         </main>
       </div>
     );
   }
 }
-
-Login.propTypes = {
-  email: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  emailError: PropTypes.string.isRequired,
-  passwordError: PropTypes.string.isRequired,
-  setEmail: PropTypes.func.isRequired,
-  setPassword: PropTypes.func.isRequired,
-  clearErrors: PropTypes.func.isRequired,
-  signIn: PropTypes.func.isRequired,
-  signUp: PropTypes.func.isRequired,
-};

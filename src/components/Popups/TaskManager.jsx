@@ -5,13 +5,14 @@ import { Button } from '../Buttons/Button/Button';
 import startIcon from '../../assets/images/startIcon.png';
 import deadlineIcon from '../../assets/images/deadlineIcon.png';
 
-export class NewTask extends PureComponent {
+export class TaskManager extends PureComponent {
   constructor(props) {
     super(props);
     const { tasks, selected, edit } = this.props;
     if (edit) {
       this.state = {
         assigners: tasks[selected].assigners,
+        status: tasks[selected].status,
         name: tasks[selected].name,
         description: tasks[selected].description,
         start: tasks[selected].start,
@@ -22,6 +23,7 @@ export class NewTask extends PureComponent {
     } else {
       this.state = {
         assigners: [],
+        status: [],
         name: '',
         description: '',
         start: '',
@@ -38,28 +40,26 @@ export class NewTask extends PureComponent {
   };
 
   saveAssigner = (e) => {
-    const { assigners } = this.state;
+    const { assigners, status } = this.state;
     const item = e.target.name;
     const isChecked = e.target.checked;
     if (isChecked) {
-      assigners.push({ name: item, status: 'active' });
+      assigners.push(item);
+      status.push('active');
     } else {
-      const removed = assigners.filter((el) => el.name === item);
-      this.setState({
-        assigners: removed,
-      });
+      const index = assigners.indexOf(item);
+      assigners.splice(index, 1);
+      status.splice(index, 1);
     }
   };
 
   render() {
-    const { members, modalToggle, edit, addTask, saveTask } = this.props;
+    const { members, closeEdit, edit, addData, saveData } = this.props;
     const { name, description, start, deadline, assigners } = this.state;
-    const candidates = members.map((el) => el.name);
-    console.log(assigners);
     return (
       <div className='modal'>
         <div className='modal-content'>
-          <Button name={<span>&times;</span>} action={modalToggle} styles='close' />
+          <Button name={<span>&times;</span>} action={closeEdit} styles='close' />
           <form action=''>
             <label htmlFor='name-field'>
               Task Name:
@@ -87,16 +87,16 @@ export class NewTask extends PureComponent {
             <label htmlFor='assigners'>
               Assigners:
               <ul id='assigners'>
-                {candidates.map((item) => (
-                  <li className='assigner'>
+                {members.map((item) => (
+                  <li key={item.id} className='assigner'>
                     <input
-                      defaultChecked={assigners.map((el) => el.name).includes(item)}
+                      defaultChecked={assigners.includes(item.id)}
                       type='checkbox'
                       value='true'
-                      name={item}
+                      name={item.id}
                       onChange={(e) => this.saveAssigner(e)}
                     />
-                    {item}
+                    {`${item.name} ${item.lastName}`}
                   </li>
                 ))}
               </ul>
@@ -105,18 +105,12 @@ export class NewTask extends PureComponent {
               <Button
                 name='Edit'
                 action={(e) => {
-                  saveTask(this.state);
+                  saveData('tasks', this.state);
                 }}
                 styles='submit'
               />
             ) : (
-              <Button
-                name='Create'
-                action={() => {
-                  addTask(this.state);
-                }}
-                styles='submit'
-              />
+              <Button name='Create' action={() => addData('tasks', this.state)} styles='submit' />
             )}
           </form>
         </div>
@@ -125,12 +119,12 @@ export class NewTask extends PureComponent {
   }
 }
 
-NewTask.propTypes = {
+TaskManager.propTypes = {
   members: PropTypes.instanceOf(Array).isRequired,
   tasks: PropTypes.instanceOf(Array).isRequired,
   edit: PropTypes.bool.isRequired,
-  modalToggle: PropTypes.func.isRequired,
-  addTask: PropTypes.func.isRequired,
-  saveTask: PropTypes.func.isRequired,
-  selected: PropTypes.bool.isRequired,
+  closeEdit: PropTypes.func.isRequired,
+  addData: PropTypes.func.isRequired,
+  saveData: PropTypes.func.isRequired,
+  selected: PropTypes.number.isRequired,
 };

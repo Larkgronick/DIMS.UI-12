@@ -1,37 +1,50 @@
 import PropTypes from 'prop-types';
 import './styles/Table.scss';
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
-import { progressMenuItems, progressBody } from '../services/constants';
+import { Button } from '../components/Buttons/Button/Button';
+import { progressMenuItems } from '../services/constants';
+import { logOutFirebase } from '../services/services';
 
-export function Progress({ showDrawer, toggle, logOut }) {
+export function Progress({ members, tasks, selected, showDrawer, toggle }) {
+  const selectedUser = `${members[selected].name} ${members[selected].lastName}`;
+  const tasksToView = tasks.filter((el) => el.assigners.includes(members[selected].id));
+  const index = tasksToView[0].assigners.indexOf(members[selected].id);
   return (
     <article>
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <button onClick={logOut} type='button'>
-          Log Out
-        </button>
+        <Button name='Log Out' action={logOutFirebase} styles='button danger' />
       </header>
       <p className='page-name'>
-        Ivan&apos; progress
-        <span>({progressBody.length})</span>
+        {`${selectedUser}'s Progress`}
+        <span>{`(${tasksToView.length})`}</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
-          {progressMenuItems.map((item) => (
-            <th>{item}</th>
-          ))}
+          <tr>
+            {progressMenuItems.map((item) => (
+              <th key={item}>{item}</th>
+            ))}
+          </tr>
         </thead>
         <tbody className='table-body'>
-          {progressBody.map(({ name, note, dateImg, date, buttons }) => (
-            <tr className='row'>
-              <th className='name'>{name}</th>
-              <td>{note}</td>
+          {tasksToView.map(({ id, note, name, date }) => (
+            <tr key={id} className='row'>
               <td>
-                <img className='logo' src={dateImg} alt='note-date' />
-                <span>{date}</span>
+                {note[index].map((el) => (
+                  <p key={el}>{name}</p>
+                ))}
               </td>
-              <td>{buttons}</td>
+              <td>
+                {note[index].map((el) => (
+                  <p key={el}>{el}</p>
+                ))}
+              </td>
+              <td>
+                {date[index].map((el) => (
+                  <p key={el}>{el}</p>
+                ))}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -41,7 +54,9 @@ export function Progress({ showDrawer, toggle, logOut }) {
 }
 
 Progress.propTypes = {
-  showDrawer: PropTypes.func.isRequired,
-  logOut: PropTypes.func.isRequired,
-  toggle: PropTypes.bool.isRequired,
+  members: PropTypes.instanceOf(Array).isRequired,
+  tasks: PropTypes.instanceOf(Array).isRequired,
+  selected: PropTypes.number.isRequired,
+  showDrawer: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
 };

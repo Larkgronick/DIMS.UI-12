@@ -8,5 +8,5 @@ export function Hamburger({ showDrawer, toggle }) {
 
 Hamburger.propTypes = {
   showDrawer: PropTypes.bool.isRequired,
-  toggle: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
 };

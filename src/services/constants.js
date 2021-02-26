@@ -1,9 +1,6 @@
 import membersIcon from '../assets/images/membersIcon.png';
 import tasksIcon from '../assets/images/tasksIcon.png';
 import progressIcon from '../assets/images/progressIcon.png';
-import educationIcon from '../assets/images/educationIcon.png';
-import startIcon from '../assets/images/startIcon.png';
-import deadlineIcon from '../assets/images/deadlineIcon.png';
 
 export const directions = ['JAVA', '.NET', 'Frontend'];
 export const roles = ['Member', 'Mentor', 'Admin'];
@@ -14,78 +11,97 @@ export const drawerMenuItems = [
   { name: 'Progress', path: '/progress', img: progressIcon },
 ];
 
-export const membersMenuItems = ['Name / Direction', 'Education', 'Start', 'Age', 'Email', 'Actions'];
+export const membersMenuItems = [
+  'Name / Direction',
+  'Email',
+  'Sex',
+  'Education',
+  'Age',
+  'University average scope',
+  'Math scope',
+  'Address',
+  'Mobile phone',
+  'Skype',
+  'Start date',
+];
 export const membersBody = [
   {
-    name: 'Vasya',
+    id: '1',
     direction: 'JAVA',
-    education: 'BSUIR',
-    educationImg: educationIcon,
-    start: '28.01.2021',
-    startImg: startIcon,
-    age: '21',
+    name: 'Vasya',
     email: 'johndoe@design.com',
-    buttons: 'buttons',
-    tasks: [],
+    lastName: 'Lukov',
+    sex: 'male',
+    education: 'BSUIR',
+    birthDate: '1993-03-28',
+    universityAverageScore: 100,
+    mathScore: 20,
+    address: 'Nekrasova str. 16',
+    mobilePhone: '+3751835569',
+    skype: 'balda',
+    startDate: '2021-12-31',
+    role: '',
   },
   {
-    name: 'Petya Petrow',
-    direction: '.NET',
+    id: '2',
+    direction: 'JAVA',
+    name: 'Petya',
+    email: 'petya@badboy.com',
+    lastName: 'Petrow',
+    sex: 'male',
     education: 'BSU',
-    educationImg: educationIcon,
-    start: '30.01.2021',
-    startImg: startIcon,
-    age: '22',
-    email: 'johndoe2@design.com',
-    buttons: 'buttons',
-    tasks: [],
+    birthDate: '1998-01-30',
+    universityAverageScore: 88,
+    mathScore: 100,
+    address: 'Temiryazeva str',
+    mobilePhone: '+3758895236',
+    skype: 'tratatata',
+    startDate: '2021-01-30',
+    role: '',
   },
 ];
 export const tasksMenuItems = ['Name', 'Start', 'Deadline', 'Actions'];
 export const tasksBody = [
   {
-    assigners: [],
+    assigners: ['1', '2'],
+    status: ['active', 'active'],
+    date: [['2021-01-21', '2021-01-22'], ['2021-01-23']],
+    note: [['start task', 'working hard'], ['start task']],
+    id: '1',
     name: 'Create the DB',
     start: '28.01.2021',
-    startImg: startIcon,
     deadline: '28.01.2021',
-    deadlineImg: deadlineIcon,
-    buttons: 'buttons',
   },
   {
-    assigners: [],
+    assigners: ['1'],
+    status: ['active'],
+    date: [['2021-01-21', '2021-01-25']],
+    note: [['start task', 'do something']],
+    id: '2',
     name: 'Implement the props',
     start: '28.01.2021',
-    startImg: startIcon,
     deadline: '28.01.2021',
-    deadlineImg: deadlineIcon,
-    buttons: 'buttons',
   },
 ];
 
-export const progressMenuItems = ['Name', 'Start', 'Deadline', 'Actions'];
+export const progressMenuItems = ['Name', 'Start', 'Deadline'];
 export const progressBody = [
   {
     name: 'Create the DB',
     note: 'Implemented the TaskState table',
     date: '28.01.2021',
-    dateImg: startIcon,
-    buttons: 'buttons',
   },
   {
     name: 'Create the DB',
     note: 'Created the Member view',
     date: '29.01.2021',
-    dateImg: startIcon,
-    buttons: 'buttons',
   },
   {
     name: 'Implement the props',
     note: 'Implemented the calc progress proc',
     date: '30.01.2021',
-    dateImg: startIcon,
-    buttons: 'buttons',
   },
 ];
 
 export const usersMenuItems = ['Name', 'Start', 'Deadline', 'Status', 'Actions'];
+export const taskTrackMenuItems = ['Name', 'Note', 'Date'];

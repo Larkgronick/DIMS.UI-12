@@ -1,52 +1,60 @@
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './styles/Table.scss';
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
 import { Button } from '../components/Buttons/Button/Button';
 import { usersMenuItems } from '../services/constants';
+import { logOutFirebase } from '../services/services';
 
-export function UserTasks({ tasks, members, showDrawer, toggle, logOut, selected }) {
-  const member = members[selected].name;
-  const userTasks = tasks.map((el) => el.assigners);
-  const userTasksTwo = userTasks.map((el) => el.name);
-  console.log(member);
-
+export function UserTasks({ tasks, members, setTaskStatus, showDrawer, toggle, selected }) {
+  const selectedUser = `${members[selected].name} ${members[selected].lastName}`;
+  const tasksToView = tasks.filter((el) => el.assigners.includes(members[selected].id));
+  const index = tasksToView[0].assigners.indexOf(members[selected].id);
   return (
     <article>
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name='Log Out' action={logOut} color='danger' />
+        <Button name='Log Out' action={logOutFirebase} styles='button danger' />
       </header>
       <p className='page-name'>
-        {`${members[selected].name}'s Tasks`}
-        <span>{`(${userTasks.length})`}</span>
+        {`${selectedUser}'s Tasks`}
+        <span>{`(${tasksToView.length})`}</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
-          {usersMenuItems.map((item) => (
-            <th>{item}</th>
-          ))}
+          <tr>
+            {usersMenuItems.map((item) => (
+              <th key={item}>{item}</th>
+            ))}
+          </tr>
         </thead>
         <tbody className='table-body'>
-          {userTasks.map((item) => (
-            <tr className='row'>
-              <th className='name'>{item.name}</th>
+          {tasksToView.map((item, i) => (
+            <tr key={item.id} className='row'>
+              <td className='name'>{item.name}</td>
               <td>
-                <img className='logo' src={item.startImg} alt='start' />
                 <span className='attention'>{item.start}</span>
               </td>
+              <td>{item.deadline}</td>
               <td>
-                <img className='logo' src={item.deadlineImg} alt='deadline' />
-                <span>{item.deadline}</span>
+                <span className={item.status[index]}>{item.status[index]}</span>
               </td>
               <td>
-                <span className={item.status}>{item.status}</span>
+                <Link to='/task-track'>
+                  <Button name='Track' styles='button edit' />
+                </Link>
               </td>
               <td>
-                <Button name='Track' action={console.log(1)} color='edit' />
-              </td>
-              <td>
-                <Button name='Success' action={console.log(1)} color='dev' />
-                <Button name='Fail' action={console.log(1)} color='danger' />
+                <Button
+                  name='Success'
+                  action={() => setTaskStatus(index, tasksToView[i], 'success')}
+                  styles='button dev'
+                />
+                <Button
+                  name='Fail'
+                  action={() => setTaskStatus(index, tasksToView[i], 'failed')}
+                  styles='button danger'
+                />
               </td>
             </tr>
           ))}
@@ -59,8 +67,8 @@ export function UserTasks({ tasks, members, showDrawer, toggle, logOut, selected
 UserTasks.propTypes = {
   members: PropTypes.instanceOf(Array).isRequired,
   tasks: PropTypes.instanceOf(Array).isRequired,
-  showDrawer: PropTypes.func.isRequired,
-  logOut: PropTypes.func.isRequired,
-  toggle: PropTypes.bool.isRequired,
+  setTaskStatus: PropTypes.func.isRequired,
+  showDrawer: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
   selected: PropTypes.number.isRequired,
 };

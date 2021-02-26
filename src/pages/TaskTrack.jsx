@@ -1,72 +1,84 @@
 import PropTypes from 'prop-types';
 import './styles/Table.scss';
+import { getIndex } from '../services/helpers';
 import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
 import { Button } from '../components/Buttons/Button/Button';
-import { TaskManager } from '../components/Popups/TaskManager';
-import { tasksMenuItems } from '../services/constants';
+import { taskTrackMenuItems } from '../services/constants';
+import { TaskTrackManager } from '../components/Popups/TaskTrackManager';
+
 import { logOutFirebase } from '../services/services';
 
-export function Tasks({
-  members,
+export function TaskTrack({
   tasks,
+  members,
+  track,
+  deleteTrackHistory,
+  selectItem,
   openEdit,
   closeEdit,
-  addData,
-  saveData,
-  deleteData,
-  edit,
-  editData,
   openModal,
   showDrawer,
   toggle,
   selected,
 }) {
+  const selectedUser = `${members[selected].name} ${members[selected].lastName}`;
+  const tasksToView = tasks.filter((el) => el.assigners.includes(members[selected].id));
+  const index = tasksToView[0].assigners.indexOf(members[selected].id);
+
   return (
     <article>
       {openModal ? (
-        <TaskManager
+        <TaskTrackManager
           tasks={tasks}
+          tasksToView={tasksToView}
           members={members}
+          track={track}
+          index={index}
           closeEdit={closeEdit}
-          addData={addData}
-          editData={editData}
-          saveData={saveData}
-          edit={edit}
-          selected={selected}
         />
       ) : null}
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name='Create' action={openEdit} styles='button tasks' />
         <Button name='Log Out' action={logOutFirebase} styles='button danger' />
       </header>
       <p className='page-name'>
-        Dev Incubator Tasks
-        <span>({tasks.length})</span>
+        {`${selectedUser}'s Task Tracks`}
+        <span>{`(${tasksToView.length})`}</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
           <tr>
-            {tasksMenuItems.map((item) => (
+            {taskTrackMenuItems.map((item) => (
               <th key={item}>{item}</th>
             ))}
           </tr>
         </thead>
         <tbody className='table-body'>
-          {tasks.map(({ id, name, start, deadline }) => (
+          {tasksToView.map(({ id, name, note, date }) => (
             <tr key={id} className='row'>
               <td className='name'>{name}</td>
-              <td className='attention'>{start}</td>
-              <td>{deadline}</td>
+              <td>
+                <span>{note[index][note[index].length - 1]}</span>
+              </td>
+              <td>
+                <span>{date[index][date[index].length - 1]}</span>
+              </td>
               <td>
                 <Button
                   name='Edit'
                   action={(e) => {
-                    editData(e);
+                    selectItem(e, 'track');
+                    openEdit();
                   }}
-                  styles='button dev'
+                  styles='button edit'
                 />
-                <Button name='Delete' action={(e) => deleteData(e, 'tasks')} styles='button danger' />
+                <Button
+                  name='Delete'
+                  action={(e) => {
+                    deleteTrackHistory(tasksToView[getIndex(e)], index);
+                  }}
+                  styles='button danger'
+                />
               </td>
             </tr>
           ))}
@@ -76,18 +88,16 @@ export function Tasks({
   );
 }
 
-Tasks.propTypes = {
+TaskTrack.propTypes = {
   members: PropTypes.instanceOf(Array).isRequired,
   tasks: PropTypes.instanceOf(Array).isRequired,
+  selectItem: PropTypes.func.isRequired,
+  deleteTrackHistory: PropTypes.func.isRequired,
   openEdit: PropTypes.func.isRequired,
   closeEdit: PropTypes.func.isRequired,
-  addData: PropTypes.func.isRequired,
-  editData: PropTypes.func.isRequired,
-  saveData: PropTypes.func.isRequired,
-  deleteData: PropTypes.func.isRequired,
-  edit: PropTypes.bool.isRequired,
   openModal: PropTypes.bool.isRequired,
   showDrawer: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   selected: PropTypes.number.isRequired,
+  track: PropTypes.number.isRequired,
 };

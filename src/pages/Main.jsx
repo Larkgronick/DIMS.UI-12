@@ -5,8 +5,10 @@ import { Route } from 'react-router-dom';
 import { Members } from './Members';
 import { Tasks } from './Tasks';
 import { UserTasks } from './UserTasks';
+import { TaskTrack } from './TaskTrack';
 import { Progress } from './Progress';
 import { membersBody, tasksBody } from '../services/constants';
+import { getIndex } from '../services/helpers';
 
 export class Main extends Component {
   constructor(props) {
@@ -17,92 +19,83 @@ export class Main extends Component {
       openModal: false,
       selected: 0,
       edit: false,
+      track: 0,
     };
   }
 
-  selectItem = (e) => {
-    const el = e.target.closest('.row');
-    const selected = [...el.parentElement.children].indexOf(el);
+  selectItem = (e, field) => {
     this.setState({
-      selected,
+      [field]: getIndex(e),
     });
   };
 
-  modalToggle = () => {
-    const { openModal } = this.state;
+  openEdit = () => {
     this.setState({
-      openModal: !openModal,
+      openModal: true,
     });
   };
 
-  registerMember = () => {
+  closeEdit = () => {
     this.setState({
       edit: false,
+      openModal: false,
     });
-    this.modalToggle();
   };
 
-  addMember = (member) => {
-    const { members } = this.state;
-    members.push(member);
-    this.setState({ openModal: false });
-  };
-
-  editSelected = () => {
+  editData = (e) => {
     this.setState({
       edit: true,
+      openModal: true,
+      selected: getIndex(e),
     });
-    this.modalToggle();
   };
 
-  saveMember = (member) => {
-    const { members, selected } = this.state;
+  saveData = (field, value) => {
+    const { [field]: current, selected } = this.state;
+    current.splice(selected, 1, value);
     this.setState({
       edit: false,
+      openModal: false,
     });
-    members.splice(selected, 1, member);
-    this.modalToggle();
   };
 
-  saveTask = (task) => {
-    const { tasks, selected } = this.state;
-    this.setState({
-      edit: false,
-    });
-    tasks.splice(selected, 1, task);
-    this.modalToggle();
-  };
-
-  addTask = (task) => {
-    const { tasks } = this.state;
-    tasks.push(task);
+  addData = (field, value) => {
+    const { [field]: current } = this.state;
+    current.push(value);
     this.setState({ openModal: false });
   };
 
-  deleteMember = (e) => {
-    const { members } = this.state;
-    const el = e.target.closest('.row');
-    const selected = [...el.parentElement.children].indexOf(el);
-    const removed = members.filter((item, index) => index !== selected);
+  deleteData = (e, field) => {
+    const { [field]: current } = this.state;
     this.setState({
-      members: removed,
+      [field]: current.filter((item, index) => index !== getIndex(e)),
     });
   };
 
-  deleteTask = (e) => {
+  setTaskStatus = (index, task, status) => {
     const { tasks } = this.state;
-    const el = e.target.closest('.row');
-    const selected = [...el.parentElement.children].indexOf(el);
-    const removed = tasks.filter((item, index) => index !== selected);
+    const newTask = task;
+    newTask.status[index] = status;
     this.setState({
-      tasks: removed,
+      tasks,
+    });
+  };
+
+  deleteTrackHistory = (track, index) => {
+    const { tasks } = this.state;
+    const toRemove = tasks.indexOf(track);
+    track.note.splice(index, 1, []);
+    track.date.splice(index, 1, []);
+    tasks.splice(toRemove, 1, track);
+    this.setState({
+      tasks,
     });
   };
 
   render() {
-    const { members, tasks, openModal, selected, edit } = this.state;
-    const { showDrawer, toggle, logOut } = this.props;
-    console.log(tasks);
+    const { members, tasks, track, openModal, selected, edit } = this.state;
+    const { showDrawer, toggle } = this.props;
+
     return (
       <main className={showDrawer ? 'drawer-open' : ''}>
         <Route
@@ -110,18 +103,17 @@ export class Main extends Component {
           component={() => (
             <Members
               members={members}
-              registerMember={this.registerMember}
-              addMember={this.addMember}
-              editSelected={this.editSelected}
-              saveMember={this.saveMember}
-              deleteMember={this.deleteMember}
+              openEdit={this.openEdit}
+              closeEdit={this.closeEdit}
+              addData={this.addData}
+              editData={this.editData}
+              saveData={this.saveData}
+              deleteData={this.deleteData}
               edit={edit}
-              modalToggle={this.modalToggle}
-              selectItem={this.selectItem}
               openModal={openModal}
               showDrawer={showDrawer}
               toggle={toggle}
-              logOut={logOut}
+              selectItem={this.selectItem}
               selected={selected}
             />
           )}
@@ -132,17 +124,16 @@ export class Main extends Component {
             <Tasks
               members={members}
               tasks={tasks}
-              addTask={this.addTask}
-              editSelected={this.editSelected}
-              saveTask={this.saveTask}
-              deleteTask={this.deleteTask}
+              openEdit={this.openEdit}
+              closeEdit={this.closeEdit}
+              addData={this.addData}
+              editData={this.editData}
+              saveData={this.saveData}
+              deleteData={this.deleteData}
               edit={edit}
-              modalToggle={this.modalToggle}
-              selectItem={this.selectItem}
               openModal={openModal}
               showDrawer={showDrawer}
               toggle={toggle}
-              logOut={logOut}
               selected={selected}
             />
           )}
@@ -153,16 +144,37 @@ export class Main extends Component {
             <UserTasks
               tasks={tasks}
               members={members}
+              setTaskStatus={this.setTaskStatus}
               showDrawer={showDrawer}
               toggle={toggle}
-              logOut={logOut}
               selected={selected}
             />
           )}
         />
         <Route
           path='/progress'
-          component={() => <Progress showDrawer={showDrawer} toggle={toggle} logOut={logOut} />}
+          component={() => (
+            <Progress members={members} tasks={tasks} selected={selected} showDrawer={showDrawer} toggle={toggle} />
+          )}
+        />
+        <Route
+          path='/task-track'
+          component={() => (
+            <TaskTrack
+              tasks={tasks}
+              members={members}
+              track={track}
+              selectItem={this.selectItem}
+              addData={this.addData}
+              openEdit={this.openEdit}
+              closeEdit={this.closeEdit}
+              openModal={openModal}
+              showDrawer={showDrawer}
+              deleteTrackHistory={this.deleteTrackHistory}
+              toggle={toggle}
+              selected={selected}
+            />
+          )}
         />
       </main>
     );
@@ -171,6 +183,5 @@ export class Main extends Component {
 
 Main.propTypes = {
   toggle: PropTypes.func.isRequired,
-  logOut: PropTypes.func.isRequired,
   showDrawer: PropTypes.bool.isRequired,
 };
