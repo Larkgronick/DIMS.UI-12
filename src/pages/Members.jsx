@@ -27,7 +27,7 @@ export function Members({ members, addMember, modalToggle, selectMember, openMod
           ))}
         </thead>
         <tbody className='table-body'>
-          {members.map(({ name, direction, education, educationImg, start, startImg, age, email, buttons }) => (
+          {members.map(({ name, direction, education, educationImg, start, startImg, age, email }) => (
             <tr className='row'>
               <th className='name'>
                 <span>{name}</span>

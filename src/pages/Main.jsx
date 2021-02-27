@@ -48,6 +48,7 @@ export class Main extends Component {
     const { members, openModal, selected } = this.state;
     const { showDrawer, toggle } = this.props;
     console.log(this.state);
+
     return (
       <main className={showDrawer ? 'drawer-open' : ''}>
         <Route
@@ -82,6 +83,7 @@ export class Main extends Component {
       </main>
     );
   }
+}
 
 Main.propTypes = {
   toggle: PropTypes.func.isRequired,

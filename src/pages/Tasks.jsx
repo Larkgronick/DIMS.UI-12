@@ -7,6 +7,7 @@ import { tasksMenuItems } from '../services/constants';
 
 export function Tasks({ members, addTask, modalToggle, openModal, showDrawer, toggle, logOut, selected }) {
   const tasks = members.map((el) => el.tasks);
+
   return (
     <article>
       {openModal ? <NewTask addTask={addTask} modalToggle={modalToggle} /> : null}
@@ -26,6 +27,7 @@ export function Tasks({ members, addTask, modalToggle, openModal, showDrawer, to
           ))}
         </thead>
         <tbody className='table-body'>
+          {/* eslint-disable-next-line no-unused-vars */}
           {tasks[selected].map(({ name, start, startImg, deadline, deadlineImg, buttons }) => (
             <tr className='row'>
               <th className='name'>{name}</th>
@@ -58,3 +60,4 @@ Tasks.propTypes = {
   logOut: PropTypes.func.isRequired,
   toggle: PropTypes.bool.isRequired,
   selected: PropTypes.number.isRequired,
+};

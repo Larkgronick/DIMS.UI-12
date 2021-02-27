@@ -17,7 +17,7 @@ export class App extends PureComponent {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({
-          user,
+          user: user.uid,
         });
       } else {
         this.setState({
@@ -42,6 +42,7 @@ export class App extends PureComponent {
         <Main showDrawer={drawerOpen} toggle={this.drawerToggle} />
       </div>
     );
+
     return <div>{user ? app : <Login />}</div>;
   }
 }
