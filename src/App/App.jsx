@@ -5,6 +5,8 @@ import { Drawer } from '../components/Drawer/Drawer';
 import { Main } from '../pages/Main';
 
 export class App extends PureComponent {
+  listener = null;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -14,10 +16,10 @@ export class App extends PureComponent {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged((user) => {
+    this.listener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({
-          user,
+          user: user.uid,
         });
       } else {
         this.setState({
@@ -25,6 +27,10 @@ export class App extends PureComponent {
         });
       }
     });
+  }
+
+  componentWillUnmount() {
+    this.listener?.();
   }
 
   drawerToggle = () => {

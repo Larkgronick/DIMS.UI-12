@@ -85,23 +85,5 @@ export const tasksBody = [
 ];
 
 export const progressMenuItems = ['Name', 'Start', 'Date'];
-export const progressBody = [
-  {
-    name: 'Create the DB',
-    note: 'Implemented the TaskState table',
-    date: '28.01.2021',
-  },
-  {
-    name: 'Create the DB',
-    note: 'Created the Member view',
-    date: '29.01.2021',
-  },
-  {
-    name: 'Implement the props',
-    note: 'Implemented the calc progress proc',
-    date: '30.01.2021',
-  },
-];
-
 export const usersMenuItems = ['Name', 'Start', 'Deadline', 'Status', 'Actions'];
 export const taskTrackMenuItems = ['Name', 'Note', 'Date'];
