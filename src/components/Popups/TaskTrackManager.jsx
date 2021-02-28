@@ -6,12 +6,24 @@ import { Button } from '../Buttons/Button/Button';
 export class TaskTrackManager extends PureComponent {
   constructor(props) {
     super(props);
-    const { tasks, tasksToView, index, track } = this.props;
-    this.state = {
-      name: tasksToView[track].name,
-      date: tasksToView[track].date[index][tasks[track].date[index].length - 1],
-      note: tasksToView[track].note[index][tasks[track].date[index].length - 1],
-    };
+    const { tasks, edit, tasksToView, index, track, subtask } = this.props;
+    console.log(track);
+    if (edit) {
+      this.state = {
+        // name: tasksToView[track].name,
+        // date: tasksToView[track].date[index][tasks[track].date[index].length - 1],
+        // note: tasksToView[track].note[index][tasks[track].note[index].length - 1],
+        name: '',
+        date: '',
+        note: '',
+      };
+    } else {
+      this.state = {
+        name: tasksToView[track].name,
+        date: '',
+        note: '',
+      };
+    }
   }
 
   inputChange = (event) => {
@@ -67,5 +79,7 @@ TaskTrackManager.propTypes = {
   tasksToView: PropTypes.instanceOf(Array).isRequired,
   closeEdit: PropTypes.func.isRequired,
   track: PropTypes.number.isRequired,
+  subtask: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
+  edit: PropTypes.bool.isRequired,
 };

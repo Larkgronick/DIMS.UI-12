@@ -16,5 +16,5 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  action: PropTypes.bool,
+  action: () => {},
 };

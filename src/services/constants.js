@@ -84,7 +84,7 @@ export const tasksBody = [
   },
 ];
 
-export const progressMenuItems = ['Name', 'Start', 'Deadline'];
+export const progressMenuItems = ['Name', 'Start', 'Date'];
 export const progressBody = [
   {
     name: 'Create the DB',

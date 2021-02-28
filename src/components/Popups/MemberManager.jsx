@@ -9,23 +9,40 @@ export class MemberManager extends PureComponent {
   constructor(props) {
     super(props);
     const { members, selected, edit } = this.props;
+    const {
+      id,
+      direction,
+      name,
+      email,
+      lastName,
+      sex,
+      education,
+      birthDate,
+      universityAverageScore,
+      mathScore,
+      address,
+      mobilePhone,
+      skype,
+      startDate,
+      role,
+    } = members[selected];
     if (edit) {
       this.state = {
-        id: members[selected].id,
-        direction: members[selected].direction,
-        name: members[selected].name,
-        email: members[selected].email,
-        lastName: members[selected].lastName,
-        sex: members[selected].sex,
-        education: members[selected].education,
-        birthDate: members[selected].birthDate,
-        universityAverageScore: members[selected].universityAverageScore,
-        mathScore: members[selected].mathScore,
-        address: members[selected].address,
-        mobilePhone: members[selected].mobilePhone,
-        skype: members[selected].skype,
-        startDate: members[selected].startDate,
-        role: members[selected].role,
+        id,
+        direction,
+        name,
+        email,
+        lastName,
+        sex,
+        education,
+        birthDate,
+        universityAverageScore,
+        mathScore,
+        address,
+        mobilePhone,
+        skype,
+        startDate,
+        role,
       };
     } else {
       this.state = {

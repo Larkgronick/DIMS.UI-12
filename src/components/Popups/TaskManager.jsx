@@ -2,23 +2,20 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import './style/Popup.scss';
 import { Button } from '../Buttons/Button/Button';
-import startIcon from '../../assets/images/startIcon.png';
-import deadlineIcon from '../../assets/images/deadlineIcon.png';
 
 export class TaskManager extends PureComponent {
   constructor(props) {
     super(props);
     const { tasks, selected, edit } = this.props;
+    const { assigners, status, name, description, start, deadline } = tasks[selected];
     if (edit) {
       this.state = {
-        assigners: tasks[selected].assigners,
-        status: tasks[selected].status,
-        name: tasks[selected].name,
-        description: tasks[selected].description,
-        start: tasks[selected].start,
-        startImg: startIcon,
-        deadline: tasks[selected].deadline,
-        deadlineImg: deadlineIcon,
+        assigners,
+        status,
+        name,
+        description,
+        start,
+        deadline,
       };
     } else {
       this.state = {
@@ -27,9 +24,7 @@ export class TaskManager extends PureComponent {
         name: '',
         description: '',
         start: '',
-        startImg: startIcon,
         deadline: '',
-        deadlineImg: deadlineIcon,
       };
     }
   }
@@ -41,13 +36,12 @@ export class TaskManager extends PureComponent {
 
   saveAssigner = (e) => {
     const { assigners, status } = this.state;
-    const item = e.target.name;
-    const isChecked = e.target.checked;
-    if (isChecked) {
-      assigners.push(item);
+    const { name, checked } = e.target;
+    if (checked) {
+      assigners.push(name);
       status.push('active');
     } else {
-      const index = assigners.indexOf(item);
+      const index = assigners.indexOf(name);
       assigners.splice(index, 1);
       status.splice(index, 1);
     }
@@ -87,16 +81,16 @@ export class TaskManager extends PureComponent {
             <label htmlFor='assigners'>
               Assigners:
               <ul id='assigners'>
-                {members.map((item) => (
-                  <li key={item.id} className='assigner'>
+                {members.map(({ name: firstName, id, lastName }) => (
+                  <li key={id} className='assigner'>
                     <input
-                      defaultChecked={assigners.includes(item.id)}
+                      defaultChecked={assigners.includes(id)}
                       type='checkbox'
                       value='true'
-                      name={item.id}
+                      name={id}
                       onChange={(e) => this.saveAssigner(e)}
                     />
-                    {`${item.name} ${item.lastName}`}
+                    {`${firstName} ${lastName}`}
                   </li>
                 ))}
               </ul>

@@ -63,6 +63,9 @@ export function Tasks({
                   name='Edit'
                   action={(e) => {
                     editData(e);
+                    if (showDrawer) {
+                      toggle();
+                    }
                   }}
                   styles='button dev'
                 />

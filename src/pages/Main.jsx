@@ -8,7 +8,7 @@ import { UserTasks } from './UserTasks';
 import { TaskTrack } from './TaskTrack';
 import { Progress } from './Progress';
 import { membersBody, tasksBody } from '../services/constants';
-import { getIndex } from '../services/helpers';
+import { getIndex, getSubtaskIndex } from '../services/helpers';
 
 export class Main extends Component {
   constructor(props) {
@@ -20,19 +20,24 @@ export class Main extends Component {
       selected: 0,
       edit: false,
       track: 0,
+      subtask: 0,
     };
   }
 
   selectItem = (e, field) => {
     this.setState({
-      [field]: getIndex(e),
+      [field]: getIndex(e, field),
     });
   };
 
   openEdit = () => {
+    const { toggle, showDrawer } = this.props;
     this.setState({
       openModal: true,
     });
+    if (showDrawer) {
+      toggle();
+    }
   };
 
   closeEdit = () => {
@@ -42,10 +47,16 @@ export class Main extends Component {
     });
   };
 
-  editData = (e) => {
+  editTrack = () => {
     this.setState({
       edit: true,
       openModal: true,
+    });
+  };
+
+  editData = (e) => {
+    this.editTrack();
+    this.setState({
       selected: getIndex(e),
     });
   };
@@ -93,7 +104,7 @@ export class Main extends Component {
   };
 
   render() {
-    const { members, tasks, track, openModal, selected, edit } = this.state;
+    const { members, tasks, track, subtask, openModal, selected, edit } = this.state;
     const { showDrawer, toggle } = this.props;
 
     return (
@@ -144,6 +155,11 @@ export class Main extends Component {
             <UserTasks
               tasks={tasks}
               members={members}
+              track={track}
+              selectItem={this.selectItem}
+              openEdit={this.openEdit}
+              closeEdit={this.closeEdit}
+              openModal={openModal}
               setTaskStatus={this.setTaskStatus}
               showDrawer={showDrawer}
               toggle={toggle}
@@ -164,15 +180,17 @@ export class Main extends Component {
               tasks={tasks}
               members={members}
               track={track}
+              subtask={subtask}
               selectItem={this.selectItem}
               addData={this.addData}
-              openEdit={this.openEdit}
+              editTrack={this.editTrack}
               closeEdit={this.closeEdit}
               openModal={openModal}
               showDrawer={showDrawer}
               deleteTrackHistory={this.deleteTrackHistory}
               toggle={toggle}
               selected={selected}
+              edit={edit}
             />
           )}
         />

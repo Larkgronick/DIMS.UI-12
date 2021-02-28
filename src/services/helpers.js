@@ -4,6 +4,13 @@ export function getIndex(e) {
   return selected;
 }
 
+export function getSubtaskIndex(e) {
+  const base = e.target.closest('.row');
+  const child = e.target.closest('div');
+  const selected = [...base.children].indexOf(child);
+  return selected;
+}
+
 export function getCurrentDate() {
   const date = new Date();
   let day = date.getDate();
