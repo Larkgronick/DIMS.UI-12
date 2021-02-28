@@ -30,7 +30,7 @@ export class App extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.listener();
+    this.listener?.();
   }
 
   drawerToggle = () => {
