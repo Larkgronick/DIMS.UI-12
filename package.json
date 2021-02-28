@@ -80,15 +80,7 @@
     ],
     "testMatch": [
       "**/src/**/*.test.+(js|jsx)"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "functions": 50,
-        "lines": 50,
-        "statements": 50,
-        "branches": 50
-      }
-    }
+    ]
   },
   "dependencies": {
     "@testing-library/jest-dom": "5.11.9",
