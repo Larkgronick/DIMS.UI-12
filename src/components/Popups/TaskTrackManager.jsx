@@ -6,20 +6,20 @@ import { Button } from '../Buttons/Button/Button';
 export class TaskTrackManager extends PureComponent {
   constructor(props) {
     super(props);
-    const { tasks, edit, tasksToView, index, track, subtask } = this.props;
+    const { tasks, edit, userTasks, userIndex, track, subtask } = this.props;
     console.log(track);
     if (edit) {
       this.state = {
-        // name: tasksToView[track].name,
-        // date: tasksToView[track].date[index][tasks[track].date[index].length - 1],
-        // note: tasksToView[track].note[index][tasks[track].note[index].length - 1],
+        // name: userTasks[track].name,
+        // date: userTasks[track].date[index][tasks[track].date[index].length - 1],
+        // note: userTasks[track].note[index][tasks[track].note[index].length - 1],
         name: '',
         date: '',
         note: '',
       };
     } else {
       this.state = {
-        name: tasksToView[track].name,
+        name: userTasks[track].name,
         date: '',
         note: '',
       };
@@ -31,16 +31,8 @@ export class TaskTrackManager extends PureComponent {
     this.setState({ [name]: value });
   };
 
-  saveTask = () => {
-    const { date, note } = this.state;
-    const { closeEdit, tasksToView, track, index } = this.props;
-    tasksToView[track].date[index].push(date);
-    tasksToView[track].note[index].push(note);
-    closeEdit();
-  };
-
   render() {
-    const { closeEdit } = this.props;
+    const { closeEdit, addTaskData } = this.props;
     const { name, date, note } = this.state;
     return (
       <div className='modal'>
@@ -66,7 +58,14 @@ export class TaskTrackManager extends PureComponent {
                 onChange={this.inputChange}
               />
             </label>
-            <Button name='Save' action={this.saveTask} styles='submit' />
+            <Button
+              name='Save'
+              action={() => {
+                addTaskData(date, note);
+                closeEdit();
+              }}
+              styles='submit'
+            />
           </form>
         </div>
       </div>
@@ -76,10 +75,11 @@ export class TaskTrackManager extends PureComponent {
 
 TaskTrackManager.propTypes = {
   tasks: PropTypes.instanceOf(Array).isRequired,
-  tasksToView: PropTypes.instanceOf(Array).isRequired,
+  userTasks: PropTypes.instanceOf(Array).isRequired,
+  addTaskData: PropTypes.func.isRequired,
   closeEdit: PropTypes.func.isRequired,
   track: PropTypes.number.isRequired,
   subtask: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired,
+  userIndex: PropTypes.number.isRequired,
   edit: PropTypes.bool.isRequired,
 };

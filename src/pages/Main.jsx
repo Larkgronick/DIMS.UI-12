@@ -17,10 +17,12 @@ export class Main extends Component {
       members: membersBody,
       tasks: tasksBody,
       openModal: false,
-      selected: 0,
-      edit: false,
+      userTasks: [],
+      userIndex: 0,
       track: 0,
       subtask: 0,
+      selected: 0,
+      edit: false,
     };
   }
 
@@ -83,6 +85,23 @@ export class Main extends Component {
     });
   };
 
+  showUserTasks = (e) => {
+    const { members, tasks } = this.state;
+    const userTasks = tasks.filter((el) => el.assigners.includes(members[getIndex(e)].id));
+    const userIndex = userTasks[0].assigners.indexOf(members[getIndex(e)].id);
+    this.setState({
+      userTasks,
+      userIndex,
+      selected: getIndex(e),
+    });
+  };
+
+  addTaskData = (date, note) => {
+    const { userTasks, track, userIndex } = this.state;
+    userTasks[track].date[userIndex].push(date);
+    userTasks[track].note[userIndex].push(note);
+  };
+
   setTaskStatus = (index, task, status) => {
     const { tasks } = this.state;
     const newTask = task;
@@ -104,7 +123,7 @@ export class Main extends Component {
   };
 
   render() {
-    const { members, tasks, track, subtask, openModal, selected, edit } = this.state;
+    const { members, tasks, userTasks, userIndex, track, subtask, openModal, selected, edit } = this.state;
     const { showDrawer, toggle } = this.props;
 
     return (
@@ -120,6 +139,7 @@ export class Main extends Component {
               editData={this.editData}
               saveData={this.saveData}
               deleteData={this.deleteData}
+              showUserTasks={this.showUserTasks}
               edit={edit}
               openModal={openModal}
               showDrawer={showDrawer}
@@ -153,9 +173,12 @@ export class Main extends Component {
           path='/user-tasks'
           component={() => (
             <UserTasks
+              userTasks={userTasks}
+              userIndex={userIndex}
               tasks={tasks}
               members={members}
               track={track}
+              addTaskData={this.addTaskData}
               selectItem={this.selectItem}
               openEdit={this.openEdit}
               closeEdit={this.closeEdit}

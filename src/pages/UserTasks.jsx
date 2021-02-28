@@ -8,9 +8,12 @@ import { TaskTrackManager } from '../components/Popups/TaskTrackManager';
 import { logOutFirebase } from '../services/services';
 
 export function UserTasks({
+  userTasks,
+  userIndex,
   tasks,
   members,
   track,
+  addTaskData,
   selectItem,
   openModal,
   openEdit,
@@ -21,17 +24,16 @@ export function UserTasks({
   selected,
 }) {
   const selectedUser = `${members[selected].name} ${members[selected].lastName}`;
-  const tasksToView = tasks.filter((el) => el.assigners.includes(members[selected].id));
-  const index = tasksToView[0].assigners.indexOf(members[selected].id);
   return (
     <article>
       {openModal ? (
         <TaskTrackManager
           tasks={tasks}
-          tasksToView={tasksToView}
+          userTasks={userTasks}
           members={members}
           track={track}
-          index={index}
+          userIndex={userIndex}
+          addTaskData={addTaskData}
           closeEdit={closeEdit}
         />
       ) : null}
@@ -41,7 +43,7 @@ export function UserTasks({
       </header>
       <p className='page-name'>
         {`${selectedUser}'s Tasks`}
-        <span>{`(${tasksToView.length})`}</span>
+        <span>{`(${userTasks.length})`}</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
@@ -52,7 +54,7 @@ export function UserTasks({
           </tr>
         </thead>
         <tbody className='table-body'>
-          {tasksToView.map((item, i) => (
+          {userTasks.map((item, i) => (
             <tr key={item.id} className='row'>
               <Link to='/task-track'>
                 <td className='name'>{item.name}</td>
@@ -62,7 +64,7 @@ export function UserTasks({
               </td>
               <td>{item.deadline}</td>
               <td>
-                <span className={item.status[index]}>{item.status[index]}</span>
+                <span className={item.status[userIndex]}>{item.status[userIndex]}</span>
               </td>
               <td>
                 <Button
@@ -77,12 +79,12 @@ export function UserTasks({
               <td>
                 <Button
                   name='Success'
-                  action={() => setTaskStatus(index, tasksToView[i], 'success')}
+                  action={() => setTaskStatus(userIndex, userTasks[i], 'success')}
                   styles='button dev'
                 />
                 <Button
                   name='Fail'
-                  action={() => setTaskStatus(index, tasksToView[i], 'failed')}
+                  action={() => setTaskStatus(userIndex, userTasks[i], 'failed')}
                   styles='button danger'
                 />
               </td>
@@ -95,8 +97,11 @@ export function UserTasks({
 }
 
 UserTasks.propTypes = {
+  userTasks: PropTypes.instanceOf(Array).isRequired,
+  userIndex: PropTypes.instanceOf(Array).isRequired,
   members: PropTypes.instanceOf(Array).isRequired,
   tasks: PropTypes.instanceOf(Array).isRequired,
+  addTaskData: PropTypes.func.isRequired,
   selectItem: PropTypes.func.isRequired,
   openEdit: PropTypes.func.isRequired,
   closeEdit: PropTypes.func.isRequired,

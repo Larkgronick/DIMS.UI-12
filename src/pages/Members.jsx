@@ -16,6 +16,7 @@ export function Members({
   editData,
   saveData,
   deleteData,
+  showUserTasks,
   edit,
   openModal,
   showDrawer,
@@ -91,7 +92,13 @@ export function Members({
                     <Button name='Progress' action={(e) => selectItem(e, 'selected')} styles='button dev' />
                   </Link>
                   <Link to='/user-tasks'>
-                    <Button name='Tasks' action={(e) => selectItem(e, 'selected')} styles='button tasks' />
+                    <Button
+                      name='Tasks'
+                      action={(e) => {
+                        showUserTasks(e);
+                      }}
+                      styles='button tasks'
+                    />
                   </Link>
                   <Button
                     name='Edit'
@@ -119,6 +126,7 @@ Members.propTypes = {
   editData: PropTypes.func.isRequired,
   saveData: PropTypes.func.isRequired,
   deleteData: PropTypes.func.isRequired,
+  showUserTasks: PropTypes.func.isRequired,
   edit: PropTypes.bool.isRequired,
   openModal: PropTypes.bool.isRequired,
   showDrawer: PropTypes.bool.isRequired,
