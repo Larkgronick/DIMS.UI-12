@@ -24,6 +24,7 @@ export function UserTasks({
   selected,
 }) {
   const selectedUser = `${members[selected].name} ${members[selected].lastName}`;
+
   return (
     <article>
       {openModal ? (
@@ -57,7 +58,11 @@ export function UserTasks({
           {userTasks.map((item, i) => (
             <tr key={item.id} className='row'>
               <Link to='/task-track'>
-                <td className='name'>{item.name}</td>
+                <td className='name'>
+                  <button onClick={(e) => selectItem(e, 'track')} className='link' type='button'>
+                    {item.name}
+                  </button>
+                </td>
               </Link>
               <td>
                 <span className='attention'>{item.start}</span>
@@ -98,7 +103,7 @@ export function UserTasks({
 
 UserTasks.propTypes = {
   userTasks: PropTypes.instanceOf(Array).isRequired,
-  userIndex: PropTypes.instanceOf(Array).isRequired,
+  userIndex: PropTypes.number.isRequired,
   members: PropTypes.instanceOf(Array).isRequired,
   tasks: PropTypes.instanceOf(Array).isRequired,
   addTaskData: PropTypes.func.isRequired,

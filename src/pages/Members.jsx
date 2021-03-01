@@ -42,10 +42,7 @@ export function Members({
         <Button name='Register' action={openEdit} styles='button dev' />
         <Button name='Log Out' action={logOutFirebase} styles='button danger' />
       </header>
-      <p className='page-name'>
-        Members
-        <span>({members.length})</span>
-      </p>
+      <p className='page-name'>{`Members (${members.length})`}</p>
       <table className='table'>
         <thead className='table-head'>
           <tr>
@@ -89,7 +86,14 @@ export function Members({
                 <td>{convertDate(startDate)}</td>
                 <td>
                   <Link to='/progress'>
-                    <Button name='Progress' action={(e) => selectItem(e, 'selected')} styles='button dev' />
+                    <Button
+                      name='Progress'
+                      action={(e) => {
+                        showUserTasks(e);
+                        selectItem(e, 'selected');
+                      }}
+                      styles='button dev'
+                    />
                   </Link>
                   <Link to='/user-tasks'>
                     <Button

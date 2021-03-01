@@ -34,6 +34,7 @@ export class Login extends Component {
 
   render() {
     const { emailError, passwordError } = this.state;
+
     return (
       <div className='login'>
         <header className='header-login'>

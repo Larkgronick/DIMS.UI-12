@@ -11,7 +11,7 @@ export function Drawer({ showDrawer, toggle }) {
       {drawerMenuItems.map(({ name, path, img }) => (
         <Link onClick={toggle} to={path} key={name} className='drawer-item'>
           <img alt='img' src={img} />
-          <span className='drawer-item-name'> {name}</span>
+          <span className='drawer-item-name'>{name}</span>
         </Link>
       ))}
     </aside>

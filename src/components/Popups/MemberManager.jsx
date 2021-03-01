@@ -88,6 +88,7 @@ export class MemberManager extends PureComponent {
       startDate,
       role,
     } = this.state;
+
     return (
       <div className='modal'>
         <div className='modal-content'>

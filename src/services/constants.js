@@ -65,8 +65,9 @@ export const tasksBody = [
   {
     assigners: ['1', '2'],
     status: ['active', 'active'],
+    trackName: [['start task', 'working hard'], ['start task']],
     date: [['2021-01-21', '2021-01-22'], ['2021-01-23']],
-    note: [['start task', 'working hard'], ['start task']],
+    note: [['start desc', 'working desc'], ['start desc']],
     id: '1',
     name: 'Create the DB',
     start: '28.01.2021',
@@ -75,8 +76,9 @@ export const tasksBody = [
   {
     assigners: ['1'],
     status: ['active'],
+    trackName: [['start task', 'do something']],
     date: [['2021-01-21', '2021-01-25']],
-    note: [['start task', 'do something']],
+    note: [['start desc', 'do desc']],
     id: '2',
     name: 'Implement the props',
     start: '28.01.2021',
@@ -84,6 +86,6 @@ export const tasksBody = [
   },
 ];
 
-export const progressMenuItems = ['Name', 'Start', 'Date'];
+export const progressMenuItems = ['Name', 'Track Name', 'Note', 'Date'];
 export const usersMenuItems = ['Name', 'Start', 'Deadline', 'Status', 'Actions'];
-export const taskTrackMenuItems = ['Name', 'Note', 'Date'];
+export const taskTrackMenuItems = ['Track Name', 'Note', 'Date'];

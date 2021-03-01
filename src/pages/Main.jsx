@@ -8,7 +8,7 @@ import { UserTasks } from './UserTasks';
 import { TaskTrack } from './TaskTrack';
 import { Progress } from './Progress';
 import { membersBody, tasksBody } from '../services/constants';
-import { getIndex, getSubtaskIndex } from '../services/helpers';
+import { getIndex } from '../services/helpers';
 
 export class Main extends Component {
   constructor(props) {
@@ -96,9 +96,17 @@ export class Main extends Component {
     });
   };
 
-  addTaskData = (date, note) => {
+  saveTaskData = (date, note, trackName) => {
+    const { userTasks, track, userIndex, subtask } = this.state;
+    userTasks[track].date[userIndex].splice(subtask, 1, date);
+    userTasks[track].trackName[userIndex].splice(subtask, 1, trackName);
+    userTasks[track].note[userIndex].splice(subtask, 1, note);
+  };
+
+  addTaskData = (date, note, trackName) => {
     const { userTasks, track, userIndex } = this.state;
     userTasks[track].date[userIndex].push(date);
+    userTasks[track].trackName[userIndex].push(trackName);
     userTasks[track].note[userIndex].push(note);
   };
 
@@ -111,12 +119,11 @@ export class Main extends Component {
     });
   };
 
-  deleteTrackHistory = (track, index) => {
-    const { tasks } = this.state;
-    const toRemove = tasks.indexOf(track);
-    track.note.splice(index, 1, []);
-    track.date.splice(index, 1, []);
-    tasks.splice(toRemove, 1, track);
+  deleteTrackHistory = (subtaskIndex) => {
+    const { tasks, userTasks, track, userIndex } = this.state;
+    userTasks[track].trackName[userIndex].splice(subtaskIndex, 1);
+    userTasks[track].note[userIndex].splice(subtaskIndex, 1);
+    userTasks[track].date[userIndex].splice(subtaskIndex, 1);
     this.setState({
       tasks,
     });
@@ -193,18 +200,29 @@ export class Main extends Component {
         <Route
           path='/progress'
           component={() => (
-            <Progress members={members} tasks={tasks} selected={selected} showDrawer={showDrawer} toggle={toggle} />
+            <Progress
+              members={members}
+              userTasks={userTasks}
+              tasks={tasks}
+              userIndex={userIndex}
+              selected={selected}
+              showDrawer={showDrawer}
+              toggle={toggle}
+            />
           )}
         />
         <Route
           path='/task-track'
           component={() => (
             <TaskTrack
+              userTasks={userTasks}
+              userIndex={userIndex}
               tasks={tasks}
               members={members}
               track={track}
               subtask={subtask}
               selectItem={this.selectItem}
+              saveTaskData={this.saveTaskData}
               addData={this.addData}
               editTrack={this.editTrack}
               closeEdit={this.closeEdit}

@@ -1,13 +1,7 @@
 export function getIndex(e) {
   const el = e.target.closest('.row');
   const selected = [...el.parentElement.children].indexOf(el);
-  return selected;
-}
 
-export function getSubtaskIndex(e) {
-  const base = e.target.closest('.row');
-  const child = e.target.closest('div');
-  const selected = [...base.children].indexOf(child);
   return selected;
 }
 
@@ -25,6 +19,7 @@ export function getCurrentDate() {
   }
 
   const today = `${year}-${month}-${day}`;
+
   return today;
 }
 
@@ -32,6 +27,7 @@ export function getAge(birthDate) {
   const birthConvert = new Date(birthDate);
   const ageDiffMs = Date.now() - birthConvert.getTime();
   const ageDate = new Date(ageDiffMs);
+
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
 

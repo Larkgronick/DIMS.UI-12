@@ -5,10 +5,9 @@ import { Button } from '../components/Buttons/Button/Button';
 import { progressMenuItems } from '../services/constants';
 import { logOutFirebase } from '../services/services';
 
-export function Progress({ members, tasks, selected, showDrawer, toggle }) {
+export function Progress({ members, userTasks, userIndex, selected, showDrawer, toggle }) {
   const selectedUser = `${members[selected].name} ${members[selected].lastName}`;
-  const tasksToView = tasks.filter((el) => el.assigners.includes(members[selected].id));
-  const index = tasksToView[0].assigners.indexOf(members[selected].id);
+
   return (
     <article>
       <header className='header'>
@@ -17,7 +16,7 @@ export function Progress({ members, tasks, selected, showDrawer, toggle }) {
       </header>
       <p className='page-name'>
         {`${selectedUser}'s Progress`}
-        <span>{`(${tasksToView.length})`}</span>
+        <span>{`(${userTasks.length})`}</span>
       </p>
       <table className='table'>
         <thead className='table-head'>
@@ -28,21 +27,22 @@ export function Progress({ members, tasks, selected, showDrawer, toggle }) {
           </tr>
         </thead>
         <tbody className='table-body'>
-          {tasksToView.map(({ id, note, name, date }) => (
-            <tr key={id} className='row'>
+          {userTasks.map((item, i) => (
+            <tr key={item} className='row'>
+              <td className='progress'>{item.name}</td>
               <td>
-                {note[index].map((el) => (
-                  <p key={el}>{name}</p>
+                {userTasks[i].trackName[userIndex].map((el) => (
+                  <p>{el}</p>
                 ))}
               </td>
               <td>
-                {note[index].map((el) => (
-                  <p key={el}>{el}</p>
+                {userTasks[i].note[userIndex].map((el) => (
+                  <p>{el}</p>
                 ))}
               </td>
               <td>
-                {date[index].map((el) => (
-                  <p key={el}>{el}</p>
+                {userTasks[i].date[userIndex].map((el) => (
+                  <p>{el}</p>
                 ))}
               </td>
             </tr>
@@ -55,7 +55,8 @@ export function Progress({ members, tasks, selected, showDrawer, toggle }) {
 
 Progress.propTypes = {
   members: PropTypes.instanceOf(Array).isRequired,
-  tasks: PropTypes.instanceOf(Array).isRequired,
+  userTasks: PropTypes.instanceOf(Array).isRequired,
+  userIndex: PropTypes.instanceOf(Array).isRequired,
   selected: PropTypes.number.isRequired,
   showDrawer: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,

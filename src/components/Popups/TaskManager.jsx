@@ -50,6 +50,7 @@ export class TaskManager extends PureComponent {
   render() {
     const { members, closeEdit, edit, addData, saveData } = this.props;
     const { name, description, start, deadline, assigners } = this.state;
+
     return (
       <div className='modal'>
         <div className='modal-content'>
@@ -98,7 +99,7 @@ export class TaskManager extends PureComponent {
             {edit ? (
               <Button
                 name='Edit'
-                action={(e) => {
+                action={() => {
                   saveData('tasks', this.state);
                 }}
                 styles='submit'

@@ -40,10 +40,7 @@ export function Tasks({
         <Button name='Create' action={openEdit} styles='button tasks' />
         <Button name='Log Out' action={logOutFirebase} styles='button danger' />
       </header>
-      <p className='page-name'>
-        Dev Incubator Tasks
-        <span>({tasks.length})</span>
-      </p>
+      <p className='page-name'>{`Dev Incubator Tasks (${tasks.length})`}</p>
       <table className='table'>
         <thead className='table-head'>
           <tr>

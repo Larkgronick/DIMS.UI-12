@@ -17,6 +17,7 @@
     "test:coverage": "yarn test --coverage",
     "test:coverage:ci": "set CI=true && yarn test:coverage",
     "test:coverage:ci:codecov": "yarn test:coverage:ci && codecov",
+    "format": "prettier --write \"src/**/*.+(js|jsx|json|css|scss|md)\"",
     "lint": "eslint \"src/**/*.+(js|jsx)\"",
     "lint:fix": "eslint --fix \"src/**/*.+(js|jsx)\"",
     "clean": "rm -rf node_modules coverage build",

@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './styles/Table.scss';
 import { getIndex } from '../services/helpers';
@@ -10,11 +9,14 @@ import { TaskTrackManager } from '../components/Popups/TaskTrackManager';
 import { logOutFirebase } from '../services/services';
 
 export function TaskTrack({
+  userTasks,
+  userIndex,
   tasks,
   members,
   track,
   subtask,
   deleteTrackHistory,
+  saveTaskData,
   selectItem,
   editTrack,
   closeEdit,
@@ -24,11 +26,10 @@ export function TaskTrack({
   selected,
   edit,
 }) {
-  // tasksToView to state
-  // method to change taskView
   const selectedUser = `${members[selected].name} ${members[selected].lastName}`;
-  const tasksToView = tasks.filter((el) => el.assigners.includes(members[selected].id));
-  const index = tasksToView[0].assigners.indexOf(members[selected].id);
+  const taskNames = userTasks[track].trackName[userIndex];
+  const taskNotes = userTasks[track].note[userIndex];
+  const taskDates = userTasks[track].date[userIndex];
 
   return (
     <article>
@@ -36,10 +37,11 @@ export function TaskTrack({
         <TaskTrackManager
           tasks={tasks}
           subtask={subtask}
-          tasksToView={tasksToView}
+          userTasks={userTasks}
+          saveTaskData={saveTaskData}
           members={members}
           track={track}
-          index={index}
+          userIndex={userIndex}
           closeEdit={closeEdit}
           edit={edit}
         />
@@ -48,10 +50,7 @@ export function TaskTrack({
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
         <Button name='Log Out' action={logOutFirebase} styles='button danger' />
       </header>
-      <p className='page-name'>
-        {`${selectedUser}'s Task Tracks`}
-        <span>{`(${tasksToView.length})`}</span>
-      </p>
+      <p className='page-name'>{`${selectedUser}'s Task Tracks`}</p>
       <table className='table'>
         <thead className='table-head'>
           <tr>
@@ -61,50 +60,29 @@ export function TaskTrack({
           </tr>
         </thead>
         <tbody className='table-body'>
-          {tasksToView.map(({ id, name, note, date }) => (
-            <tr key={id} className='row'>
+          {taskNames.map((item, i) => (
+            <tr key={item} className='row'>
+              <td>{item}</td>
+              <td>{taskNotes[i]}</td>
+              <td>{taskDates[i]}</td>
               <td>
-                {note[index].map((el) => (
-                  <p key={el} className='subtask attention'>
-                    {name}
-                  </p>
-                ))}
+                <Button
+                  name='Edit'
+                  action={(e) => {
+                    selectItem(e, 'subtask');
+                    editTrack();
+                  }}
+                  styles='button edit'
+                />
               </td>
               <td>
-                {note[index].map((el) => (
-                  <p key={el} className='subtask'>
-                    {el}
-                  </p>
-                ))}
-              </td>
-              <td>
-                {date[index].map((el) => (
-                  <p key={el} className='subtask'>
-                    {el}
-                  </p>
-                ))}
-              </td>
-              <td className='row'>
-                {date[index].map((el) => (
-                  <div key={el}>
-                    <Button
-                      name='Edit'
-                      action={(e) => {
-                        selectItem(e, 'subtask');
-                        selectItem(e, 'track');
-                        editTrack();
-                      }}
-                      styles='button edit'
-                    />
-                    <Button
-                      name='Delete'
-                      action={(e) => {
-                        deleteTrackHistory(tasksToView[getIndex(e)], index);
-                      }}
-                      styles='button danger'
-                    />
-                  </div>
-                ))}
+                <Button
+                  name='Delete'
+                  action={(e) => {
+                    deleteTrackHistory(getIndex(e));
+                  }}
+                  styles='button danger'
+                />
               </td>
             </tr>
           ))}
@@ -115,11 +93,14 @@ export function TaskTrack({
 }
 
 TaskTrack.propTypes = {
+  userTasks: PropTypes.instanceOf(Array).isRequired,
+  userIndex: PropTypes.instanceOf(Array).isRequired,
   members: PropTypes.instanceOf(Array).isRequired,
   tasks: PropTypes.instanceOf(Array).isRequired,
   subtask: PropTypes.number.isRequired,
   selectItem: PropTypes.func.isRequired,
   deleteTrackHistory: PropTypes.func.isRequired,
+  saveTaskData: PropTypes.func.isRequired,
   editTrack: PropTypes.func.isRequired,
   closeEdit: PropTypes.func.isRequired,
   openModal: PropTypes.bool.isRequired,

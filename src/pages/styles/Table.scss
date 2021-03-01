@@ -44,6 +44,16 @@ header {
 td {
   text-align: center;
 }
+.progress {
+  vertical-align: initial;
+}
+
+.link {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
 
 .subtask {
   margin: 30px 0;

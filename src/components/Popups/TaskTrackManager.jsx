@@ -6,20 +6,20 @@ import { Button } from '../Buttons/Button/Button';
 export class TaskTrackManager extends PureComponent {
   constructor(props) {
     super(props);
-    const { tasks, edit, userTasks, userIndex, track, subtask } = this.props;
-    console.log(track);
+    const { edit, userTasks, userIndex, track, subtask } = this.props;
+    console.log(edit);
+    console.log(subtask);
     if (edit) {
       this.state = {
-        // name: userTasks[track].name,
-        // date: userTasks[track].date[index][tasks[track].date[index].length - 1],
-        // note: userTasks[track].note[index][tasks[track].note[index].length - 1],
-        name: '',
-        date: '',
-        note: '',
+        name: userTasks[track].name,
+        trackName: userTasks[track].trackName[userIndex][subtask],
+        date: userTasks[track].date[userIndex][subtask],
+        note: userTasks[track].note[userIndex][subtask],
       };
     } else {
       this.state = {
         name: userTasks[track].name,
+        trackName: '',
         date: '',
         note: '',
       };
@@ -32,20 +32,31 @@ export class TaskTrackManager extends PureComponent {
   };
 
   render() {
-    const { closeEdit, addTaskData } = this.props;
-    const { name, date, note } = this.state;
+    const { closeEdit, addTaskData, saveTaskData, edit } = this.props;
+    const { name, trackName, date, note } = this.state;
+
     return (
       <div className='modal'>
         <div className='modal-content'>
           <Button name={<span>&times;</span>} action={closeEdit} styles='close' />
           <form action=''>
             <p htmlFor='name-field'>
-              Task Name:
+              Track for Task:
               <span className='attention'>{` ${name}`}</span>
             </p>
             <label htmlFor='start'>
               Date:
               <input id='date' name='date' type='date' value={date} onChange={this.inputChange} />
+            </label>
+            <label htmlFor='track-name'>
+              Track Name:
+              <input
+                id='track-name'
+                name='trackName'
+                placeholder='Track Name'
+                value={trackName}
+                onChange={this.inputChange}
+              />
             </label>
             <label htmlFor='description-field'>
               Note:
@@ -58,14 +69,25 @@ export class TaskTrackManager extends PureComponent {
                 onChange={this.inputChange}
               />
             </label>
-            <Button
-              name='Save'
-              action={() => {
-                addTaskData(date, note);
-                closeEdit();
-              }}
-              styles='submit'
-            />
+            {edit ? (
+              <Button
+                name='Edit'
+                action={() => {
+                  saveTaskData(date, note, trackName);
+                  closeEdit();
+                }}
+                styles='submit'
+              />
+            ) : (
+              <Button
+                name='Save'
+                action={() => {
+                  addTaskData(date, note, trackName);
+                  closeEdit();
+                }}
+                styles='submit'
+              />
+            )}
           </form>
         </div>
       </div>
@@ -74,12 +96,12 @@ export class TaskTrackManager extends PureComponent {
 }
 
 TaskTrackManager.propTypes = {
-  tasks: PropTypes.instanceOf(Array).isRequired,
   userTasks: PropTypes.instanceOf(Array).isRequired,
+  userIndex: PropTypes.number.isRequired,
   addTaskData: PropTypes.func.isRequired,
+  saveTaskData: PropTypes.func.isRequired,
   closeEdit: PropTypes.func.isRequired,
   track: PropTypes.number.isRequired,
   subtask: PropTypes.number.isRequired,
-  userIndex: PropTypes.number.isRequired,
   edit: PropTypes.bool.isRequired,
 };

@@ -48,6 +48,7 @@ export class App extends PureComponent {
         <Main showDrawer={drawerOpen} toggle={this.drawerToggle} />
       </div>
     );
+
     return <div>{user ? app : <Login />}</div>;
   }
 }
