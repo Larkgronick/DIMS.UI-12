@@ -2,30 +2,35 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import './style/Popup.scss';
 import { Button } from '../Buttons/Button/Button';
+import { Input } from '../FormElements/Input/Input';
+import { Textarea } from '../FormElements/Textarea/Textarea';
+import { List } from '../FormElements/List/List';
 
 export class TaskManager extends PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      assigners: [],
+      status: [],
+      name: '',
+      description: '',
+      start: '',
+      deadline: '',
+    };
+  }
+
+  componentDidMount() {
     const { tasks, selected, edit } = this.props;
     const { assigners, status, name, description, start, deadline } = tasks[selected];
     if (edit) {
-      this.state = {
+      this.setState({
         assigners,
         status,
         name,
         description,
         start,
         deadline,
-      };
-    } else {
-      this.state = {
-        assigners: [],
-        status: [],
-        name: '',
-        description: '',
-        start: '',
-        deadline: '',
-      };
+      });
     }
   }
 
@@ -37,14 +42,21 @@ export class TaskManager extends PureComponent {
   saveAssigner = (e) => {
     const { assigners, status } = this.state;
     const { name, checked } = e.target;
+    const newAssigners = [...assigners];
+    const newStatus = [...status];
+
     if (checked) {
-      assigners.push(name);
-      status.push('active');
+      newAssigners.push(name);
+      newStatus.push('active');
     } else {
-      const index = assigners.indexOf(name);
-      assigners.splice(index, 1);
-      status.splice(index, 1);
+      const index = newAssigners.indexOf(name);
+      newAssigners.splice(index, 1);
+      newStatus.splice(index, 1);
     }
+    this.setState({
+      assigners: newAssigners,
+      status: newStatus,
+    });
   };
 
   render() {
@@ -54,58 +66,44 @@ export class TaskManager extends PureComponent {
     return (
       <div className='modal'>
         <div className='modal-content'>
-          <Button name={<span>&times;</span>} action={closeEdit} styles='close' />
+          <Button action={closeEdit} styles='close'>
+            <span>&times;</span>
+          </Button>
           <form action=''>
-            <label htmlFor='name-field'>
+            <Input placeholder='Task Name' value={name} name='name' action={this.inputChange}>
               Task Name:
-              <input id='name-field' name='name' placeholder='Task Name' value={name} onChange={this.inputChange} />
-            </label>
-            <label htmlFor='description-field'>
+            </Input>
+            <Textarea placeholder='Task Description' value={description} name='description' action={this.inputChange}>
               Description:
-              <textarea
-                id='description-field'
-                name='description'
-                placeholder='Task Description'
-                readOnly={false}
-                value={description}
-                onChange={this.inputChange}
-              />
-            </label>
-            <label htmlFor='start'>
+            </Textarea>
+            <Input type='date' value={start} name='start' action={this.inputChange}>
               Start:
-              <input id='start' name='start' type='date' value={start} onChange={this.inputChange} />
-            </label>
-            <label htmlFor='deadline'>
+            </Input>
+            <Input type='date' value={deadline} name='deadline' action={this.inputChange}>
               Deadline:
-              <input id='deadline' name='deadline' type='date' value={deadline} onChange={this.inputChange} />
-            </label>
-            <label htmlFor='assigners'>
+            </Input>
+            <List
+              members={members}
+              assigners={assigners}
+              styles='assigner'
+              listId='assigners'
+              action={(e) => this.saveAssigner(e)}
+            >
               Assigners:
-              <ul id='assigners'>
-                {members.map(({ name: firstName, id, lastName }) => (
-                  <li key={id} className='assigner'>
-                    <input
-                      defaultChecked={assigners.includes(id)}
-                      type='checkbox'
-                      value='true'
-                      name={id}
-                      onChange={(e) => this.saveAssigner(e)}
-                    />
-                    {`${firstName} ${lastName}`}
-                  </li>
-                ))}
-              </ul>
-            </label>
+            </List>
             {edit ? (
               <Button
-                name='Edit'
                 action={() => {
                   saveData('tasks', this.state);
                 }}
                 styles='submit'
-              />
+              >
+                Edit
+              </Button>
             ) : (
-              <Button name='Create' action={() => addData('tasks', this.state)} styles='submit' />
+              <Button action={() => addData('tasks', this.state)} styles='submit'>
+                Create
+              </Button>
             )}
           </form>
         </div>

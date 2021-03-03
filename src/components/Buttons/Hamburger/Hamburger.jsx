@@ -3,7 +3,11 @@ import { Button } from '../Button/Button';
 import './Hamburger.scss';
 
 export function Hamburger({ showDrawer, toggle }) {
-  return <Button name={<span />} action={toggle} styles={`bt-menu-trigger ${showDrawer && 'bt-menu-open'}`} />;
+  return (
+    <Button action={toggle} styles={`bt-menu-trigger ${showDrawer && 'bt-menu-open'}`}>
+      <span />
+    </Button>
+  );
 }
 
 Hamburger.propTypes = {

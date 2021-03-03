@@ -12,7 +12,9 @@ export function Progress({ members, userTasks, userIndex, selected, showDrawer, 
     <article>
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name='Log Out' action={logOutFirebase} styles='button danger' />
+        <Button action={logOutFirebase} styles='button danger'>
+          Log Out
+        </Button>
       </header>
       <p className='page-name'>
         {`${selectedUser}'s Progress`}

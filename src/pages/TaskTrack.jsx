@@ -48,7 +48,9 @@ export function TaskTrack({
       ) : null}
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name='Log Out' action={logOutFirebase} styles='button danger' />
+        <Button action={logOutFirebase} styles='button danger'>
+          Log Out
+        </Button>
       </header>
       <p className='page-name'>{`${selectedUser}'s Task Tracks`}</p>
       <table className='table'>
@@ -67,22 +69,24 @@ export function TaskTrack({
               <td>{taskDates[i]}</td>
               <td>
                 <Button
-                  name='Edit'
                   action={(e) => {
                     selectItem(e, 'subtask');
                     editTrack();
                   }}
                   styles='button edit'
-                />
+                >
+                  Edit
+                </Button>
               </td>
               <td>
                 <Button
-                  name='Delete'
                   action={(e) => {
                     deleteTrackHistory(getIndex(e));
                   }}
                   styles='button danger'
-                />
+                >
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}

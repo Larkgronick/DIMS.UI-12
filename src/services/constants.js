@@ -89,3 +89,5 @@ export const tasksBody = [
 export const progressMenuItems = ['Name', 'Track Name', 'Note', 'Date'];
 export const usersMenuItems = ['Name', 'Start', 'Deadline', 'Status', 'Actions'];
 export const taskTrackMenuItems = ['Track Name', 'Note', 'Date'];
+
+export const scoreScale = new Array(100).fill().map((el, i) => i + 1);

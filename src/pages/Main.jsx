@@ -98,32 +98,30 @@ export class Main extends Component {
 
   saveTaskData = (date, note, trackName) => {
     const { userTasks, track, userIndex, subtask } = this.state;
-    userTasks[track].date[userIndex].splice(subtask, 1, date);
-    userTasks[track].trackName[userIndex].splice(subtask, 1, trackName);
-    userTasks[track].note[userIndex].splice(subtask, 1, note);
+    const newUserTask = [...userTasks];
+    newUserTask[track].trackName[userIndex].splice(subtask, 1, trackName);
+    newUserTask[track].date[userIndex].splice(subtask, 1, date);
+    newUserTask[track].note[userIndex].splice(subtask, 1, note);
+    this.setState({
+      userTasks: newUserTask,
+    });
   };
 
   addTaskData = (date, note, trackName) => {
     const { userTasks, track, userIndex } = this.state;
-    userTasks[track].date[userIndex].push(date);
-    userTasks[track].trackName[userIndex].push(trackName);
-    userTasks[track].note[userIndex].push(note);
+    const newUserTask = [...userTasks];
+    newUserTask[track].date[userIndex].push(date);
+    newUserTask[track].trackName[userIndex].push(trackName);
+    newUserTask[track].note[userIndex].push(note);
+    this.setState({
+      userTasks: newUserTask,
+    });
   };
 
   setTaskStatus = (index, task, status) => {
     const { tasks } = this.state;
     const newTask = task;
     newTask.status[index] = status;
-    this.setState({
-      tasks,
-    });
-  };
-
-  deleteTrackHistory = (subtaskIndex) => {
-    const { tasks, userTasks, track, userIndex } = this.state;
-    userTasks[track].trackName[userIndex].splice(subtaskIndex, 1);
-    userTasks[track].note[userIndex].splice(subtaskIndex, 1);
-    userTasks[track].date[userIndex].splice(subtaskIndex, 1);
     this.setState({
       tasks,
     });
@@ -228,7 +226,6 @@ export class Main extends Component {
               closeEdit={this.closeEdit}
               openModal={openModal}
               showDrawer={showDrawer}
-              deleteTrackHistory={this.deleteTrackHistory}
               toggle={toggle}
               selected={selected}
               edit={edit}

@@ -40,7 +40,9 @@ export function UserTasks({
       ) : null}
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name='Log Out' action={logOutFirebase} styles='button danger' />
+        <Button action={logOutFirebase} styles='button danger'>
+          Log Out
+        </Button>
       </header>
       <p className='page-name'>
         {`${selectedUser}'s Tasks`}
@@ -59,9 +61,9 @@ export function UserTasks({
             <tr key={item.id} className='row'>
               <Link to='/task-track'>
                 <td className='name'>
-                  <button onClick={(e) => selectItem(e, 'track')} className='link' type='button'>
+                  <Button action={(e) => selectItem(e, 'track')} styles='link'>
                     {item.name}
-                  </button>
+                  </Button>
                 </td>
               </Link>
               <td>
@@ -73,25 +75,22 @@ export function UserTasks({
               </td>
               <td>
                 <Button
-                  name='Track'
                   action={(e) => {
                     selectItem(e, 'track');
                     openEdit();
                   }}
                   styles='button edit'
-                />
+                >
+                  Track
+                </Button>
               </td>
               <td>
-                <Button
-                  name='Success'
-                  action={() => setTaskStatus(userIndex, userTasks[i], 'success')}
-                  styles='button dev'
-                />
-                <Button
-                  name='Fail'
-                  action={() => setTaskStatus(userIndex, userTasks[i], 'failed')}
-                  styles='button danger'
-                />
+                <Button action={() => setTaskStatus(userIndex, userTasks[i], 'success')} styles='button dev'>
+                  Success
+                </Button>
+                <Button action={() => setTaskStatus(userIndex, userTasks[i], 'failed')} styles='button danger'>
+                  Fail
+                </Button>
               </td>
             </tr>
           ))}

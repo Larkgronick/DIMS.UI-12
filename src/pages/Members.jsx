@@ -39,8 +39,12 @@ export function Members({
       ) : null}
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name='Register' action={openEdit} styles='button dev' />
-        <Button name='Log Out' action={logOutFirebase} styles='button danger' />
+        <Button action={openEdit} styles='button dev'>
+          Register
+        </Button>
+        <Button action={logOutFirebase} styles='button danger'>
+          Log Out
+        </Button>
       </header>
       <p className='page-name'>{`Members (${members.length})`}</p>
       <table className='table'>
@@ -87,31 +91,36 @@ export function Members({
                 <td>
                   <Link to='/progress'>
                     <Button
-                      name='Progress'
                       action={(e) => {
                         showUserTasks(e);
                         selectItem(e, 'selected');
                       }}
                       styles='button dev'
-                    />
+                    >
+                      Progress
+                    </Button>
                   </Link>
                   <Link to='/user-tasks'>
                     <Button
-                      name='Tasks'
                       action={(e) => {
                         showUserTasks(e);
                       }}
                       styles='button tasks'
-                    />
+                    >
+                      Tasks
+                    </Button>
                   </Link>
                   <Button
-                    name='Edit'
                     action={(e) => {
                       editData(e);
                     }}
                     styles='button edit'
-                  />
-                  <Button name='Delete' action={(e) => deleteData(e, 'members')} styles='button danger' />
+                  >
+                    Edit
+                  </Button>
+                  <Button action={(e) => deleteData(e, 'members')} styles='button danger'>
+                    Delete
+                  </Button>
                 </td>
               </tr>
             ),

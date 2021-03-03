@@ -37,8 +37,12 @@ export function Tasks({
       ) : null}
       <header className='header'>
         <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button name='Create' action={openEdit} styles='button tasks' />
-        <Button name='Log Out' action={logOutFirebase} styles='button danger' />
+        <Button action={openEdit} styles='button tasks'>
+          Create
+        </Button>
+        <Button action={logOutFirebase} styles='button danger'>
+          Log Out
+        </Button>
       </header>
       <p className='page-name'>{`Dev Incubator Tasks (${tasks.length})`}</p>
       <table className='table'>
@@ -57,7 +61,6 @@ export function Tasks({
               <td>{deadline}</td>
               <td>
                 <Button
-                  name='Edit'
                   action={(e) => {
                     editData(e);
                     if (showDrawer) {
@@ -65,8 +68,12 @@ export function Tasks({
                     }
                   }}
                   styles='button dev'
-                />
-                <Button name='Delete' action={(e) => deleteData(e, 'tasks')} styles='button danger' />
+                >
+                  Edit
+                </Button>
+                <Button action={(e) => deleteData(e, 'tasks')} styles='button danger'>
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}

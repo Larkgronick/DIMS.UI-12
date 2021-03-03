@@ -17,9 +17,8 @@ export class Login extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  // TO DO: deal with validation
   async handleClick() {
-    // add check for incorrect input
-    // setErrors, if false => await signInFirebase(email, password)
     const { email, password } = this.state;
     const response = await signInFirebase(email, password);
     if (response) {
@@ -56,7 +55,9 @@ export class Login extends Component {
             <label className='error-message' htmlFor='password-field'>
               {passwordError}
             </label>
-            <Button name='Sign In' action={this.handleClick} styles='button dev' />
+            <Button action={this.handleClick} styles='button dev'>
+              Sign In
+            </Button>
           </form>
         </main>
       </div>

@@ -2,27 +2,32 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import './style/Popup.scss';
 import { Button } from '../Buttons/Button/Button';
+import { Input } from '../FormElements/Input/Input';
+import { Textarea } from '../FormElements/Textarea/Textarea';
 
 export class TaskTrackManager extends PureComponent {
   constructor(props) {
     super(props);
+    const { userTasks, track } = this.props;
+    this.state = {
+      name: userTasks[track].name,
+      trackName: '',
+      date: '',
+      note: '',
+    };
+  }
+
+  componentDidMount() {
     const { edit, userTasks, userIndex, track, subtask } = this.props;
-    console.log(edit);
-    console.log(subtask);
+    const trackName = userTasks[track].trackName[userIndex][subtask];
+    const date = userTasks[track].date[userIndex][subtask];
+    const note = userTasks[track].note[userIndex][subtask];
     if (edit) {
-      this.state = {
-        name: userTasks[track].name,
-        trackName: userTasks[track].trackName[userIndex][subtask],
-        date: userTasks[track].date[userIndex][subtask],
-        note: userTasks[track].note[userIndex][subtask],
-      };
-    } else {
-      this.state = {
-        name: userTasks[track].name,
-        trackName: '',
-        date: '',
-        note: '',
-      };
+      this.setState({
+        trackName,
+        date,
+        note,
+      });
     }
   }
 
@@ -38,55 +43,43 @@ export class TaskTrackManager extends PureComponent {
     return (
       <div className='modal'>
         <div className='modal-content'>
-          <Button name={<span>&times;</span>} action={closeEdit} styles='close' />
+          <Button action={closeEdit} styles='close'>
+            <span>&times;</span>
+          </Button>
           <form action=''>
             <p htmlFor='name-field'>
               Track for Task:
               <span className='attention'>{` ${name}`}</span>
             </p>
-            <label htmlFor='start'>
+            <Input type='date' value={date} name='date' action={this.inputChange}>
               Date:
-              <input id='date' name='date' type='date' value={date} onChange={this.inputChange} />
-            </label>
-            <label htmlFor='track-name'>
+            </Input>
+            <Input placeholder='Track Name' value={trackName} name='trackName' action={this.inputChange}>
               Track Name:
-              <input
-                id='track-name'
-                name='trackName'
-                placeholder='Track Name'
-                value={trackName}
-                onChange={this.inputChange}
-              />
-            </label>
-            <label htmlFor='description-field'>
+            </Input>
+            <Textarea placeholder='Track Description' value={note} name='note' action={this.inputChange}>
               Note:
-              <textarea
-                id='description-field'
-                name='note'
-                placeholder='Task Description'
-                readOnly={false}
-                value={note}
-                onChange={this.inputChange}
-              />
-            </label>
+            </Textarea>
             {edit ? (
               <Button
-                name='Edit'
                 action={() => {
                   saveTaskData(date, note, trackName);
                   closeEdit();
                 }}
                 styles='submit'
-              />
+              >
+                Edit
+              </Button>
             ) : (
               <Button
-                name='Save'
                 action={() => {
                   addTaskData(date, note, trackName);
                   closeEdit();
                 }}
                 styles='submit'
-              />
+              >
+                Save
+              </Button>
             )}
           </form>
         </div>
