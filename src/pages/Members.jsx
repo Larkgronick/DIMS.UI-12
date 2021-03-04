@@ -1,149 +1,29 @@
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import './styles/Table.scss';
-import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
-import { Button } from '../components/Buttons/Button/Button';
+import { Header } from '../components/Table/Header';
+import { Table } from '../components/Table/Table';
 import { MemberManager } from '../components/Popups/MemberManager';
-import { membersMenuItems } from '../services/constants';
-import { getAge, convertDate } from '../services/helpers';
-import { logOutFirebase } from '../services/services';
+import { MainContext } from '../services/context';
 
-export function Members({
-  members,
-  openEdit,
-  closeEdit,
-  addData,
-  editData,
-  saveData,
-  deleteData,
-  showUserTasks,
-  edit,
-  openModal,
-  showDrawer,
-  toggle,
-  selectItem,
-  selected,
-}) {
+export function Members() {
   return (
-    <article>
-      {openModal ? (
-        <MemberManager
-          members={members}
-          closeEdit={closeEdit}
-          addData={addData}
-          editData={editData}
-          saveData={saveData}
-          edit={edit}
-          selected={selected}
-        />
-      ) : null}
-      <header className='header'>
-        <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <Button action={openEdit} styles='button dev'>
-          Register
-        </Button>
-        <Button action={logOutFirebase} styles='button danger'>
-          Log Out
-        </Button>
-      </header>
-      <p className='page-name'>{`Members (${members.length})`}</p>
-      <table className='table'>
-        <thead className='table-head'>
-          <tr>
-            {membersMenuItems.map((item) => (
-              <th key={item}>{item}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className='table-body'>
-          {members.map(
-            ({
-              id,
-              name,
-              lastName,
-              direction,
-              birthDate,
-              email,
-              sex,
-              education,
-              universityAverageScore,
-              mathScore,
-              address,
-              mobilePhone,
-              startDate,
-              skype,
-            }) => (
-              <tr key={id} className='row'>
-                <td className='name'>
-                  <span>{`${name} ${lastName}`}</span>
-                  <span className='attention'>{direction}</span>
-                </td>
-                <td>{email}</td>
-                <td>{sex}</td>
-                <td>{education}</td>
-                <td>{getAge(birthDate)}</td>
-                <td>{universityAverageScore}</td>
-                <td>{mathScore}</td>
-                <td>{address}</td>
-                <td>{mobilePhone}</td>
-                <td>{skype}</td>
-                <td>{convertDate(startDate)}</td>
-                <td>
-                  <Link to='/progress'>
-                    <Button
-                      action={(e) => {
-                        showUserTasks(e);
-                        selectItem(e, 'selected');
-                      }}
-                      styles='button dev'
-                    >
-                      Progress
-                    </Button>
-                  </Link>
-                  <Link to='/user-tasks'>
-                    <Button
-                      action={(e) => {
-                        showUserTasks(e);
-                      }}
-                      styles='button tasks'
-                    >
-                      Tasks
-                    </Button>
-                  </Link>
-                  <Button
-                    action={(e) => {
-                      editData(e);
-                    }}
-                    styles='button edit'
-                  >
-                    Edit
-                  </Button>
-                  <Button action={(e) => deleteData(e, 'members')} styles='button danger'>
-                    Delete
-                  </Button>
-                </td>
-              </tr>
-            ),
-          )}
-        </tbody>
-      </table>
-    </article>
+    <MainContext.Consumer>
+      {({ members, edit, openModal, selected, closeEdit, addData, editData, saveData }) => (
+        <article>
+          {openModal ? (
+            <MemberManager
+              members={members}
+              closeEdit={closeEdit}
+              addData={addData}
+              editData={editData}
+              saveData={saveData}
+              edit={edit}
+              selected={selected}
+            />
+          ) : null}
+          <Header addButton text='Register'>{`Members (${members.length})`}</Header>
+          <Table>members</Table>
+        </article>
+      )}
+    </MainContext.Consumer>
   );
 }
-
-Members.propTypes = {
-  members: PropTypes.instanceOf(Array).isRequired,
-  openEdit: PropTypes.func.isRequired,
-  closeEdit: PropTypes.func.isRequired,
-  addData: PropTypes.func.isRequired,
-  editData: PropTypes.func.isRequired,
-  saveData: PropTypes.func.isRequired,
-  deleteData: PropTypes.func.isRequired,
-  showUserTasks: PropTypes.func.isRequired,
-  edit: PropTypes.bool.isRequired,
-  openModal: PropTypes.bool.isRequired,
-  showDrawer: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired,
-  selectItem: PropTypes.func.isRequired,
-  selected: PropTypes.number.isRequired,
-};

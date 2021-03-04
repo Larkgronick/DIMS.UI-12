@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import './style/Popup.scss';
 import { Button } from '../Buttons/Button/Button';
-import { Input } from '../FormElements/Input/Input';
-import { Textarea } from '../FormElements/Textarea/Textarea';
-import { List } from '../FormElements/List/List';
+import { Input } from '../FormElements/Input';
+import { Textarea } from '../FormElements/Textarea';
+import { List } from '../FormElements/List';
 
 export class TaskManager extends PureComponent {
   constructor(props) {

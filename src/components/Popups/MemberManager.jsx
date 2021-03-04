@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import './style/Popup.scss';
 import { Button } from '../Buttons/Button/Button';
-import { Select } from '../FormElements/Select/Select';
-import { Input } from '../FormElements/Input/Input';
+import { Select } from '../FormElements/Select';
+import { Input } from '../FormElements/Input';
 import { directions, roles, scoreScale } from '../../services/constants';
 import { getCurrentDate } from '../../services/helpers';
 
@@ -68,6 +68,8 @@ export class MemberManager extends PureComponent {
       });
     }
   }
+
+  saveMember = () => {};
 
   inputChange = (event) => {
     const { name, value } = event.target;

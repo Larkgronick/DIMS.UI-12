@@ -11,19 +11,6 @@ export const drawerMenuItems = [
   { name: 'Progress', path: '/progress', img: progressIcon },
 ];
 
-export const membersMenuItems = [
-  'Name / Direction',
-  'Email',
-  'Sex',
-  'Education',
-  'Age',
-  'University average scope',
-  'Math scope',
-  'Address',
-  'Mobile phone',
-  'Skype',
-  'Start date',
-];
 export const membersBody = [
   {
     id: '1',
@@ -60,7 +47,7 @@ export const membersBody = [
     role: '',
   },
 ];
-export const tasksMenuItems = ['Name', 'Start', 'Deadline', 'Actions'];
+
 export const tasksBody = [
   {
     assigners: ['1', '2'],
@@ -86,8 +73,38 @@ export const tasksBody = [
   },
 ];
 
-export const progressMenuItems = ['Name', 'Track Name', 'Note', 'Date'];
-export const usersMenuItems = ['Name', 'Start', 'Deadline', 'Status', 'Actions'];
-export const taskTrackMenuItems = ['Track Name', 'Note', 'Date'];
+export const membersMenuItems = [
+  'Name / Direction',
+  'Email',
+  'Sex',
+  'Education',
+  'Age',
+  'University average scope',
+  'Math scope',
+  'Address',
+  'Mobile phone',
+  'Skype',
+  'Start date',
+];
+
+export const menuItems = {
+  members: [
+    'Name / Direction',
+    'Email',
+    'Sex',
+    'Education',
+    'Age',
+    'University average scope',
+    'Math scope',
+    'Address',
+    'Mobile phone',
+    'Skype',
+    'Start date',
+  ],
+  tasks: ['Name', 'Start', 'Deadline', 'Actions'],
+  progress: ['Name', 'Track Name', 'Note', 'Date'],
+  users: ['Name', 'Start', 'Deadline', 'Status', 'Actions'],
+  taskTracks: ['Track Name', 'Note', 'Date'],
+};
 
 export const scoreScale = new Array(100).fill().map((el, i) => i + 1);

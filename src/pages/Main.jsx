@@ -9,6 +9,7 @@ import { TaskTrack } from './TaskTrack';
 import { Progress } from './Progress';
 import { membersBody, tasksBody } from '../services/constants';
 import { getIndex } from '../services/helpers';
+import { MainContext } from '../services/context';
 
 export class Main extends Component {
   constructor(props) {
@@ -65,17 +66,20 @@ export class Main extends Component {
 
   saveData = (field, value) => {
     const { [field]: current, selected } = this.state;
-    current.splice(selected, 1, value);
-    this.setState({
-      edit: false,
-      openModal: false,
-    });
+    const newState = [...current];
+    newState.splice(selected, 1, value);
+    this.setState({ [field]: newState });
+    this.closeEdit();
   };
 
   addData = (field, value) => {
     const { [field]: current } = this.state;
-    current.push(value);
-    this.setState({ openModal: false });
+    const newState = [...current];
+    newState.push(value);
+    this.setState({
+      [field]: newState,
+      openModal: false,
+    });
   };
 
   deleteData = (e, field) => {
@@ -127,112 +131,56 @@ export class Main extends Component {
     });
   };
 
+  deleteTrackHistory = (subtaskIndex) => {
+    const { userTasks, track, userIndex } = this.state;
+    const newUserTask = [...userTasks];
+    newUserTask[track].trackName[userIndex].splice(subtaskIndex, 1);
+    newUserTask[track].note[userIndex].splice(subtaskIndex, 1);
+    newUserTask[track].date[userIndex].splice(subtaskIndex, 1);
+    this.setState({ userTasks: newUserTask });
+  };
+
   render() {
     const { members, tasks, userTasks, userIndex, track, subtask, openModal, selected, edit } = this.state;
     const { showDrawer, toggle } = this.props;
 
     return (
-      <main className={showDrawer ? 'drawer-open' : ''}>
-        <Route
-          path='/members'
-          component={() => (
-            <Members
-              members={members}
-              openEdit={this.openEdit}
-              closeEdit={this.closeEdit}
-              addData={this.addData}
-              editData={this.editData}
-              saveData={this.saveData}
-              deleteData={this.deleteData}
-              showUserTasks={this.showUserTasks}
-              edit={edit}
-              openModal={openModal}
-              showDrawer={showDrawer}
-              toggle={toggle}
-              selectItem={this.selectItem}
-              selected={selected}
-            />
-          )}
-        />
-        <Route
-          path='/tasks'
-          component={() => (
-            <Tasks
-              members={members}
-              tasks={tasks}
-              openEdit={this.openEdit}
-              closeEdit={this.closeEdit}
-              addData={this.addData}
-              editData={this.editData}
-              saveData={this.saveData}
-              deleteData={this.deleteData}
-              edit={edit}
-              openModal={openModal}
-              showDrawer={showDrawer}
-              toggle={toggle}
-              selected={selected}
-            />
-          )}
-        />
-        <Route
-          path='/user-tasks'
-          component={() => (
-            <UserTasks
-              userTasks={userTasks}
-              userIndex={userIndex}
-              tasks={tasks}
-              members={members}
-              track={track}
-              addTaskData={this.addTaskData}
-              selectItem={this.selectItem}
-              openEdit={this.openEdit}
-              closeEdit={this.closeEdit}
-              openModal={openModal}
-              setTaskStatus={this.setTaskStatus}
-              showDrawer={showDrawer}
-              toggle={toggle}
-              selected={selected}
-            />
-          )}
-        />
-        <Route
-          path='/progress'
-          component={() => (
-            <Progress
-              members={members}
-              userTasks={userTasks}
-              tasks={tasks}
-              userIndex={userIndex}
-              selected={selected}
-              showDrawer={showDrawer}
-              toggle={toggle}
-            />
-          )}
-        />
-        <Route
-          path='/task-track'
-          component={() => (
-            <TaskTrack
-              userTasks={userTasks}
-              userIndex={userIndex}
-              tasks={tasks}
-              members={members}
-              track={track}
-              subtask={subtask}
-              selectItem={this.selectItem}
-              saveTaskData={this.saveTaskData}
-              addData={this.addData}
-              editTrack={this.editTrack}
-              closeEdit={this.closeEdit}
-              openModal={openModal}
-              showDrawer={showDrawer}
-              toggle={toggle}
-              selected={selected}
-              edit={edit}
-            />
-          )}
-        />
-      </main>
+      <MainContext.Provider
+        value={{
+          members,
+          tasks,
+          userTasks,
+          userIndex,
+          track,
+          subtask,
+          edit,
+          openModal,
+          showDrawer,
+          toggle,
+          selected,
+          openEdit: this.openEdit,
+          closeEdit: this.closeEdit,
+          addData: this.addData,
+          addTaskData: this.addTaskData,
+          setTaskStatus: this.setTaskStatus,
+          editData: this.editData,
+          editTrack: this.editTrack,
+          saveData: this.saveData,
+          saveTaskData: this.saveTaskData,
+          deleteData: this.deleteData,
+          deleteTrackHistory: this.deleteTrackHistory,
+          showUserTasks: this.showUserTasks,
+          selectItem: this.selectItem,
+        }}
+      >
+        <main className={showDrawer ? 'drawer-open' : ''}>
+          <Route path='/members' component={() => <Members />} />
+          <Route path='/tasks' component={() => <Tasks />} />
+          <Route path='/user-tasks' component={() => <UserTasks />} />
+          <Route path='/progress' component={() => <Progress />} />
+          <Route path='/task-track' component={() => <TaskTrack />} />
+        </main>
+      </MainContext.Provider>
     );
   }
 }
@@ -241,3 +189,5 @@ Main.propTypes = {
   toggle: PropTypes.func.isRequired,
   showDrawer: PropTypes.bool.isRequired,
 };
+
+export { MainContext };
