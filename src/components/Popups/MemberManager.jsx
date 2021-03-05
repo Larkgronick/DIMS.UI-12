@@ -69,7 +69,15 @@ export class MemberManager extends PureComponent {
     }
   }
 
-  saveMember = () => {};
+  saveMember = () => {
+    const { saveData } = this.props;
+    saveData('members', this.state);
+  };
+
+  addMember = () => {
+    const { addData } = this.props;
+    addData('members', this.state);
+  };
 
   inputChange = (event) => {
     const { name, value } = event.target;
@@ -77,7 +85,7 @@ export class MemberManager extends PureComponent {
   };
 
   render() {
-    const { closeEdit, saveData, addData, edit } = this.props;
+    const { closeEdit, edit } = this.props;
     const {
       name,
       lastName,
@@ -163,21 +171,11 @@ export class MemberManager extends PureComponent {
               Role:
             </Select>
             {edit ? (
-              <Button
-                action={() => {
-                  saveData('members', this.state);
-                }}
-                styles='submit'
-              >
+              <Button action={this.saveMember} styles='submit'>
                 Edit
               </Button>
             ) : (
-              <Button
-                action={() => {
-                  addData('members', this.state);
-                }}
-                styles='submit'
-              >
+              <Button action={this.addMember} styles='submit'>
                 Register
               </Button>
             )}

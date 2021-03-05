@@ -34,6 +34,16 @@ export class TaskManager extends PureComponent {
     }
   }
 
+  saveTask = () => {
+    const { saveData } = this.props;
+    saveData('tasks', this.state);
+  };
+
+  addTask = () => {
+    const { addData } = this.props;
+    addData('tasks', this.state);
+  };
+
   inputChange = (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -60,7 +70,7 @@ export class TaskManager extends PureComponent {
   };
 
   render() {
-    const { members, closeEdit, edit, addData, saveData } = this.props;
+    const { members, closeEdit, edit } = this.props;
     const { name, description, start, deadline, assigners } = this.state;
 
     return (
@@ -92,16 +102,11 @@ export class TaskManager extends PureComponent {
               Assigners:
             </List>
             {edit ? (
-              <Button
-                action={() => {
-                  saveData('tasks', this.state);
-                }}
-                styles='submit'
-              >
+              <Button action={this.saveTask} styles='submit'>
                 Edit
               </Button>
             ) : (
-              <Button action={() => addData('tasks', this.state)} styles='submit'>
+              <Button action={this.addTask} styles='submit'>
                 Create
               </Button>
             )}

@@ -1,10 +1,24 @@
+import { useContext } from 'react';
 import { Button } from '../Buttons/Button/Button';
 import { MainContext } from '../../services/context';
 
 export function TasksTable() {
+  const context = useContext(MainContext);
+
+  const editTask = (e) => {
+    context.editData(e);
+    if (context.showDrawer) {
+      context.toggle();
+    }
+  };
+
+  const deleteTask = (e) => {
+    context.deleteData(e, 'tasks');
+  };
+
   return (
     <MainContext>
-      {({ tasks, showDrawer, toggle, editData, deleteData }) => (
+      {({ tasks }) => (
         <tbody className='table-body'>
           {tasks.map(({ id, name, start, deadline }) => (
             <tr key={id} className='row'>
@@ -12,18 +26,10 @@ export function TasksTable() {
               <td className='attention'>{start}</td>
               <td>{deadline}</td>
               <td>
-                <Button
-                  action={(e) => {
-                    editData(e);
-                    if (showDrawer) {
-                      toggle();
-                    }
-                  }}
-                  styles='button dev'
-                >
+                <Button action={editTask} styles='button dev'>
                   Edit
                 </Button>
-                <Button action={(e) => deleteData(e, 'tasks')} styles='button danger'>
+                <Button action={deleteTask} styles='button danger'>
                   Delete
                 </Button>
               </td>

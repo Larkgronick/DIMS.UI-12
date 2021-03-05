@@ -4,7 +4,7 @@ import { Button } from '../Buttons/Button/Button';
 import { MainContext } from '../../services/context';
 import { logOutFirebase } from '../../services/services';
 
-export function Header({ children, addButton }) {
+export function Header({ children, addButton, text }) {
   return (
     <MainContext>
       {({ showDrawer, toggle, openEdit }) => (
@@ -13,7 +13,7 @@ export function Header({ children, addButton }) {
             <Hamburger showDrawer={showDrawer} toggle={toggle} />
             {addButton ? (
               <Button action={openEdit} styles='button dev'>
-                Register
+                {text}
               </Button>
             ) : null}
             <Button action={logOutFirebase} styles='button danger'>
@@ -30,4 +30,5 @@ export function Header({ children, addButton }) {
 Header.propTypes = {
   children: PropTypes.string.isRequired,
   addButton: PropTypes.bool.isRequired,
+  text: PropTypes.string.isRequired,
 };

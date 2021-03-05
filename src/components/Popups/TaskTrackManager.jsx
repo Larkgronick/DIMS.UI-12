@@ -31,13 +31,27 @@ export class TaskTrackManager extends PureComponent {
     }
   }
 
+  saveTrack = () => {
+    const { saveTaskData, closeEdit } = this.props;
+    const { date, note, trackName } = this.state;
+    saveTaskData(date, note, trackName);
+    closeEdit();
+  };
+
+  addTrack = () => {
+    const { addTaskData, closeEdit } = this.props;
+    const { date, note, trackName } = this.state;
+    addTaskData(date, note, trackName);
+    closeEdit();
+  };
+
   inputChange = (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   };
 
   render() {
-    const { closeEdit, addTaskData, saveTaskData, edit } = this.props;
+    const { closeEdit, edit } = this.props;
     const { name, trackName, date, note } = this.state;
 
     return (
@@ -61,23 +75,11 @@ export class TaskTrackManager extends PureComponent {
               Note:
             </Textarea>
             {edit ? (
-              <Button
-                action={() => {
-                  saveTaskData(date, note, trackName);
-                  closeEdit();
-                }}
-                styles='submit'
-              >
+              <Button action={this.saveTrack} styles='submit'>
                 Edit
               </Button>
             ) : (
-              <Button
-                action={() => {
-                  addTaskData(date, note, trackName);
-                  closeEdit();
-                }}
-                styles='submit'
-              >
+              <Button action={this.addTrack} styles='submit'>
                 Save
               </Button>
             )}
@@ -91,6 +93,9 @@ export class TaskTrackManager extends PureComponent {
 TaskTrackManager.propTypes = {
   userTasks: PropTypes.instanceOf(Array).isRequired,
   userIndex: PropTypes.number.isRequired,
+  date: PropTypes.string.isRequired,
+  note: PropTypes.string.isRequired,
+  trackName: PropTypes.string.isRequired,
   addTaskData: PropTypes.func.isRequired,
   saveTaskData: PropTypes.func.isRequired,
   closeEdit: PropTypes.func.isRequired,

@@ -1,11 +1,19 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../Buttons/Button/Button';
 import { MainContext } from '../../services/context';
 
 export function UserTasksTable() {
+  const context = useContext(MainContext);
+
+  const addTrack = (e) => {
+    context.selectItem(e, 'track');
+    context.openEdit();
+  };
+
   return (
     <MainContext>
-      {({ userTasks, userIndex, openEdit, setTaskStatus, selectItem }) => (
+      {({ userTasks, userIndex, setTaskStatus, selectItem }) => (
         <tbody className='table-body'>
           {userTasks.map((item, i) => (
             <tr key={item.id} className='row'>
@@ -24,13 +32,7 @@ export function UserTasksTable() {
                 <span className={item.status[userIndex]}>{item.status[userIndex]}</span>
               </td>
               <td>
-                <Button
-                  action={(e) => {
-                    selectItem(e, 'track');
-                    openEdit();
-                  }}
-                  styles='button edit'
-                >
+                <Button action={(e) => addTrack(e)} styles='button edit'>
                   Track
                 </Button>
               </td>

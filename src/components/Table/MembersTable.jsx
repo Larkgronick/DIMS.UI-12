@@ -1,12 +1,31 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../Buttons/Button/Button';
 import { getAge, convertDate } from '../../services/helpers';
 import { MainContext } from '../../services/context';
 
 export function MembersTable() {
+  const context = useContext(MainContext);
+
+  const showMemberData = (e) => {
+    const caption = e.target.textContent;
+    context.showUserTasks(e);
+    if (caption === 'Progress') {
+      context.selectItem(e, 'selected');
+    }
+  };
+
+  const editMember = (e) => {
+    context.editData(e);
+  };
+
+  const deleteMember = (e) => {
+    context.deleteData(e, 'members');
+  };
+
   return (
     <MainContext>
-      {({ members, editData, deleteData, showUserTasks, selectItem }) => (
+      {({ members }) => (
         <tbody className='table-body'>
           {members.map(
             ({
@@ -42,35 +61,19 @@ export function MembersTable() {
                 <td>{convertDate(startDate)}</td>
                 <td>
                   <Link to='/progress'>
-                    <Button
-                      action={(e) => {
-                        showUserTasks(e);
-                        selectItem(e, 'selected');
-                      }}
-                      styles='button dev'
-                    >
+                    <Button action={(e) => showMemberData(e)} styles='button dev'>
                       Progress
                     </Button>
                   </Link>
                   <Link to='/user-tasks'>
-                    <Button
-                      action={(e) => {
-                        showUserTasks(e);
-                      }}
-                      styles='button tasks'
-                    >
+                    <Button action={(e) => showMemberData(e)} styles='button tasks'>
                       Tasks
                     </Button>
                   </Link>
-                  <Button
-                    action={(e) => {
-                      editData(e);
-                    }}
-                    styles='button edit'
-                  >
+                  <Button action={(e) => editMember(e)} styles='button edit'>
                     Edit
                   </Button>
-                  <Button action={(e) => deleteData(e, 'members')} styles='button danger'>
+                  <Button action={(e) => deleteMember(e)} styles='button danger'>
                     Delete
                   </Button>
                 </td>
