@@ -86,20 +86,20 @@ export class TaskManager extends PureComponent {
     return (
       <div className='modal'>
         <div className='modal-content'>
-          <Button action={closeEdit} styles='close'>
+          <Button onClick={closeEdit} className='close'>
             <span>&times;</span>
           </Button>
-          <form action=''>
-            <Input placeholder='Task Name' value={name} name='name' action={this.inputChange}>
+          <form>
+            <Input placeholder='Task Name' value={name} name='name' onChange={this.inputChange}>
               Task Name:
             </Input>
-            <Textarea placeholder='Task Description' value={description} name='description' action={this.inputChange}>
+            <Textarea placeholder='Task Description' value={description} name='description' onChange={this.inputChange}>
               Description:
             </Textarea>
-            <Input type='date' value={start} name='start' action={this.inputChange}>
+            <Input type='date' value={start} name='start' onChange={this.inputChange}>
               Start:
             </Input>
-            <Input type='date' value={deadline} name='deadline' action={this.inputChange}>
+            <Input type='date' value={deadline} name='deadline' onChange={this.inputChange}>
               Deadline:
             </Input>
             <List
@@ -107,16 +107,16 @@ export class TaskManager extends PureComponent {
               assigners={assigners}
               styles='assigner'
               listId='assigners'
-              action={(e) => this.saveAssigner(e)}
+              onChange={this.saveAssigner}
             >
               Assigners:
             </List>
             {edit ? (
-              <Button action={this.saveTask} styles='submit'>
+              <Button onClick={this.saveTask} className='submit'>
                 Edit
               </Button>
             ) : (
-              <Button action={this.addTask} styles='submit'>
+              <Button onClick={this.addTask} className='submit'>
                 Create
               </Button>
             )}

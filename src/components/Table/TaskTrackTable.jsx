@@ -1,23 +1,10 @@
-import { useContext } from 'react';
-import { getIndex } from '../../services/helpers';
 import { Button } from '../Buttons/Button/Button';
 import { MainContext } from '../../services/context';
 
 export function TaskTrackTable() {
-  const context = useContext(MainContext);
-
-  const editSelected = (e) => {
-    context.selectItem(e, 'subtask');
-    context.editTrack();
-  };
-
-  const deleteTrack = (e) => {
-    context.deleteTrackHistory(getIndex(e));
-  };
-
   return (
     <MainContext>
-      {({ userTasks, userIndex, track }) => {
+      {({ userTasks, userIndex, track, editTrack, deleteTrackHistory }) => {
         const taskNames = userTasks[track].trackName[userIndex].items;
         const taskNotes = userTasks[track].note[userIndex].items;
         const taskDates = userTasks[track].date[userIndex].items;
@@ -29,12 +16,12 @@ export function TaskTrackTable() {
                 <td>{taskNotes[i]}</td>
                 <td>{taskDates[i]}</td>
                 <td>
-                  <Button action={editSelected} styles='button edit'>
+                  <Button onClick={editTrack} className='button edit'>
                     Edit
                   </Button>
                 </td>
                 <td>
-                  <Button action={(e) => deleteTrack(e)} styles='button danger'>
+                  <Button onClick={deleteTrackHistory} className='button danger'>
                     Delete
                   </Button>
                 </td>

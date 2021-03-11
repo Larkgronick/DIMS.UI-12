@@ -56,7 +56,7 @@ export class Login extends Component {
             <label className='error-message' htmlFor='password-field'>
               {passwordError}
             </label>
-            <Button action={this.handleClick} styles='button dev'>
+            <Button onClick={this.handleClick} className='button dev'>
               Sign In
             </Button>
           </form>

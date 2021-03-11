@@ -29,7 +29,7 @@ export class Main extends Component {
       selected: 0,
       edit: false,
       error: false,
-      drawerOpen: false,
+      drawerOpen: true,
     };
   }
 
@@ -74,12 +74,13 @@ export class Main extends Component {
   };
 
   openEdit = () => {
-    const { toggle, showDrawer } = this.props;
+    const { drawerOpen } = this.state;
     this.setState({
       openModal: true,
+      edit: true,
     });
-    if (showDrawer) {
-      toggle();
+    if (drawerOpen) {
+      this.drawerToggle();
     }
   };
 
@@ -90,22 +91,15 @@ export class Main extends Component {
     });
   };
 
-  editTrack = () => {
-    this.setState({
-      edit: true,
-      openModal: true,
-    });
+  editTrack = (e) => {
+    this.selectItem(e, 'subtask');
+    this.openEdit();
   };
 
   editData = (e) => {
-    this.editTrack();
     this.setState({
       selected: getIndex(e),
     });
-  };
-
-  updateTasks = (value) => {
-    this.setState({ tasks: value });
   };
 
   saveData = (field, value) => {
@@ -145,7 +139,6 @@ export class Main extends Component {
       this.setState({
         userTasks,
         userIndex,
-        selected: getIndex(e),
         error: false,
       });
     } else {
@@ -153,6 +146,7 @@ export class Main extends Component {
         error: true,
       });
     }
+    this.selectItem(e, 'selected');
   };
 
   saveTaskData = (date, note, trackName) => {
@@ -189,7 +183,24 @@ export class Main extends Component {
     setData('tasks', tasks);
   };
 
-  deleteTrackHistory = (subtaskIndex) => {
+  deleteMember = (e) => {
+    const { tasks } = this.state;
+    const newTasks = [...tasks];
+    newTasks.forEach(({ assigners, trackName, note, date }) => {
+      assigners.splice(getIndex(e), 1);
+      trackName.splice(getIndex(e), 1);
+      note.splice(getIndex(e), 1);
+      date.splice(getIndex(e), 1);
+    });
+
+    this.setState({
+      tasks: newTasks,
+    });
+    this.deleteData(e, 'members');
+  };
+
+  deleteTrackHistory = (e) => {
+    const subtaskIndex = getIndex(e);
     const { userTasks, track, userIndex, tasks } = this.state;
     const newUserTask = [...userTasks];
     newUserTask[track].trackName[userIndex].items.splice(subtaskIndex, 1);
@@ -234,7 +245,6 @@ export class Main extends Component {
           drawerToggle: this.drawerToggle,
           openEdit: this.openEdit,
           closeEdit: this.closeEdit,
-          updateTasks: this.updateTasks,
           addData: this.addData,
           addTaskData: this.addTaskData,
           setTaskStatus: this.setTaskStatus,
@@ -244,19 +254,20 @@ export class Main extends Component {
           saveTaskData: this.saveTaskData,
           deleteData: this.deleteData,
           deleteTrackHistory: this.deleteTrackHistory,
+          deleteMember: this.deleteMember,
           showUserTasks: this.showUserTasks,
           selectItem: this.selectItem,
         }}
       >
         <DrawerRouter />
         <main className={drawerOpen ? 'drawer-open' : ''}>
-          <Route path='/members' component={() => <Members />} />
-          <Route path='/tasks' component={() => <Tasks />} />
-          <Route path='/user-tasks' component={() => <UserTasks />} />
-          <Route path='/progress' component={() => <Progress />} />
-          <Route path='/my-tasks' component={() => <UserTasks />} />
-          <Route path='/task-track' component={() => <TaskTrack />} />
-          <Route path='/settings' component={() => <Settings />} />
+          <Route path='/members' component={Members} />
+          <Route path='/tasks' component={Tasks} />
+          <Route path='/user-tasks' component={UserTasks} />
+          <Route path='/progress' component={Progress} />
+          <Route path='/my-tasks' component={UserTasks} />
+          <Route path='/task-track' component={TaskTrack} />
+          <Route path='/settings' component={Settings} />
         </main>
       </MainContext.Provider>
     );
@@ -264,8 +275,6 @@ export class Main extends Component {
 }
 
 Main.propTypes = {
-  toggle: PropTypes.func.isRequired,
-  showDrawer: PropTypes.bool.isRequired,
   email: PropTypes.string.isRequired,
 };
 

@@ -4,7 +4,7 @@ import './Hamburger.scss';
 
 export function Hamburger({ drawerOpen, drawerToggle }) {
   return (
-    <Button action={drawerToggle} styles={`bt-menu-trigger ${drawerOpen && 'bt-menu-open'}`}>
+    <Button onClick={drawerToggle} className={`bt-menu-trigger ${drawerOpen && 'bt-menu-open'}`}>
       <span />
     </Button>
   );

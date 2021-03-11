@@ -6,26 +6,26 @@ import { logOutFirebase } from '../../services/services';
 
 export function Header({ children, addButton, text }) {
   return (
-    <MainContext>
-      {({ drawerToggle, openEdit, showDrawer }) => (
+    <MainContext.Consumer>
+      {({ drawerToggle, openEdit, drawerOpen }) => (
         <>
           <header className='header'>
             <div>
-              <Hamburger showDrawer={showDrawer} drawerToggle={drawerToggle} />
+              <Hamburger drawerOpen={drawerOpen} drawerToggle={drawerToggle} />
               {addButton ? (
-                <Button action={openEdit} styles='button dev'>
+                <Button onClick={openEdit} className='button dev'>
                   {text}
                 </Button>
               ) : null}
             </div>
-            <Button action={logOutFirebase} styles='button danger'>
+            <Button onClick={logOutFirebase} className='button danger'>
               Log Out
             </Button>
           </header>
           <p className='page-name'>{children}</p>
         </>
       )}
-    </MainContext>
+    </MainContext.Consumer>
   );
 }
 

@@ -5,7 +5,7 @@ export function ErrorRow({ page }) {
     <tbody>
       <tr>
         <td className='error-caption attention' colSpan='100%'>
-          {`This user has no ${page} yet...`}
+          {`You have no ${page} yet...`}
         </td>
       </tr>
     </tbody>

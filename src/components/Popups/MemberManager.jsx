@@ -118,17 +118,17 @@ export class MemberManager extends PureComponent {
     return (
       <div className='modal'>
         <div className='modal-content'>
-          <Button action={closeEdit} styles='close'>
+          <Button onClick={closeEdit} className='close'>
             <span>&times;</span>
           </Button>
           <form>
-            <Input placeholder='Name' value={name} name='name' action={this.inputChange}>
+            <Input placeholder='Name' value={name} name='name' onChange={this.inputChange}>
               Name:
             </Input>
-            <Input placeholder='Surname' value={lastName} name='lastName' action={this.inputChange}>
+            <Input placeholder='Surname' value={lastName} name='lastName' onChange={this.inputChange}>
               Surname:
             </Input>
-            <Select options={['Male', 'Female']} value={sex} name='sex' action={this.inputChange}>
+            <Select options={['Male', 'Female']} value={sex} name='sex' onChange={this.inputChange}>
               Sex:
             </Select>
             <Input
@@ -137,25 +137,25 @@ export class MemberManager extends PureComponent {
               max='2005-01-01'
               value={birthDate}
               name='birthDate'
-              action={this.inputChange}
+              onChange={this.inputChange}
             >
               Birth Date:
             </Input>
-            <Input placeholder='Education' value={education} name='education' action={this.inputChange}>
+            <Input placeholder='Education' value={education} name='education' onChange={this.inputChange}>
               Education:
             </Input>
             <Select
               options={scoreScale}
               value={universityAverageScore}
               name='universityAverageScore'
-              action={this.inputChange}
+              onChange={this.inputChange}
             >
               University Average Score:
             </Select>
-            <Select options={scoreScale} value={mathScore} name='mathScore' action={this.inputChange}>
+            <Select options={scoreScale} value={mathScore} name='mathScore' onChange={this.inputChange}>
               Math Score:
             </Select>
-            <Input placeholder='Address' value={address} name='address' action={this.inputChange}>
+            <Input placeholder='Address' value={address} name='address' onChange={this.inputChange}>
               Address:
             </Input>
             <Input
@@ -163,31 +163,31 @@ export class MemberManager extends PureComponent {
               type='tel'
               value={mobilePhone}
               name='mobilePhone'
-              action={this.inputChange}
+              onChange={this.inputChange}
             >
               Mobile Phone:
             </Input>
-            <Input placeholder='Skype Nickname' value={skype} name='skype' action={this.inputChange}>
+            <Input placeholder='Skype Nickname' value={skype} name='skype' onChange={this.inputChange}>
               Skype:
             </Input>
-            <Input placeholder='E-mail' type='email' value={email} name='email' action={this.inputChange}>
+            <Input placeholder='E-mail' type='email' value={email} name='email' onChange={this.inputChange}>
               E-mail:
             </Input>
-            <Input type='date' value={startDate} valueasdate={new Date()} name='startDate' action={this.inputChange}>
+            <Input type='date' value={startDate} valueAsDate={new Date()} name='startDate' onChange={this.inputChange}>
               Start Date:
             </Input>
-            <Select options={directions} value={direction} name='direction' action={this.inputChange}>
+            <Select options={directions} value={direction} name='direction' onChange={this.inputChange}>
               Direction:
             </Select>
-            <Select options={roles} value={role} name='role' action={this.inputChange}>
+            <Select options={roles} value={role} name='role' onChange={this.inputChange}>
               Role:
             </Select>
             {edit ? (
-              <Button action={this.saveMember} styles='submit'>
+              <Button onClick={this.saveMember} className='submit'>
                 Edit
               </Button>
             ) : (
-              <Button action={this.addMember} styles='submit'>
+              <Button onClick={this.addMember} className='submit'>
                 Register
               </Button>
             )}

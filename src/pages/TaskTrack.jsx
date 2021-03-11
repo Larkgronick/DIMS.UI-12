@@ -6,7 +6,7 @@ import { MainContext } from '../services/context';
 
 export function TaskTrack() {
   return (
-    <MainContext>
+    <MainContext.Consumer>
       {({
         members,
         tasks,
@@ -40,6 +40,6 @@ export function TaskTrack() {
           </article>
         );
       }}
-    </MainContext>
+    </MainContext.Consumer>
   );
 }

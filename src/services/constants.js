@@ -112,6 +112,7 @@ export const menuItems = {
   drawerMember: [
     { name: 'My tasks', path: '/my-tasks', img: myTasksIcon },
     { name: 'My progress', path: '/progress', img: progressIcon },
+    { name: 'Settings', path: '/settings', img: settingsIcon },
   ],
 };
 

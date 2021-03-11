@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 
-export function Select({ children, options, value, action, name }) {
+export function Select({ children, options, value, onChange, name }) {
   return (
     <label htmlFor={name}>
       {children}
-      <select name={name} value={value} onChange={action}>
+      <select name={name} value={value} onChange={onChange}>
         {options.map((el) => (
           <option key={el}>{el}</option>
         ))}
@@ -17,6 +17,6 @@ Select.propTypes = {
   options: PropTypes.instanceOf(Array).isRequired,
   value: PropTypes.number.isRequired,
   children: PropTypes.string.isRequired,
-  action: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
 };

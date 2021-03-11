@@ -57,29 +57,29 @@ export class TaskTrackManager extends PureComponent {
     return (
       <div className='modal'>
         <div className='modal-content'>
-          <Button action={closeEdit} styles='close'>
+          <Button onClick={closeEdit} className='close'>
             <span>&times;</span>
           </Button>
-          <form action=''>
+          <form>
             <p htmlFor='name-field'>
               Track for Task:
               <span className='attention'>{` ${name}`}</span>
             </p>
-            <Input type='date' value={date} name='date' action={this.inputChange}>
+            <Input type='date' value={date} name='date' onChange={this.inputChange}>
               Date:
             </Input>
-            <Input placeholder='Track Name' value={trackName} name='trackName' action={this.inputChange}>
+            <Input placeholder='Track Name' value={trackName} name='trackName' onChange={this.inputChange}>
               Track Name:
             </Input>
-            <Textarea placeholder='Track Description' value={note} name='note' action={this.inputChange}>
+            <Textarea placeholder='Track Description' value={note} name='note' onChange={this.inputChange}>
               Note:
             </Textarea>
             {edit ? (
-              <Button action={this.saveTrack} styles='submit'>
+              <Button onClick={this.saveTrack} className='submit'>
                 Edit
               </Button>
             ) : (
-              <Button action={this.addTrack} styles='submit'>
+              <Button onClick={this.addTrack} className='submit'>
                 Save
               </Button>
             )}

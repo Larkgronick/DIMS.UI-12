@@ -7,7 +7,7 @@ import { menuItems } from '../../services/constants';
 
 export function Drawer({ children }) {
   return (
-    <MainContext>
+    <MainContext.Consumer>
       {({ drawerOpen, drawerToggle }) => (
         <aside className={drawerOpen ? 'side-drawer open' : 'side-drawer'}>
           <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
@@ -19,7 +19,7 @@ export function Drawer({ children }) {
           ))}
         </aside>
       )}
-    </MainContext>
+    </MainContext.Consumer>
   );
 }
 

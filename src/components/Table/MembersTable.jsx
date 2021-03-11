@@ -1,37 +1,12 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../Buttons/Button/Button';
-import { getAge, getIndex, convertDate } from '../../services/helpers';
+import { getAge, convertDate } from '../../services/helpers';
 import { MainContext } from '../../services/context';
 
 export function MembersTable() {
-  const context = useContext(MainContext);
-
-  const showMemberData = (e) => {
-    context.showUserTasks(e);
-    context.selectItem(e, 'selected');
-  };
-
-  const editMember = (e) => {
-    context.editData(e);
-  };
-
-  const deleteMember = (e) => {
-    const { tasks, updateTasks, deleteData } = context;
-    const newTasks = [...tasks];
-    newTasks.forEach(({ assigners, trackName, note, date }) => {
-      assigners.splice(getIndex(e), 1);
-      trackName.splice(getIndex(e), 1);
-      note.splice(getIndex(e), 1);
-      date.splice(getIndex(e), 1);
-    });
-    updateTasks(newTasks);
-    deleteData(e, 'members');
-  };
-
   return (
-    <MainContext>
-      {({ members }) => (
+    <MainContext.Consumer>
+      {({ members, showUserTasks, openEdit, deleteMember }) => (
         <tbody className='table-body'>
           {members.map(
             ({
@@ -67,19 +42,19 @@ export function MembersTable() {
                 <td>{convertDate(startDate)}</td>
                 <td>
                   <Link to='/progress'>
-                    <Button action={(e) => showMemberData(e)} styles='button dev'>
+                    <Button onClick={showUserTasks} className='button dev'>
                       Progress
                     </Button>
                   </Link>
                   <Link to='/user-tasks'>
-                    <Button action={(e) => showMemberData(e)} styles='button tasks'>
+                    <Button onClick={showUserTasks} className='button tasks'>
                       Tasks
                     </Button>
                   </Link>
-                  <Button action={(e) => editMember(e)} styles='button edit'>
+                  <Button onClick={openEdit} className='button edit'>
                     Edit
                   </Button>
-                  <Button action={(e) => deleteMember(e)} styles='button danger'>
+                  <Button onClick={deleteMember} className='button danger'>
                     Delete
                   </Button>
                 </td>
@@ -88,6 +63,6 @@ export function MembersTable() {
           )}
         </tbody>
       )}
-    </MainContext>
+    </MainContext.Consumer>
   );
 }

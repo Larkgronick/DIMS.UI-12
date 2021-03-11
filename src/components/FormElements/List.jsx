@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 
-export function List({ children, members, assigners, styles, listId, action }) {
+export function List({ children, members, assigners, styles, listId, onChange }) {
   return (
     <label htmlFor={listId}>
       {children}
       <ul id={listId}>
         {members.map(({ name: firstName, id, lastName }) => (
           <li key={id} className={styles}>
-            <input checked={assigners.includes(id)} type='checkbox' value='true' name={id} onChange={action} />
+            <input checked={assigners.includes(id)} type='checkbox' value='true' name={id} onChange={onChange} />
             {`${firstName} ${lastName}`}
           </li>
         ))}
@@ -22,5 +22,5 @@ List.propTypes = {
   styles: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
   listId: PropTypes.string.isRequired,
-  action: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
