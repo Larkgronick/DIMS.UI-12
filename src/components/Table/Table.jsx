@@ -6,6 +6,7 @@ import { TasksTable } from './TasksTable';
 import { ProgressTable } from './ProgressTable';
 import { UserTasksTable } from './UserTasksTable';
 import { TaskTrackTable } from './TaskTrackTable';
+import { SettingsTable } from './SettingsTable';
 
 export function Table({ children }) {
   function renderTable(page) {
@@ -20,6 +21,8 @@ export function Table({ children }) {
         return <UserTasksTable />;
       case 'taskTracks':
         return <TaskTrackTable />;
+      case 'settings':
+        return <SettingsTable />;
       default:
         return null;
     }

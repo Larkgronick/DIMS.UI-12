@@ -1,24 +1,28 @@
 import PropTypes from 'prop-types';
 import './Drawer.scss';
 import { Link } from 'react-router-dom';
+import { MainContext } from '../../services/context';
 import devLogo from '../../assets/images/devLogo.png';
-import { drawerMenuItems } from '../../services/constants';
+import { menuItems } from '../../services/constants';
 
-export function Drawer({ showDrawer, toggle }) {
+export function Drawer({ children }) {
   return (
-    <aside className={showDrawer ? 'side-drawer open' : 'side-drawer'}>
-      <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
-      {drawerMenuItems.map(({ name, path, img }) => (
-        <Link onClick={toggle} to={path} key={name} className='drawer-item'>
-          <img alt='img' src={img} />
-          <span className='drawer-item-name'>{name}</span>
-        </Link>
-      ))}
-    </aside>
+    <MainContext>
+      {({ drawerOpen, drawerToggle }) => (
+        <aside className={drawerOpen ? 'side-drawer open' : 'side-drawer'}>
+          <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
+          {menuItems[children].map(({ name, path, img }) => (
+            <Link onClick={drawerToggle} to={path} key={name} className='drawer-item'>
+              <img alt='img' src={img} />
+              <span className='drawer-item-name'>{name}</span>
+            </Link>
+          ))}
+        </aside>
+      )}
+    </MainContext>
   );
 }
 
 Drawer.propTypes = {
-  showDrawer: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired,
+  children: PropTypes.string.isRequired,
 };

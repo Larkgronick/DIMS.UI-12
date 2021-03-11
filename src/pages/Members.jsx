@@ -7,11 +7,13 @@ import { MainContext } from '../services/context';
 export function Members() {
   return (
     <MainContext.Consumer>
-      {({ members, edit, openModal, selected, closeEdit, addData, editData, saveData }) => (
+      {({ members, edit, openModal, tasks, selected, closeEdit, updateTasks, addData, editData, saveData }) => (
         <article>
           {openModal ? (
             <MemberManager
               members={members}
+              tasks={tasks}
+              updateTasks={updateTasks}
               closeEdit={closeEdit}
               addData={addData}
               editData={editData}

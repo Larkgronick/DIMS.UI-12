@@ -14,7 +14,6 @@ $danger: #da514b;
 
 header {
   display: flex;
-  justify-content: space-around;
 }
 
 .table-head {
@@ -55,6 +54,11 @@ td {
   font-size: 16px;
 }
 
+.task-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .subtask {
   margin: 30px 0;
 }
@@ -65,4 +69,10 @@ td {
 
 .failed {
   color: $danger;
+}
+
+.error-caption {
+  padding: 45px 0;
+  font-size: 30px;
+  font-style: italic;
 }

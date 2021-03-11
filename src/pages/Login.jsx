@@ -28,6 +28,7 @@ export class Login extends Component {
 
   inputChange(event) {
     const { name, value } = event.target;
+
     this.setState({ [name]: value });
   }
 

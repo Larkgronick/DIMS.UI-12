@@ -1,18 +1,15 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../Buttons/Button/Button';
-import { getAge, convertDate } from '../../services/helpers';
+import { getAge, getIndex, convertDate } from '../../services/helpers';
 import { MainContext } from '../../services/context';
 
 export function MembersTable() {
   const context = useContext(MainContext);
 
   const showMemberData = (e) => {
-    const caption = e.target.textContent;
     context.showUserTasks(e);
-    if (caption === 'Progress') {
-      context.selectItem(e, 'selected');
-    }
+    context.selectItem(e, 'selected');
   };
 
   const editMember = (e) => {
@@ -20,7 +17,16 @@ export function MembersTable() {
   };
 
   const deleteMember = (e) => {
-    context.deleteData(e, 'members');
+    const { tasks, updateTasks, deleteData } = context;
+    const newTasks = [...tasks];
+    newTasks.forEach(({ assigners, trackName, note, date }) => {
+      assigners.splice(getIndex(e), 1);
+      trackName.splice(getIndex(e), 1);
+      note.splice(getIndex(e), 1);
+      date.splice(getIndex(e), 1);
+    });
+    updateTasks(newTasks);
+    deleteData(e, 'members');
   };
 
   return (

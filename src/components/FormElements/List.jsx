@@ -7,7 +7,7 @@ export function List({ children, members, assigners, styles, listId, action }) {
       <ul id={listId}>
         {members.map(({ name: firstName, id, lastName }) => (
           <li key={id} className={styles}>
-            <input defaultChecked={assigners.includes(id)} type='checkbox' value='true' name={id} onChange={action} />
+            <input checked={assigners.includes(id)} type='checkbox' value='true' name={id} onChange={action} />
             {`${firstName} ${lastName}`}
           </li>
         ))}

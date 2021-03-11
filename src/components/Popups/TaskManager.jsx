@@ -12,6 +12,9 @@ export class TaskManager extends PureComponent {
     this.state = {
       assigners: [],
       status: [],
+      trackName: [{ items: [] }],
+      date: [{ items: [] }],
+      note: [{ items: [] }],
       name: '',
       description: '',
       start: '',
@@ -21,12 +24,15 @@ export class TaskManager extends PureComponent {
 
   componentDidMount() {
     const { tasks, selected, edit } = this.props;
-    const { assigners, status, name, description, start, deadline } = tasks[selected];
+    const { assigners, status, name, trackName, date, note, description, start, deadline } = tasks[selected];
     if (edit) {
       this.setState({
         assigners,
         status,
         name,
+        trackName,
+        date,
+        note,
         description,
         start,
         deadline,
@@ -50,22 +56,26 @@ export class TaskManager extends PureComponent {
   };
 
   saveAssigner = (e) => {
-    const { assigners, status } = this.state;
+    const { assigners } = this.state;
     const { name, checked } = e.target;
     const newAssigners = [...assigners];
-    const newStatus = [...status];
 
     if (checked) {
       newAssigners.push(name);
-      newStatus.push('active');
     } else {
       const index = newAssigners.indexOf(name);
       newAssigners.splice(index, 1);
-      newStatus.splice(index, 1);
     }
+    const data = [...document.querySelectorAll("input[type='checkbox']")].map((el) =>
+      el.checked ? el.name : 'disabled',
+    );
+    const statusData = [...document.querySelectorAll("input[type='checkbox']")].map((el) =>
+      el.checked ? 'active' : 'disabled',
+    );
+
     this.setState({
-      assigners: newAssigners,
-      status: newStatus,
+      assigners: data,
+      status: statusData,
     });
   };
 

@@ -5,13 +5,14 @@ import { Button } from '../Buttons/Button/Button';
 import { Select } from '../FormElements/Select';
 import { Input } from '../FormElements/Input';
 import { directions, roles, scoreScale } from '../../services/constants';
-import { getCurrentDate } from '../../services/helpers';
+import { getCurrentDate, generateID } from '../../services/helpers';
+// import { registerNewUser } from '../../services/services';
 
 export class MemberManager extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
+      id: generateID(),
       direction: '',
       name: '',
       email: '',
@@ -75,7 +76,18 @@ export class MemberManager extends PureComponent {
   };
 
   addMember = () => {
-    const { addData } = this.props;
+    // const { email } = this.state;
+    const { addData, tasks, updateTasks } = this.props;
+    const newTasks = [...tasks];
+    newTasks.forEach(({ assigners, trackName, note, date }) => {
+      assigners.push('disabled');
+      trackName.push({ items: [] });
+      note.push({ items: [] });
+      date.push({ items: [] });
+    });
+    console.log(newTasks);
+    updateTasks(newTasks);
+    // registerNewUser(email, generateID());
     addData('members', this.state);
   };
 
@@ -188,6 +200,8 @@ export class MemberManager extends PureComponent {
 
 MemberManager.propTypes = {
   members: PropTypes.instanceOf(Array).isRequired,
+  tasks: PropTypes.instanceOf(Array).isRequired,
+  updateTasks: PropTypes.func.isRequired,
   addData: PropTypes.func.isRequired,
   closeEdit: PropTypes.func.isRequired,
   saveData: PropTypes.func.isRequired,

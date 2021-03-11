@@ -18,10 +18,9 @@ export function TaskTrackTable() {
   return (
     <MainContext>
       {({ userTasks, userIndex, track }) => {
-        const taskNames = userTasks[track].trackName[userIndex];
-        const taskNotes = userTasks[track].note[userIndex];
-        const taskDates = userTasks[track].date[userIndex];
-
+        const taskNames = userTasks[track].trackName[userIndex].items;
+        const taskNotes = userTasks[track].note[userIndex].items;
+        const taskDates = userTasks[track].date[userIndex].items;
         return (
           <tbody className='table-body'>
             {taskNames.map((item, i) => (

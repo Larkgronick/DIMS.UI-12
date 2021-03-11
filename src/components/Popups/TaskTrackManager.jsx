@@ -19,9 +19,9 @@ export class TaskTrackManager extends PureComponent {
 
   componentDidMount() {
     const { edit, userTasks, userIndex, track, subtask } = this.props;
-    const trackName = userTasks[track].trackName[userIndex][subtask];
-    const date = userTasks[track].date[userIndex][subtask];
-    const note = userTasks[track].note[userIndex][subtask];
+    const trackName = userTasks[track].trackName[userIndex].items[subtask];
+    const date = userTasks[track].date[userIndex].items[subtask];
+    const note = userTasks[track].note[userIndex].items[subtask];
     if (edit) {
       this.setState({
         trackName,
