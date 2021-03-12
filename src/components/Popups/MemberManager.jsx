@@ -76,19 +76,26 @@ export class MemberManager extends PureComponent {
   };
 
   addMember = () => {
-    // const { email } = this.state;
-    const { addData, tasks, updateTasks } = this.props;
-    const newTasks = [...tasks];
-    newTasks.forEach(({ assigners, trackName, note, date }) => {
-      assigners.push('disabled');
-      trackName.push({ items: [] });
-      note.push({ items: [] });
-      date.push({ items: [] });
+    // const { email } = this.state;  COMMENTED TO PREVENT UNNECESSARY REGISTRATIONS
+    const { tasks, updateTasks, addData } = this.props;
+    const newTasks = tasks.map(({ assigners, status, trackName, note, date, name, start, deadline }) => {
+      const update = {};
+      update.assigners = assigners.concat(['disabled']);
+      update.status = status.concat(['disabled']);
+      update.trackName = trackName.concat([{ items: [] }]);
+      update.note = note.concat([{ items: [] }]);
+      update.date = date.concat([{ items: [] }]);
+      update.name = name;
+      update.start = start;
+      update.deadline = deadline;
+
+      return update;
     });
-    console.log(newTasks);
+
     updateTasks(newTasks);
-    // registerNewUser(email, generateID());
     addData('members', this.state);
+
+    // registerNewUser(email, generateID());  COMMENTED TO PREVENT UNNECESSARY REGISTRATIONS
   };
 
   inputChange = (event) => {

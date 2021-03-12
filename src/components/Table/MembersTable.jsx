@@ -51,7 +51,7 @@ export function MembersTable() {
                       Tasks
                     </Button>
                   </Link>
-                  <Button onClick={openEdit} className='button edit'>
+                  <Button onClick={(e) => openEdit(e, true)} className='button edit'>
                     Edit
                   </Button>
                   <Button onClick={deleteMember} className='button danger'>

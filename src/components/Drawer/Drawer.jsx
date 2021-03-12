@@ -8,17 +8,19 @@ import { menuItems } from '../../services/constants';
 export function Drawer({ children }) {
   return (
     <MainContext.Consumer>
-      {({ drawerOpen, drawerToggle }) => (
-        <aside className={drawerOpen ? 'side-drawer open' : 'side-drawer'}>
-          <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
-          {menuItems[children].map(({ name, path, img }) => (
-            <Link onClick={drawerToggle} to={path} key={name} className='drawer-item'>
-              <img alt='img' src={img} />
-              <span className='drawer-item-name'>{name}</span>
-            </Link>
-          ))}
-        </aside>
-      )}
+      {({ drawerOpen, drawerToggle }) => {
+        return (
+          <aside className={drawerOpen ? 'side-drawer open' : 'side-drawer'}>
+            <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
+            {menuItems[children].map(({ name, path, img }) => (
+              <Link onClick={drawerToggle} to={path} key={name} className='drawer-item'>
+                <img alt='img' src={img} />
+                <span className='drawer-item-name'>{name}</span>
+              </Link>
+            ))}
+          </aside>
+        );
+      }}
     </MainContext.Consumer>
   );
 }

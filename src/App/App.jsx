@@ -33,6 +33,18 @@ export class App extends PureComponent {
 
   render() {
     const { user } = this.state;
-    return <div>{user ? <Main /> : <Login />}</div>;
+    // TO DO:  Set correct welcome message
+    return (
+      <div>
+        {user ? (
+          <Main />
+        ) : (
+          <div>
+            <p>Welcome to Dev Incubator!</p>
+            <Login />
+          </div>
+        )}{' '}
+      </div>
+    );
   }
 }

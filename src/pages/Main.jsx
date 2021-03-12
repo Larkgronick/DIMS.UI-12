@@ -9,10 +9,9 @@ import { UserTasks } from './UserTasks';
 import { TaskTrack } from './TaskTrack';
 import { Progress } from './Progress';
 import { Settings } from './Settings';
-import { getIndex } from '../services/helpers';
+import { getIndex, removeUserTaskData } from '../services/helpers';
 import { MainContext } from '../services/context';
 import { setData, loadData, getUserEmail } from '../services/services';
-// import { membersBody } from '../services/constants'
 
 export class Main extends Component {
   constructor(props) {
@@ -73,12 +72,17 @@ export class Main extends Component {
     });
   };
 
-  openEdit = () => {
+  openEdit = (e, isEdit) => {
     const { drawerOpen } = this.state;
     this.setState({
       openModal: true,
-      edit: true,
     });
+    if (isEdit) {
+      this.setState({
+        edit: true,
+        selected: getIndex(e),
+      });
+    }
     if (drawerOpen) {
       this.drawerToggle();
     }
@@ -92,20 +96,15 @@ export class Main extends Component {
   };
 
   editTrack = (e) => {
+    this.setState({ edit: true });
     this.selectItem(e, 'subtask');
     this.openEdit();
-  };
-
-  editData = (e) => {
-    this.setState({
-      selected: getIndex(e),
-    });
   };
 
   saveData = (field, value) => {
     const { [field]: current, selected } = this.state;
     const newState = [...current];
-    newState.splice(selected, 1, value);
+    newState[selected] = value;
     this.setState({ [field]: newState });
     setData(field, newState);
     this.closeEdit();
@@ -113,8 +112,7 @@ export class Main extends Component {
 
   addData = (field, value) => {
     const { [field]: current } = this.state;
-    const newState = [...current];
-    newState.push(value);
+    const newState = [...current].concat([value]);
     this.setState({
       [field]: newState,
       openModal: false,
@@ -129,6 +127,13 @@ export class Main extends Component {
       [field]: removed,
     });
     setData(field, removed);
+  };
+
+  updateTasks = (value) => {
+    this.setState({
+      tasks: value,
+    });
+    setData('tasks', value);
   };
 
   showUserTasks = (e) => {
@@ -151,25 +156,30 @@ export class Main extends Component {
 
   saveTaskData = (date, note, trackName) => {
     const { userTasks, track, userIndex, subtask, tasks } = this.state;
-    const newUserTask = [...userTasks];
-    newUserTask[track].trackName[userIndex].items.splice(subtask, 1, trackName);
-    newUserTask[track].date[userIndex].items.splice(subtask, 1, date);
-    newUserTask[track].note[userIndex].items.splice(subtask, 1, note);
+    const newTrackName = userTasks[track].trackName[userIndex].items;
+    const newNote = userTasks[track].note[userIndex].items;
+    const newDate = userTasks[track].date[userIndex].items;
+
+    newTrackName[subtask] = trackName;
+    newNote[subtask] = note;
+    newDate[subtask] = date;
+
     this.setState({
-      userTasks: newUserTask,
+      userTasks,
     });
     setData('tasks', tasks);
   };
 
   addTaskData = (date, note, trackName) => {
     const { userTasks, track, userIndex, tasks } = this.state;
-    const newUserTask = [...userTasks];
-    newUserTask[track].trackName[userIndex].items.push(trackName);
-    newUserTask[track].date[userIndex].items.push(date);
-    newUserTask[track].note[userIndex].items.push(note);
+    userTasks[track].trackName[userIndex].items = userTasks[track].trackName[userIndex].items.concat([trackName]);
+    userTasks[track].note[userIndex].items = userTasks[track].note[userIndex].items.concat([note]);
+    userTasks[track].date[userIndex].items = userTasks[track].date[userIndex].items.concat([date]);
+
     this.setState({
-      userTasks: newUserTask,
+      userTasks,
     });
+
     setData('tasks', tasks);
   };
 
@@ -185,12 +195,18 @@ export class Main extends Component {
 
   deleteMember = (e) => {
     const { tasks } = this.state;
-    const newTasks = [...tasks];
-    newTasks.forEach(({ assigners, trackName, note, date }) => {
-      assigners.splice(getIndex(e), 1);
-      trackName.splice(getIndex(e), 1);
-      note.splice(getIndex(e), 1);
-      date.splice(getIndex(e), 1);
+    const newTasks = tasks.map(({ assigners, status, trackName, note, date, name, start, deadline }) => {
+      const update = {};
+      update.assigners = removeUserTaskData(assigners, getIndex(e));
+      update.status = removeUserTaskData(status, getIndex(e));
+      update.trackName = removeUserTaskData(trackName, getIndex(e));
+      update.note = removeUserTaskData(note, getIndex(e));
+      update.date = removeUserTaskData(date, getIndex(e));
+      update.name = name;
+      update.start = start;
+      update.deadline = deadline;
+
+      return update;
     });
 
     this.setState({
@@ -200,13 +216,16 @@ export class Main extends Component {
   };
 
   deleteTrackHistory = (e) => {
-    const subtaskIndex = getIndex(e);
     const { userTasks, track, userIndex, tasks } = this.state;
-    const newUserTask = [...userTasks];
-    newUserTask[track].trackName[userIndex].items.splice(subtaskIndex, 1);
-    newUserTask[track].note[userIndex].items.splice(subtaskIndex, 1);
-    newUserTask[track].date[userIndex].items.splice(subtaskIndex, 1);
-    this.setState({ userTasks: newUserTask });
+    const newTrackName = userTasks[track].trackName[userIndex].items;
+    const newNote = userTasks[track].note[userIndex].items;
+    const newDate = userTasks[track].date[userIndex].items;
+
+    userTasks[track].trackName[userIndex].items = removeUserTaskData(newTrackName, getIndex(e));
+    userTasks[track].note[userIndex].items = removeUserTaskData(newNote, getIndex(e));
+    userTasks[track].date[userIndex].items = removeUserTaskData(newDate, getIndex(e));
+
+    this.setState({ userTasks });
     setData('tasks', tasks);
   };
 
@@ -248,9 +267,9 @@ export class Main extends Component {
           addData: this.addData,
           addTaskData: this.addTaskData,
           setTaskStatus: this.setTaskStatus,
-          editData: this.editData,
           editTrack: this.editTrack,
           saveData: this.saveData,
+          updateTasks: this.updateTasks,
           saveTaskData: this.saveTaskData,
           deleteData: this.deleteData,
           deleteTrackHistory: this.deleteTrackHistory,

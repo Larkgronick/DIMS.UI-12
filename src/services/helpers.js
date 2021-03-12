@@ -5,6 +5,10 @@ export function getIndex(e) {
   return selected;
 }
 
+export function removeUserTaskData(arr, index) {
+  return arr.slice(0, index).concat(arr.slice(index + 1));
+}
+
 export function getCurrentDate() {
   const date = new Date();
   let day = date.getDate();

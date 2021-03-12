@@ -13,7 +13,7 @@ export function Header({ children, addButton, text }) {
             <div>
               <Hamburger drawerOpen={drawerOpen} drawerToggle={drawerToggle} />
               {addButton ? (
-                <Button onClick={openEdit} className='button dev'>
+                <Button onClick={() => openEdit(false)} className='button dev'>
                   {text}
                 </Button>
               ) : null}

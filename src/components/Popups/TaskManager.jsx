@@ -10,29 +10,32 @@ export class TaskManager extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      assigners: [],
-      status: [],
-      trackName: [{ items: [] }],
-      date: [{ items: [] }],
-      note: [{ items: [] }],
       name: '',
       description: '',
       start: '',
       deadline: '',
+      assigners: '',
+      status: [],
+      trackName: [],
+      date: [],
+      note: [],
     };
   }
 
   componentDidMount() {
     const { tasks, selected, edit } = this.props;
     const { assigners, status, name, trackName, date, note, description, start, deadline } = tasks[selected];
+    this.setState({
+      assigners,
+      status,
+      trackName,
+      date,
+      note,
+    });
+
     if (edit) {
       this.setState({
-        assigners,
-        status,
         name,
-        trackName,
-        date,
-        note,
         description,
         start,
         deadline,
@@ -42,11 +45,13 @@ export class TaskManager extends PureComponent {
 
   saveTask = () => {
     const { saveData } = this.props;
+    console.log(this.state);
     saveData('tasks', this.state);
   };
 
   addTask = () => {
     const { addData } = this.props;
+    console.log(this.state);
     addData('tasks', this.state);
   };
 
@@ -55,17 +60,7 @@ export class TaskManager extends PureComponent {
     this.setState({ [name]: value });
   };
 
-  saveAssigner = (e) => {
-    const { assigners } = this.state;
-    const { name, checked } = e.target;
-    const newAssigners = [...assigners];
-
-    if (checked) {
-      newAssigners.push(name);
-    } else {
-      const index = newAssigners.indexOf(name);
-      newAssigners.splice(index, 1);
-    }
+  saveAssigner = () => {
     const data = [...document.querySelectorAll("input[type='checkbox']")].map((el) =>
       el.checked ? el.name : 'disabled',
     );
@@ -82,7 +77,6 @@ export class TaskManager extends PureComponent {
   render() {
     const { members, closeEdit, edit } = this.props;
     const { name, description, start, deadline, assigners } = this.state;
-
     return (
       <div className='modal'>
         <div className='modal-content'>
@@ -103,9 +97,9 @@ export class TaskManager extends PureComponent {
               Deadline:
             </Input>
             <List
-              members={members}
-              assigners={assigners}
-              styles='assigner'
+              items={members}
+              elements={assigners}
+              className='assigner'
               listId='assigners'
               onChange={this.saveAssigner}
             >

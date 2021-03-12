@@ -8,9 +8,8 @@ import { Textarea } from '../FormElements/Textarea';
 export class TaskTrackManager extends PureComponent {
   constructor(props) {
     super(props);
-    const { userTasks, track } = this.props;
     this.state = {
-      name: userTasks[track].name,
+      name: '',
       trackName: '',
       date: '',
       note: '',
@@ -22,6 +21,9 @@ export class TaskTrackManager extends PureComponent {
     const trackName = userTasks[track].trackName[userIndex].items[subtask];
     const date = userTasks[track].date[userIndex].items[subtask];
     const note = userTasks[track].note[userIndex].items[subtask];
+    this.setState({
+      name: userTasks[track].name,
+    });
     if (edit) {
       this.setState({
         trackName,
