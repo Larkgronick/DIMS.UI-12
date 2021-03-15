@@ -5,28 +5,52 @@ import { Button } from '../Buttons/Button/Button';
 import { Select } from '../FormElements/Select';
 import { Input } from '../FormElements/Input';
 import { directions, roles, scoreScale } from '../../services/constants';
-import { getCurrentDate, generateID } from '../../services/helpers';
+import { getCurrentDate, generateID, onBlurDate, onFocusDate } from '../../services/helpers';
+import { validateMembers, validateField } from '../../services/validation';
 // import { registerNewUser } from '../../services/services';
 
 export class MemberManager extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      id: generateID(),
-      direction: '',
-      name: '',
-      email: '',
-      lastName: '',
-      sex: '',
-      education: '',
-      birthDate: '2000-01-01',
-      universityAverageScore: 50,
-      mathScore: 50,
-      address: '',
-      mobilePhone: '',
-      skype: '',
-      startDate: getCurrentDate(),
-      role: '',
+      data: {
+        id: generateID(),
+        direction: '',
+        name: '',
+        email: '',
+        lastName: '',
+        sex: '',
+        education: '',
+        birthDate: '2000-01-01',
+        universityAverageScore: 50,
+        mathScore: 50,
+        address: '',
+        mobilePhone: '',
+        skype: '',
+        startDate: getCurrentDate(),
+        role: '',
+      },
+      validation: {
+        directionErr: false,
+        nameErr: false,
+        emailErr: false,
+        lastNameErr: false,
+        sexErr: false,
+        educationErr: false,
+        birthDateErr: false,
+        universityAverageScoreErr: false,
+        mathScoreErr: false,
+        addressErr: false,
+        mobilePhoneErr: false,
+        skypeErr: false,
+        startDateErr: false,
+        roleErr: false,
+        textMessage: 'This field must have at least one character',
+        phoneMessage: 'Input phone number in this format: +375290000000',
+        emailMessage: "Email must be in valid format, for example 'username@mailbox.com'",
+        engMessage: 'This value must consist only english letters',
+        dateMessage: 'Date cannot be greater than current or lesser than 01 January 1970',
+      },
     };
   }
 
@@ -51,31 +75,48 @@ export class MemberManager extends PureComponent {
     } = members[selected];
     if (edit) {
       this.setState({
-        id,
-        direction,
-        name,
-        email,
-        lastName,
-        sex,
-        education,
-        birthDate,
-        universityAverageScore,
-        mathScore,
-        address,
-        mobilePhone,
-        skype,
-        startDate,
-        role,
+        data: {
+          id,
+          direction,
+          name,
+          email,
+          lastName,
+          sex,
+          education,
+          birthDate,
+          universityAverageScore,
+          mathScore,
+          address,
+          mobilePhone,
+          skype,
+          startDate,
+          role,
+        },
       });
     }
   }
 
+  validateData = (length) => {
+    const { data } = this.state;
+    this.setState({ validation: validateMembers(data) });
+    const validate = Object.values(validateMembers(data))
+      .slice(0, length)
+      .every((el) => el === false);
+    return validate;
+  };
+
   saveMember = () => {
+    const { data } = this.state;
     const { saveData } = this.props;
-    saveData('members', this.state);
+    const toValidate = 14;
+
+    if (this.validateData(toValidate)) {
+      saveData('members', data);
+    }
   };
 
   addMember = () => {
+    const { data } = this.state;
     // const { email } = this.state;  COMMENTED TO PREVENT UNNECESSARY REGISTRATIONS
     const { tasks, updateTasks, addData } = this.props;
     const newTasks = tasks.map(({ assigners, status, trackName, note, date, name, start, deadline }) => {
@@ -92,19 +133,34 @@ export class MemberManager extends PureComponent {
       return update;
     });
 
-    updateTasks(newTasks);
-    addData('members', this.state);
+    const toValidate = 14;
+
+    if (this.validateData(toValidate)) {
+      updateTasks(newTasks);
+      addData('members', data);
+    }
 
     // registerNewUser(email, generateID());  COMMENTED TO PREVENT UNNECESSARY REGISTRATIONS
   };
 
   inputChange = (event) => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    const err = `${name}Err`;
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        [name]: value,
+      },
+      validation: {
+        ...prevState.validation,
+        [err]: validateField(name, value),
+      },
+    }));
   };
 
   render() {
     const { closeEdit, edit } = this.props;
+    const { data, validation } = this.state;
     const {
       name,
       lastName,
@@ -120,8 +176,29 @@ export class MemberManager extends PureComponent {
       birthDate,
       startDate,
       role,
-    } = this.state;
+    } = data;
 
+    const {
+      directionErr,
+      nameErr,
+      emailErr,
+      lastNameErr,
+      sexErr,
+      educationErr,
+      birthDateErr,
+      universityAverageScoreErr,
+      mathScoreErr,
+      addressErr,
+      mobilePhoneErr,
+      skypeErr,
+      startDateErr,
+      roleErr,
+      textMessage,
+      phoneMessage,
+      dateMessage,
+      emailMessage,
+      engMessage,
+    } = validation;
     return (
       <div className='modal'>
         <div className='modal-content'>
@@ -129,29 +206,55 @@ export class MemberManager extends PureComponent {
             <span>&times;</span>
           </Button>
           <form>
-            <Input placeholder='Name' value={name} name='name' onChange={this.inputChange}>
+            <Input
+              isError={nameErr}
+              errorMessage={textMessage}
+              placeholder='Name'
+              value={name}
+              name='name'
+              onChange={this.inputChange}
+            >
               Name:
             </Input>
-            <Input placeholder='Surname' value={lastName} name='lastName' onChange={this.inputChange}>
+            <Input
+              isError={lastNameErr}
+              errorMessage={textMessage}
+              placeholder='Surname'
+              value={lastName}
+              name='lastName'
+              onChange={this.inputChange}
+              required
+            >
               Surname:
             </Input>
-            <Select options={['Male', 'Female']} value={sex} name='sex' onChange={this.inputChange}>
+            <Select isError={sexErr} options={['male', 'female']} value={sex} name='sex' onChange={this.inputChange}>
               Sex:
             </Select>
             <Input
+              isError={birthDateErr}
+              errorMessage={dateMessage}
+              onFocus={onFocusDate}
+              onBlur={onBlurDate}
+              placeholder={birthDate}
               type='date'
-              min='1960-01-01'
-              max='2005-01-01'
               value={birthDate}
               name='birthDate'
               onChange={this.inputChange}
             >
               Birth Date:
             </Input>
-            <Input placeholder='Education' value={education} name='education' onChange={this.inputChange}>
+            <Input
+              isError={educationErr}
+              errorMessage={textMessage}
+              placeholder='Education'
+              value={education}
+              name='education'
+              onChange={this.inputChange}
+            >
               Education:
             </Input>
             <Select
+              isError={universityAverageScoreErr}
               options={scoreScale}
               value={universityAverageScore}
               name='universityAverageScore'
@@ -159,13 +262,28 @@ export class MemberManager extends PureComponent {
             >
               University Average Score:
             </Select>
-            <Select options={scoreScale} value={mathScore} name='mathScore' onChange={this.inputChange}>
+            <Select
+              isError={mathScoreErr}
+              options={scoreScale}
+              value={mathScore}
+              name='mathScore'
+              onChange={this.inputChange}
+            >
               Math Score:
             </Select>
-            <Input placeholder='Address' value={address} name='address' onChange={this.inputChange}>
+            <Input
+              isError={addressErr}
+              errorMessage={textMessage}
+              placeholder='Address'
+              value={address}
+              name='address'
+              onChange={this.inputChange}
+            >
               Address:
             </Input>
             <Input
+              isError={mobilePhoneErr}
+              errorMessage={phoneMessage}
               placeholder='Mobile Phone'
               type='tel'
               value={mobilePhone}
@@ -174,19 +292,51 @@ export class MemberManager extends PureComponent {
             >
               Mobile Phone:
             </Input>
-            <Input placeholder='Skype Nickname' value={skype} name='skype' onChange={this.inputChange}>
+            <Input
+              isError={skypeErr}
+              errorMessage={engMessage}
+              placeholder='Skype Nickname'
+              value={skype}
+              name='skype'
+              onChange={this.inputChange}
+            >
               Skype:
             </Input>
-            <Input placeholder='E-mail' type='email' value={email} name='email' onChange={this.inputChange}>
+            <Input
+              isError={emailErr}
+              errorMessage={emailMessage}
+              placeholder='E-mail'
+              type='email'
+              value={email}
+              name='email'
+              onChange={this.inputChange}
+            >
               E-mail:
             </Input>
-            <Input type='date' value={startDate} valueAsDate={new Date()} name='startDate' onChange={this.inputChange}>
+            <Input
+              isError={startDateErr}
+              errorMessage={dateMessage}
+              onFocus={onFocusDate}
+              onBlur={onBlurDate}
+              placeholder={getCurrentDate()}
+              type='date'
+              value={startDate}
+              valueAsDate={new Date()}
+              name='startDate'
+              onChange={this.inputChange}
+            >
               Start Date:
             </Input>
-            <Select options={directions} value={direction} name='direction' onChange={this.inputChange}>
+            <Select
+              isError={directionErr}
+              options={directions}
+              value={direction}
+              name='direction'
+              onChange={this.inputChange}
+            >
               Direction:
             </Select>
-            <Select options={roles} value={role} name='role' onChange={this.inputChange}>
+            <Select isError={roleErr} options={roles} value={role} name='role' onChange={this.inputChange}>
               Role:
             </Select>
             {edit ? (

@@ -8,7 +8,7 @@ export const signInFirebase = async (email, password) => {
   } catch (error) {
     console.error('Error with login: ', error);
 
-    return null;
+    return error;
   }
 };
 

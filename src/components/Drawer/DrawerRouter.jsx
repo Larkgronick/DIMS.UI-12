@@ -6,9 +6,10 @@ export function DrawerRouter() {
   function renderDrawer(role) {
     switch (role) {
       case 'Admin':
+      case 'Mentor':
         return <Drawer>drawerAdmin</Drawer>;
       case 'Member':
-        return <Drawer>drawerAdmin</Drawer>;
+        return <Drawer>drawerMember</Drawer>;
       default:
         return null;
     }

@@ -7,7 +7,19 @@ import { MainContext } from '../services/context';
 export function Members() {
   return (
     <MainContext.Consumer>
-      {({ members, edit, openModal, tasks, selected, closeEdit, updateTasks, addData, editData, saveData }) => (
+      {({
+        members,
+        userData,
+        edit,
+        openModal,
+        tasks,
+        selected,
+        closeEdit,
+        updateTasks,
+        addData,
+        editData,
+        saveData,
+      }) => (
         <article>
           {openModal ? (
             <MemberManager
@@ -22,7 +34,7 @@ export function Members() {
               selected={selected}
             />
           ) : null}
-          <Header addButton text='Register'>{`Members (${members.length})`}</Header>
+          <Header addButton={userData.role === 'Admin'} text='Register'>{`Members (${members.length})`}</Header>
           <Table>members</Table>
         </article>
       )}

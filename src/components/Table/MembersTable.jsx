@@ -4,11 +4,42 @@ import { getAge, convertDate } from '../../services/helpers';
 import { MainContext } from '../../services/context';
 
 export function MembersTable() {
+  function validateRoleView(context) {
+    switch (context.userData.role) {
+      case 'Admin':
+        return (
+          <td>
+            <Link to='/progress'>
+              <Button onClick={context.showUserTasks} className='button dev'>
+                Progress
+              </Button>
+            </Link>
+            <Link to='/user-tasks'>
+              <Button onClick={context.showUserTasks} className='button tasks'>
+                Tasks
+              </Button>
+            </Link>
+            <Button onClick={(e) => context.openEdit(e, true)} className='button edit'>
+              Edit
+            </Button>
+            <Button onClick={context.deleteMember} className='button danger'>
+              Delete
+            </Button>
+          </td>
+        );
+      case 'Member':
+        return null;
+
+      default:
+        return null;
+    }
+  }
+
   return (
     <MainContext.Consumer>
-      {({ members, showUserTasks, openEdit, deleteMember }) => (
+      {(context) => (
         <tbody className='table-body'>
-          {members.map(
+          {context.members.map(
             ({
               id,
               name,
@@ -40,24 +71,7 @@ export function MembersTable() {
                 <td>{mobilePhone}</td>
                 <td>{skype}</td>
                 <td>{convertDate(startDate)}</td>
-                <td>
-                  <Link to='/progress'>
-                    <Button onClick={showUserTasks} className='button dev'>
-                      Progress
-                    </Button>
-                  </Link>
-                  <Link to='/user-tasks'>
-                    <Button onClick={showUserTasks} className='button tasks'>
-                      Tasks
-                    </Button>
-                  </Link>
-                  <Button onClick={(e) => openEdit(e, true)} className='button edit'>
-                    Edit
-                  </Button>
-                  <Button onClick={deleteMember} className='button danger'>
-                    Delete
-                  </Button>
-                </td>
+                {validateRoleView(context)}
               </tr>
             ),
           )}

@@ -40,10 +40,9 @@ export class App extends PureComponent {
           <Main />
         ) : (
           <div>
-            <p>Welcome to Dev Incubator!</p>
             <Login />
           </div>
-        )}{' '}
+        )}
       </div>
     );
   }

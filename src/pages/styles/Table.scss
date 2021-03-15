@@ -73,3 +73,11 @@ td {
   font-size: 30px;
   font-style: italic;
 }
+
+.error-border {
+  border: 2px solid $danger;
+}
+
+.hide {
+  display: none;
+}

@@ -5,78 +5,126 @@ import { Button } from '../Buttons/Button/Button';
 import { Input } from '../FormElements/Input';
 import { Textarea } from '../FormElements/Textarea';
 import { List } from '../FormElements/List';
+import { getCurrentDate, onFocusDate, onBlurDate } from '../../services/helpers';
+import { validateTasks, validateField } from '../../services/validation';
 
 export class TaskManager extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      description: '',
-      start: '',
-      deadline: '',
-      assigners: '',
-      status: [],
-      trackName: [],
-      date: [],
-      note: [],
+      data: {
+        name: '',
+        description: '',
+        start: getCurrentDate(),
+        deadline: getCurrentDate(),
+        assigners: '',
+        status: [],
+        trackName: [],
+        date: [],
+        note: [],
+      },
+      validation: {
+        nameErr: false,
+        descriptionErr: false,
+        startErr: false,
+        deadlineErr: false,
+        textMessage: 'This field must have at least one character',
+        dateMessage: 'Date cannot be greater than current or lesser than 01 January 1970',
+        deadlineMessage: 'Date cannot be lower than current',
+      },
     };
   }
 
   componentDidMount() {
     const { tasks, selected, edit } = this.props;
     const { assigners, status, name, trackName, date, note, description, start, deadline } = tasks[selected];
-    this.setState({
-      assigners,
-      status,
-      trackName,
-      date,
-      note,
-    });
 
     if (edit) {
       this.setState({
-        name,
-        description,
-        start,
-        deadline,
+        data: {
+          name,
+          description,
+          start,
+          deadline,
+          assigners,
+          status,
+          trackName,
+          date,
+          note,
+        },
       });
     }
   }
 
+  validateData = (length) => {
+    const { data } = this.state;
+    this.setState({ validation: validateTasks(data) });
+    const validate = Object.values(validateTasks(data))
+      .slice(0, length)
+      .every((el) => el === false);
+    return validate;
+  };
+
   saveTask = () => {
+    const { data } = this.state;
     const { saveData } = this.props;
-    console.log(this.state);
-    saveData('tasks', this.state);
+    const toValidate = 4;
+
+    if (this.validateData(toValidate)) {
+      saveData('tasks', data);
+    }
   };
 
   addTask = () => {
+    const { data } = this.state;
     const { addData } = this.props;
-    console.log(this.state);
-    addData('tasks', this.state);
+    const toValidate = 4;
+
+    if (this.validateData(toValidate)) {
+      addData('tasks', data);
+    }
   };
 
   inputChange = (event) => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    const err = `${name}Err`;
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        [name]: value,
+      },
+      validation: {
+        ...prevState.validation,
+        [err]: validateField(name, value),
+      },
+    }));
   };
 
   saveAssigner = () => {
-    const data = [...document.querySelectorAll("input[type='checkbox']")].map((el) =>
+    const assigners = [...document.querySelectorAll("input[type='checkbox']")].map((el) =>
       el.checked ? el.name : 'disabled',
     );
-    const statusData = [...document.querySelectorAll("input[type='checkbox']")].map((el) =>
+    const status = [...document.querySelectorAll("input[type='checkbox']")].map((el) =>
       el.checked ? 'active' : 'disabled',
     );
 
-    this.setState({
-      assigners: data,
-      status: statusData,
-    });
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        assigners,
+        status,
+      },
+      validation: {
+        ...prevState.validation,
+      },
+    }));
   };
 
   render() {
     const { members, closeEdit, edit } = this.props;
-    const { name, description, start, deadline, assigners } = this.state;
+    const { data, validation } = this.state;
+    const { name, description, start, deadline, assigners } = data;
+    const { nameErr, descriptionErr, startErr, deadlineErr, textMessage, dateMessage, deadlineMessage } = validation;
     return (
       <div className='modal'>
         <div className='modal-content'>
@@ -84,16 +132,50 @@ export class TaskManager extends PureComponent {
             <span>&times;</span>
           </Button>
           <form>
-            <Input placeholder='Task Name' value={name} name='name' onChange={this.inputChange}>
+            <Input
+              isError={nameErr}
+              errorMessage={textMessage}
+              placeholder='Task Name'
+              value={name}
+              name='name'
+              onChange={this.inputChange}
+            >
               Task Name:
             </Input>
-            <Textarea placeholder='Task Description' value={description} name='description' onChange={this.inputChange}>
+            <Textarea
+              isError={descriptionErr}
+              errorMessage={textMessage}
+              placeholder='Task Description'
+              value={description}
+              name='description'
+              onChange={this.inputChange}
+            >
               Description:
             </Textarea>
-            <Input type='date' value={start} name='start' onChange={this.inputChange}>
+            <Input
+              isError={startErr}
+              errorMessage={dateMessage}
+              onFocus={onFocusDate}
+              onBlur={onBlurDate}
+              placeholder={start}
+              type='date'
+              value={start}
+              name='start'
+              onChange={this.inputChange}
+            >
               Start:
             </Input>
-            <Input type='date' value={deadline} name='deadline' onChange={this.inputChange}>
+            <Input
+              isError={deadlineErr}
+              errorMessage={deadlineMessage}
+              onFocus={onFocusDate}
+              onBlur={onBlurDate}
+              placeholder={deadline}
+              type='date'
+              value={deadline}
+              name='deadline'
+              onChange={this.inputChange}
+            >
               Deadline:
             </Input>
             <List

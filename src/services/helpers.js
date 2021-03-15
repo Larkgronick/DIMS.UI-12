@@ -47,3 +47,12 @@ export function convertDate(date) {
 export function generateID() {
   return Math.random().toString(36).substr(2, 9);
 }
+
+export const onFocusDate = (e) => {
+  e.currentTarget.type = 'date';
+};
+
+export const onBlurDate = (e) => {
+  e.currentTarget.type = 'text';
+  e.currentTarget.value = e.currentTarget.placeholder;
+};
