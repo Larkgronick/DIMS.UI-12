@@ -3,6 +3,7 @@ $dev-color: #008f02;
 $danger: #da514b;
 $tasks-color: #009afb;
 $edit-color: #50c4df;
+$opacity: 15%;
 
 .button {
   width: 130px;
@@ -35,7 +36,6 @@ $edit-color: #50c4df;
     left: 0;
     width: 0%;
     height: 100%;
-    // background-color: darken(green, 15%);
     transition: all 0.3s;
     border-radius: 10rem;
     z-index: -1;
@@ -51,28 +51,28 @@ $edit-color: #50c4df;
 .dev {
   background-color: $dev-color;
   &:before {
-    background-color: darken($dev-color, 15%);
+    background-color: darken($dev-color, $opacity);
   }
 }
 
 .tasks {
   background-color: $tasks-color;
   &:before {
-    background-color: darken($tasks-color, 15%);
+    background-color: darken($tasks-color, $opacity);
   }
 }
 
 .danger {
   background-color: $danger;
   &:before {
-    background-color: darken($danger, 15%);
+    background-color: darken($danger, $opacity);
   }
 }
 
 .edit {
   background-color: $edit-color;
   &:before {
-    background-color: darken($edit-color, 15%);
+    background-color: darken($edit-color, $opacity);
   }
 }
 

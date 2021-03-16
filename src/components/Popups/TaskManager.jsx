@@ -5,7 +5,8 @@ import { Button } from '../Buttons/Button/Button';
 import { Input } from '../FormElements/Input';
 import { Textarea } from '../FormElements/Textarea';
 import { List } from '../FormElements/List';
-import { getCurrentDate, onFocusDate, onBlurDate } from '../../services/helpers';
+import { TASK_VALIDATIONS } from '../../services/constants';
+import { getCurrentDate, onFocusDate, onBlurDate, validateValues } from '../../services/helpers';
 import { validateTasks, validateField } from '../../services/validation';
 
 export class TaskManager extends PureComponent {
@@ -38,7 +39,6 @@ export class TaskManager extends PureComponent {
   componentDidMount() {
     const { tasks, selected, edit } = this.props;
     const { assigners, status, name, trackName, date, note, description, start, deadline } = tasks[selected];
-
     if (edit) {
       this.setState({
         data: {
@@ -57,20 +57,16 @@ export class TaskManager extends PureComponent {
   }
 
   validateData = (length) => {
-    const { data } = this.state;
+    const { data, validation } = this.state;
     this.setState({ validation: validateTasks(data) });
-    const validate = Object.values(validateTasks(data))
-      .slice(0, length)
-      .every((el) => el === false);
-    return validate;
+    return validateValues(validation, length);
   };
 
   saveTask = () => {
     const { data } = this.state;
     const { saveData } = this.props;
-    const toValidate = 4;
 
-    if (this.validateData(toValidate)) {
+    if (this.validateData(TASK_VALIDATIONS)) {
       saveData('tasks', data);
     }
   };
@@ -87,35 +83,29 @@ export class TaskManager extends PureComponent {
 
   inputChange = (event) => {
     const { name, value } = event.target;
-    const err = `${name}Err`;
-    this.setState((prevState) => ({
+    const error = `${name}Err`;
+    this.setState(({ data, validation }) => ({
       data: {
-        ...prevState.data,
+        ...data,
         [name]: value,
       },
       validation: {
-        ...prevState.validation,
-        [err]: validateField(name, value),
+        ...validation,
+        [error]: validateField(name, value),
       },
     }));
   };
 
   saveAssigner = () => {
-    const assigners = [...document.querySelectorAll("input[type='checkbox']")].map((el) =>
-      el.checked ? el.name : 'disabled',
-    );
-    const status = [...document.querySelectorAll("input[type='checkbox']")].map((el) =>
-      el.checked ? 'active' : 'disabled',
-    );
+    const checkBoxes = [...document.querySelectorAll("input[type='checkbox']")];
+    const assigners = checkBoxes.map(({ checked, name }) => (checked ? name : 'disabled'));
+    const status = checkBoxes.map(({ checked }) => (checked ? 'active' : 'disabled'));
 
-    this.setState((prevState) => ({
+    this.setState(({ data }) => ({
       data: {
-        ...prevState.data,
+        ...data,
         assigners,
         status,
-      },
-      validation: {
-        ...prevState.validation,
       },
     }));
   };

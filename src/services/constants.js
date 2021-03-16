@@ -4,6 +4,10 @@ import progressIcon from '../assets/images/progressIcon.png';
 import settingsIcon from '../assets/images/settingsIcon.png';
 import myTasksIcon from '../assets/images/myTasksIcon.png';
 
+export const MEMBERS_VALIDATIONS = 14;
+export const TASK_VALIDATIONS = 4;
+export const TASK_TRACK_VALIDATIONS = 3;
+
 export const directions = ['JAVA', '.NET', 'Frontend'];
 export const roles = ['Member', 'Mentor', 'Admin'];
 

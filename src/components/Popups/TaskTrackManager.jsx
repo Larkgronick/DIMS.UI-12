@@ -4,7 +4,8 @@ import './style/Popup.scss';
 import { Button } from '../Buttons/Button/Button';
 import { Input } from '../FormElements/Input';
 import { Textarea } from '../FormElements/Textarea';
-import { getCurrentDate, onFocusDate, onBlurDate } from '../../services/helpers';
+import { TASK_TRACK_VALIDATIONS } from '../../services/constants';
+import { getCurrentDate, onFocusDate, onBlurDate, validateValues } from '../../services/helpers';
 import { validateTasksTracks, validateField } from '../../services/validation';
 
 export class TaskTrackManager extends PureComponent {
@@ -29,20 +30,21 @@ export class TaskTrackManager extends PureComponent {
 
   componentDidMount() {
     const { edit, userTasks, userIndex, track, subtask } = this.props;
+    const { name } = userTasks[track];
     const trackName = userTasks[track].trackName[userIndex].items[subtask];
     const date = userTasks[track].date[userIndex].items[subtask];
     const note = userTasks[track].note[userIndex].items[subtask];
 
-    this.setState((prevState) => ({
+    this.setState(({ data }) => ({
       data: {
-        ...prevState.data,
-        name: userTasks[track].name,
+        ...data,
+        name,
       },
     }));
     if (edit) {
       this.setState({
         data: {
-          name: userTasks[track].name,
+          name,
           trackName,
           date,
           note,
@@ -52,21 +54,17 @@ export class TaskTrackManager extends PureComponent {
   }
 
   validateData = (length) => {
-    const { data } = this.state;
+    const { data, validation } = this.state;
     this.setState({ validation: validateTasksTracks(data) });
-    const validate = Object.values(validateTasksTracks(data))
-      .slice(0, length)
-      .every((el) => el === false);
-    return validate;
+    return validateValues(validation, length);
   };
 
   saveTrack = () => {
     const { saveTaskData, closeEdit } = this.props;
     const { data } = this.state;
     const { date, note, trackName } = data;
-    const toValidate = 3;
 
-    if (this.validateData(toValidate)) {
+    if (this.validateData(TASK_TRACK_VALIDATIONS)) {
       saveTaskData(date, note, trackName);
       closeEdit();
     }
@@ -76,9 +74,8 @@ export class TaskTrackManager extends PureComponent {
     const { addTaskData, closeEdit } = this.props;
     const { data } = this.state;
     const { date, note, trackName } = data;
-    const toValidate = 3;
 
-    if (this.validateData(toValidate)) {
+    if (this.validateData(TASK_TRACK_VALIDATIONS)) {
       addTaskData(date, note, trackName);
       closeEdit();
     }
@@ -86,15 +83,15 @@ export class TaskTrackManager extends PureComponent {
 
   inputChange = (event) => {
     const { name, value } = event.target;
-    const err = `${name}Err`;
-    this.setState((prevState) => ({
+    const error = `${name}Err`;
+    this.setState(({ data, validation }) => ({
       data: {
-        ...prevState.data,
+        ...data,
         [name]: value,
       },
       validation: {
-        ...prevState.validation,
-        [err]: validateField(name, value),
+        ...validation,
+        [error]: validateField(name, value),
       },
     }));
   };

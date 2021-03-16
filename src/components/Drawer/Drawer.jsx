@@ -10,7 +10,7 @@ export function Drawer({ children }) {
     <MainContext.Consumer>
       {({ drawerOpen, drawerToggle }) => {
         return (
-          <aside className={drawerOpen ? 'side-drawer open' : 'side-drawer'}>
+          <aside className={`side-drawer ${drawerOpen ? 'open' : ''}`}>
             <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
             {menuItems[children].map(({ name, path, img }) => {
               return (

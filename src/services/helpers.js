@@ -5,6 +5,12 @@ export function getIndex(e) {
   return selected;
 }
 
+export function validateValues(obj, length) {
+  return Object.values(obj)
+    .slice(0, length)
+    .every((el) => el === false);
+}
+
 export function removeUserTaskData(arr, index) {
   return arr.slice(0, index).concat(arr.slice(index + 1));
 }

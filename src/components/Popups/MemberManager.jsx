@@ -4,10 +4,10 @@ import './style/Popup.scss';
 import { Button } from '../Buttons/Button/Button';
 import { Select } from '../FormElements/Select';
 import { Input } from '../FormElements/Input';
-import { directions, roles, scoreScale } from '../../services/constants';
-import { getCurrentDate, generateID, onBlurDate, onFocusDate } from '../../services/helpers';
+import { MEMBERS_VALIDATIONS, directions, roles, scoreScale } from '../../services/constants';
+import { getCurrentDate, generateID, onBlurDate, onFocusDate, validateValues } from '../../services/helpers';
 import { validateMembers, validateField } from '../../services/validation';
-// import { registerNewUser } from '../../services/services';
+// import { registerNewUser } from '../../services/services'; COMMENTED TO PREVENT E-MAIL LETTER SENDINGS IN DEVELOPEMENT
 
 export class MemberManager extends PureComponent {
   constructor(props) {
@@ -97,27 +97,23 @@ export class MemberManager extends PureComponent {
   }
 
   validateData = (length) => {
-    const { data } = this.state;
+    const { data, validation } = this.state;
     this.setState({ validation: validateMembers(data) });
-    const validate = Object.values(validateMembers(data))
-      .slice(0, length)
-      .every((el) => el === false);
-    return validate;
+    return validateValues(validation, length);
   };
 
   saveMember = () => {
     const { data } = this.state;
     const { saveData } = this.props;
-    const toValidate = 14;
 
-    if (this.validateData(toValidate)) {
+    if (this.validateData(MEMBERS_VALIDATIONS)) {
       saveData('members', data);
     }
   };
 
   addMember = () => {
     const { data } = this.state;
-    // const { email } = this.state;  COMMENTED TO PREVENT UNNECESSARY REGISTRATIONS
+    // const { email } = this.state;  COMMENTED TO PREVENT E-MAIL LETTER SENDINGS IN DEVELOPEMENT
     const { tasks, updateTasks, addData } = this.props;
     const newTasks = tasks.map(({ assigners, status, trackName, note, date, name, start, deadline }) => {
       const update = {};
@@ -133,27 +129,25 @@ export class MemberManager extends PureComponent {
       return update;
     });
 
-    const toValidate = 14;
-
-    if (this.validateData(toValidate)) {
+    if (this.validateData(MEMBERS_VALIDATIONS)) {
       updateTasks(newTasks);
       addData('members', data);
     }
 
-    // registerNewUser(email, generateID());  COMMENTED TO PREVENT UNNECESSARY REGISTRATIONS
+    // registerNewUser(email, generateID());  COMMENTED TO PREVENT E-MAIL LETTER SENDINGS IN DEVELOPEMENT
   };
 
   inputChange = (event) => {
     const { name, value } = event.target;
-    const err = `${name}Err`;
-    this.setState((prevState) => ({
+    const error = `${name}Err`;
+    this.setState(({ data, validation }) => ({
       data: {
-        ...prevState.data,
+        ...data,
         [name]: value,
       },
       validation: {
-        ...prevState.validation,
-        [err]: validateField(name, value),
+        ...validation,
+        [error]: validateField(name, value),
       },
     }));
   };

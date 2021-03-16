@@ -35,15 +35,15 @@ export class App extends PureComponent {
     const { user } = this.state;
     // TO DO:  Set correct welcome message
     return (
-      <div>
+      <>
         {user ? (
           <Main />
         ) : (
-          <div>
+          <>
             <Login />
-          </div>
+          </>
         )}
-      </div>
+      </>
     );
   }
 }

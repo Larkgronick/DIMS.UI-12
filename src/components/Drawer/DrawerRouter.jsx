@@ -15,5 +15,5 @@ export function DrawerRouter() {
     }
   }
 
-  return <MainContext.Consumer>{({ userData }) => renderDrawer(userData.role)}</MainContext.Consumer>;
+  return <MainContext.Consumer>{({ userData: { role } }) => renderDrawer(role)}</MainContext.Consumer>;
 }
