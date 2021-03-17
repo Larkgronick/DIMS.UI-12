@@ -6,7 +6,7 @@ import { Input } from '../FormElements/Input';
 import { Textarea } from '../FormElements/Textarea';
 import { TASK_TRACK_VALIDATIONS } from '../../services/constants';
 import { getCurrentDate, onFocusDate, onBlurDate, validateValues } from '../../services/helpers';
-import { validateTasksTracks, validateField } from '../../services/validation';
+import { validateCategory, validateField } from '../../services/validation';
 
 export class TaskTrackManager extends PureComponent {
   constructor(props) {
@@ -54,9 +54,10 @@ export class TaskTrackManager extends PureComponent {
   }
 
   validateData = (length) => {
-    const { data, validation } = this.state;
-    this.setState({ validation: validateTasksTracks(data) });
-    return validateValues(validation, length);
+    const { data } = this.state;
+    const test = validateCategory('taskTracks', data);
+    this.setState({ validation: test });
+    return validateValues(test, length);
   };
 
   saveTrack = () => {

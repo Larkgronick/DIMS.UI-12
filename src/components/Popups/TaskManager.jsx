@@ -7,7 +7,7 @@ import { Textarea } from '../FormElements/Textarea';
 import { List } from '../FormElements/List';
 import { TASK_VALIDATIONS } from '../../services/constants';
 import { getCurrentDate, onFocusDate, onBlurDate, validateValues } from '../../services/helpers';
-import { validateTasks, validateField } from '../../services/validation';
+import { validateCategory, validateField } from '../../services/validation';
 
 export class TaskManager extends PureComponent {
   constructor(props) {
@@ -57,9 +57,10 @@ export class TaskManager extends PureComponent {
   }
 
   validateData = (length) => {
-    const { data, validation } = this.state;
-    this.setState({ validation: validateTasks(data) });
-    return validateValues(validation, length);
+    const { data } = this.state;
+    const test = validateCategory('tasks', data);
+    this.setState({ validation: test });
+    return validateValues(test, length);
   };
 
   saveTask = () => {

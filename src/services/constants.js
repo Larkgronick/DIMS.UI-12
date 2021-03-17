@@ -121,4 +121,37 @@ export const menuItems = {
   ],
 };
 
+export const validation = {
+  members: [
+    'direction',
+    'name',
+    'email',
+    'lastName',
+    'sex',
+    'education',
+    'birthDate',
+    'universityAverageScore',
+    'mathScore',
+    'address',
+    'mobilePhone',
+    'skype',
+    'startDate',
+    'role',
+  ],
+  tasks: ['name', 'description', 'start', 'deadline'],
+  taskTracks: ['trackName', 'date', 'note'],
+};
+
+export const messages = {
+  type: ['textMessage', 'dateMessage', 'phoneMessage', 'deadlineMessage', 'emailMessage', 'engMessage'],
+  caption: [
+    'This field must have at least one character',
+    'Date cannot be greater than current or lesser than 01 January 1970',
+    'Input phone number in this format: +375330000000',
+    'Date cannot be lower than current',
+    "Email must be in valid format, for example 'username@mailbox.com'",
+    'This value must consist only english letters',
+  ],
+};
+
 export const scoreScale = new Array(100).fill().map((el, i) => i + 1);

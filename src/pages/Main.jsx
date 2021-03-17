@@ -49,7 +49,7 @@ export class Main extends Component {
 
   setUserData = (data) => {
     const { members, tasks } = data;
-    const userDataUpdate = members.filter((el) => el.email === getUserEmail())[0];
+    const userDataUpdate = members.find((el) => el.email === getUserEmail());
     const selectedUpdate = members.indexOf(userDataUpdate);
     const userTasksUpdate = tasks.filter((el) => el.assigners.includes(members[selectedUpdate].id));
     this.setState({

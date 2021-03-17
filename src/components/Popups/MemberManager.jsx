@@ -6,7 +6,7 @@ import { Select } from '../FormElements/Select';
 import { Input } from '../FormElements/Input';
 import { MEMBERS_VALIDATIONS, directions, roles, scoreScale } from '../../services/constants';
 import { getCurrentDate, generateID, onBlurDate, onFocusDate, validateValues } from '../../services/helpers';
-import { validateMembers, validateField } from '../../services/validation';
+import { validateCategory, validateField } from '../../services/validation';
 // import { registerNewUser } from '../../services/services'; COMMENTED TO PREVENT E-MAIL LETTER SENDINGS IN DEVELOPEMENT
 
 export class MemberManager extends PureComponent {
@@ -97,9 +97,10 @@ export class MemberManager extends PureComponent {
   }
 
   validateData = (length) => {
-    const { data, validation } = this.state;
-    this.setState({ validation: validateMembers(data) });
-    return validateValues(validation, length);
+    const { data } = this.state;
+    const test = validateCategory('members', data);
+    this.setState({ validation: test });
+    return validateValues(test, length);
   };
 
   saveMember = () => {

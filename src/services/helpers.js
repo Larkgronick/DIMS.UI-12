@@ -28,9 +28,7 @@ export function getCurrentDate() {
     day = `0${day}`;
   }
 
-  const today = `${year}-${month}-${day}`;
-
-  return today;
+  return `${year}-${month}-${day}`;
 }
 
 export function getAge(birthDate) {
@@ -42,11 +40,7 @@ export function getAge(birthDate) {
 }
 
 export function convertDate(date) {
-  const datePart = date.match(/\d+/g);
-  const year = datePart[0].substring(2);
-  const month = datePart[1];
-  const day = datePart[2];
-
+  const [year, month, day] = date.match(/\d+/g);
   return `${day}.${month}.${year}`;
 }
 
