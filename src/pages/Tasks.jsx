@@ -2,29 +2,38 @@ import './styles/Table.scss';
 import { Header } from '../components/Table/Header';
 import { Table } from '../components/Table/Table';
 import { TaskManager } from '../components/Popups/TaskManager';
-import { MainContext } from '../services/context';
+import { MainDataContext } from '../contexts/MainDataContext';
+import { ModalContext } from '../contexts/ModalContext';
+import { UserTasksContext } from '../contexts/UserTasksContext';
 
 export function Tasks() {
   return (
-    <MainContext.Consumer>
-      {({ members, tasks, edit, openModal, selected, closeEdit, addData, editData, saveData }) => (
-        <article>
-          {openModal ? (
-            <TaskManager
-              tasks={tasks}
-              members={members}
-              closeEdit={closeEdit}
-              addData={addData}
-              editData={editData}
-              saveData={saveData}
-              edit={edit}
-              selected={selected}
-            />
-          ) : null}
-          <Header addButton text='Create'>{`Dev Incubator Tasks (${tasks.length})`}</Header>
-          <Table>tasks</Table>
-        </article>
+    <MainDataContext.Consumer>
+      {({ members, tasks, saveData }) => (
+        <ModalContext.Consumer>
+          {({ edit, openModal, closeEdit, selected }) => (
+            <UserTasksContext.Consumer>
+              {({ addUserTasks }) => (
+                <article>
+                  {openModal ? (
+                    <TaskManager
+                      tasks={tasks}
+                      members={members}
+                      closeEdit={closeEdit}
+                      saveData={saveData}
+                      addUserTasks={addUserTasks}
+                      edit={edit}
+                      selected={selected}
+                    />
+                  ) : null}
+                  <Header addButton text='Create'>{`Dev Incubator Tasks (${tasks.length})`}</Header>
+                  <Table>tasks</Table>
+                </article>
+              )}
+            </UserTasksContext.Consumer>
+          )}
+        </ModalContext.Consumer>
       )}
-    </MainContext.Consumer>
+    </MainDataContext.Consumer>
   );
 }

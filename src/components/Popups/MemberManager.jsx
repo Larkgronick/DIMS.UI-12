@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import './style/Popup.scss';
+import { MainDataContext } from '../../contexts/MainDataContext';
 import { Button } from '../Buttons/Button/Button';
 import { Select } from '../FormElements/Select';
 import { Input } from '../FormElements/Input';
 import { MEMBERS_VALIDATIONS, directions, roles, scoreScale } from '../../services/constants';
 import { getCurrentDate, generateID, onBlurDate, onFocusDate, validateValues } from '../../services/helpers';
 import { validateCategory, validateField } from '../../services/validation';
+
 // import { registerNewUser } from '../../services/services'; COMMENTED TO PREVENT E-MAIL LETTER SENDINGS IN DEVELOPEMENT
 
 export class MemberManager extends PureComponent {
@@ -56,27 +58,25 @@ export class MemberManager extends PureComponent {
 
   componentDidMount() {
     const { edit, members, selected } = this.props;
-    const {
-      id,
-      direction,
-      name,
-      email,
-      lastName,
-      sex,
-      education,
-      birthDate,
-      universityAverageScore,
-      mathScore,
-      address,
-      mobilePhone,
-      skype,
-      startDate,
-      role,
-    } = members[selected];
     if (edit) {
+      const {
+        direction,
+        name,
+        email,
+        lastName,
+        sex,
+        education,
+        birthDate,
+        universityAverageScore,
+        mathScore,
+        address,
+        mobilePhone,
+        skype,
+        startDate,
+        role,
+      } = members[selected];
       this.setState({
         data: {
-          id,
           direction,
           name,
           email,
@@ -105,37 +105,23 @@ export class MemberManager extends PureComponent {
 
   saveMember = () => {
     const { data } = this.state;
-    const { saveData } = this.props;
+    const { selected, saveData, closeEdit } = this.props;
 
     if (this.validateData(MEMBERS_VALIDATIONS)) {
-      saveData('members', data);
+      saveData('members', data, selected, false);
+      closeEdit();
     }
   };
 
   addMember = () => {
     const { data } = this.state;
     // const { email } = this.state;  COMMENTED TO PREVENT E-MAIL LETTER SENDINGS IN DEVELOPEMENT
-    const { tasks, updateTasks, addData } = this.props;
-    const newTasks = tasks.map(({ assigners, status, trackName, note, date, name, start, deadline }) => {
-      const update = {};
-      update.assigners = assigners.concat(['disabled']);
-      update.status = status.concat(['disabled']);
-      update.trackName = trackName.concat([{ items: [] }]);
-      update.note = note.concat([{ items: [] }]);
-      update.date = date.concat([{ items: [] }]);
-      update.name = name;
-      update.start = start;
-      update.deadline = deadline;
-
-      return update;
-    });
-
+    const { selected, saveData, closeEdit } = this.props;
     if (this.validateData(MEMBERS_VALIDATIONS)) {
-      updateTasks(newTasks);
-      addData('members', data);
+      saveData('members', data, selected, true);
+      closeEdit();
+      // registerNewUser(email, generateID());  COMMENTED TO PREVENT E-MAIL LETTER SENDINGS IN DEVELOPEMENT
     }
-
-    // registerNewUser(email, generateID());  COMMENTED TO PREVENT E-MAIL LETTER SENDINGS IN DEVELOPEMENT
   };
 
   inputChange = (event) => {
@@ -352,11 +338,10 @@ export class MemberManager extends PureComponent {
 
 MemberManager.propTypes = {
   members: PropTypes.instanceOf(Array).isRequired,
-  tasks: PropTypes.instanceOf(Array).isRequired,
-  updateTasks: PropTypes.func.isRequired,
-  addData: PropTypes.func.isRequired,
   closeEdit: PropTypes.func.isRequired,
   saveData: PropTypes.func.isRequired,
   edit: PropTypes.bool.isRequired,
   selected: PropTypes.number.isRequired,
 };
+
+MemberManager.contextType = MainDataContext;

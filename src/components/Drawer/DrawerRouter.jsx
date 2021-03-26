@@ -1,6 +1,5 @@
 import { Drawer } from './Drawer';
 import './Drawer.scss';
-import { MainContext } from '../../services/context';
 
 export function DrawerRouter() {
   function renderDrawer(role) {
@@ -15,5 +14,5 @@ export function DrawerRouter() {
     }
   }
 
-  return <MainContext.Consumer>{({ userData: { role } }) => renderDrawer(role)}</MainContext.Consumer>;
+  return <aside>{renderDrawer('Admin')}</aside>;
 }

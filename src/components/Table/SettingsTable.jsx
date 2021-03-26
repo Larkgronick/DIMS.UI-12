@@ -1,5 +1,5 @@
 import { Button } from '../Buttons/Button/Button';
-import { MainContext } from '../../services/context';
+import { UserTasksContext } from '../../contexts/UserTasksContext';
 
 export function SettingsTable() {
   // TO DO Password change
@@ -8,7 +8,7 @@ export function SettingsTable() {
   };
 
   return (
-    <MainContext.Consumer>
+    <UserTasksContext.Consumer>
       {({ userData }) => (
         <tbody className='table-body'>
           <tr className='row'>
@@ -22,6 +22,6 @@ export function SettingsTable() {
           </tr>
         </tbody>
       )}
-    </MainContext.Consumer>
+    </UserTasksContext.Consumer>
   );
 }

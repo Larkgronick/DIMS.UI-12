@@ -2,28 +2,33 @@ import './styles/Table.scss';
 import { Header } from '../components/Table/Header';
 import { Table } from '../components/Table/Table';
 import { TaskTrackManager } from '../components/Popups/TaskTrackManager';
-import { MainContext } from '../services/context';
+import { ModalContext } from '../contexts/ModalContext';
+import { UserTasksContext } from '../contexts/UserTasksContext';
 
 export function UserTasks() {
   return (
-    <MainContext.Consumer>
-      {({ members, tasks, userTasks, userIndex, track, openModal, selected, closeEdit, addTaskData }) => (
-        <article>
-          {openModal ? (
-            <TaskTrackManager
-              tasks={tasks}
-              userTasks={userTasks}
-              members={members}
-              track={track}
-              userIndex={userIndex}
-              addTaskData={addTaskData}
-              closeEdit={closeEdit}
-            />
-          ) : null}
-          <Header>{`${members[selected].name} ${members[selected].lastName}'s Tasks (${userTasks.length})`}</Header>
-          <Table>users</Table>
-        </article>
+    <ModalContext>
+      {({ openModal, closeEdit, track }) => (
+        <UserTasksContext.Consumer>
+          {({ userTasks, userTracks, userData, saveTrackData }) => {
+            return (
+              <article>
+                {openModal ? (
+                  <TaskTrackManager
+                    userTasks={userTasks}
+                    userTracks={userTracks}
+                    saveTrackData={saveTrackData}
+                    track={track}
+                    closeEdit={closeEdit}
+                  />
+                ) : null}
+                <Header>{`${userData.name} ${userData.lastName}'s Tasks (${userTasks.length})`}</Header>
+                <Table>users</Table>
+              </article>
+            );
+          }}
+        </UserTasksContext.Consumer>
       )}
-    </MainContext.Consumer>
+    </ModalContext>
   );
 }

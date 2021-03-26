@@ -12,12 +12,6 @@ body {
   padding: 15px;
 }
 
-.drawer-open {
-  transform: translateX(250px);
-  transition: transform 0.3s ease-out;
-  width: 90vw;
-}
-
 .page-content {
   background-color: $page-bg;
 }

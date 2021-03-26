@@ -29,11 +29,9 @@ export class TaskTrackManager extends PureComponent {
   }
 
   componentDidMount() {
-    const { edit, userTasks, userIndex, track, subtask } = this.props;
+    const { edit, userTasks, userTracks, track, subtask } = this.props;
     const { name } = userTasks[track];
-    const trackName = userTasks[track].trackName[userIndex].items[subtask];
-    const date = userTasks[track].date[userIndex].items[subtask];
-    const note = userTasks[track].note[userIndex].items[subtask];
+    const { trackName, date, note } = userTracks[track];
 
     this.setState(({ data }) => ({
       data: {
@@ -45,9 +43,9 @@ export class TaskTrackManager extends PureComponent {
       this.setState({
         data: {
           name,
-          trackName,
-          date,
-          note,
+          trackName: trackName[subtask],
+          date: date[subtask],
+          note: note[subtask],
         },
       });
     }
@@ -60,30 +58,19 @@ export class TaskTrackManager extends PureComponent {
     return validateValues(test, length);
   };
 
-  saveTrack = () => {
-    const { saveTaskData, closeEdit } = this.props;
+  saveTrack = (action) => {
+    const { closeEdit, track, subtask, saveTrackData } = this.props;
     const { data } = this.state;
-    const { date, note, trackName } = data;
 
     if (this.validateData(TASK_TRACK_VALIDATIONS)) {
-      saveTaskData(date, note, trackName);
-      closeEdit();
-    }
-  };
-
-  addTrack = () => {
-    const { addTaskData, closeEdit } = this.props;
-    const { data } = this.state;
-    const { date, note, trackName } = data;
-
-    if (this.validateData(TASK_TRACK_VALIDATIONS)) {
-      addTaskData(date, note, trackName);
+      saveTrackData(data, track, subtask, action);
       closeEdit();
     }
   };
 
   inputChange = (event) => {
     const { name, value } = event.target;
+
     const error = `${name}Err`;
     this.setState(({ data, validation }) => ({
       data: {
@@ -148,11 +135,11 @@ export class TaskTrackManager extends PureComponent {
               Note:
             </Textarea>
             {edit ? (
-              <Button onClick={this.saveTrack} className='submit'>
+              <Button onClick={() => this.saveTrack('edit')} className='submit'>
                 Edit
               </Button>
             ) : (
-              <Button onClick={this.addTrack} className='submit'>
+              <Button onClick={() => this.saveTrack('save')} className='submit'>
                 Save
               </Button>
             )}
@@ -165,12 +152,11 @@ export class TaskTrackManager extends PureComponent {
 
 TaskTrackManager.propTypes = {
   userTasks: PropTypes.instanceOf(Array).isRequired,
-  userIndex: PropTypes.number.isRequired,
+  userTracks: PropTypes.instanceOf(Array).isRequired,
   date: PropTypes.string.isRequired,
   note: PropTypes.string.isRequired,
   trackName: PropTypes.string.isRequired,
-  addTaskData: PropTypes.func.isRequired,
-  saveTaskData: PropTypes.func.isRequired,
+  saveTrackData: PropTypes.func.isRequired,
   closeEdit: PropTypes.func.isRequired,
   track: PropTypes.number.isRequired,
   subtask: PropTypes.number.isRequired,

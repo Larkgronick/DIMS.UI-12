@@ -1,17 +1,17 @@
 import './styles/Table.scss';
 import { Header } from '../components/Table/Header';
-import { MainContext } from '../services/context';
 import { Table } from '../components/Table/Table';
+import { UserTasksContext } from '../contexts/UserTasksContext';
 
 export function Settings() {
   return (
-    <MainContext.Consumer>
+    <UserTasksContext.Consumer>
       {({ userData }) => (
         <article>
           <Header>{`${userData.name} ${userData.lastName}`}</Header>
           <Table>settings</Table>
         </article>
       )}
-    </MainContext.Consumer>
+    </UserTasksContext.Consumer>
   );
 }

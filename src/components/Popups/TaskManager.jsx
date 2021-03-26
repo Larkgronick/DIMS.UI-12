@@ -6,7 +6,7 @@ import { Input } from '../FormElements/Input';
 import { Textarea } from '../FormElements/Textarea';
 import { List } from '../FormElements/List';
 import { TASK_VALIDATIONS } from '../../services/constants';
-import { getCurrentDate, onFocusDate, onBlurDate, validateValues } from '../../services/helpers';
+import { getCurrentDate, onFocusDate, onBlurDate, validateValues, generateID } from '../../services/helpers';
 import { validateCategory, validateField } from '../../services/validation';
 
 export class TaskManager extends PureComponent {
@@ -14,15 +14,12 @@ export class TaskManager extends PureComponent {
     super(props);
     this.state = {
       data: {
+        id: generateID(),
         name: '',
         description: '',
         start: getCurrentDate(),
         deadline: getCurrentDate(),
-        assigners: '',
-        status: [],
-        trackName: [],
-        date: [],
-        note: [],
+        assigners: [],
       },
       validation: {
         nameErr: false,
@@ -38,19 +35,16 @@ export class TaskManager extends PureComponent {
 
   componentDidMount() {
     const { tasks, selected, edit } = this.props;
-    const { assigners, status, name, trackName, date, note, description, start, deadline } = tasks[selected];
     if (edit) {
+      const { id, assigners, name, description, start, deadline } = tasks[selected];
       this.setState({
         data: {
+          id,
           name,
           description,
           start,
           deadline,
           assigners,
-          status,
-          trackName,
-          date,
-          note,
         },
       });
     }
@@ -63,22 +57,15 @@ export class TaskManager extends PureComponent {
     return validateValues(test, length);
   };
 
-  saveTask = () => {
+  saveTask = (isNew) => {
     const { data } = this.state;
-    const { saveData } = this.props;
+    const { id, assigners } = data;
+    const { selected, saveData, closeEdit, addUserTasks } = this.props;
+    addUserTasks(id, assigners, selected);
 
     if (this.validateData(TASK_VALIDATIONS)) {
-      saveData('tasks', data);
-    }
-  };
-
-  addTask = () => {
-    const { data } = this.state;
-    const { addData } = this.props;
-    const toValidate = 4;
-
-    if (this.validateData(toValidate)) {
-      addData('tasks', data);
+      saveData('tasks', data, selected, isNew);
+      closeEdit();
     }
   };
 
@@ -99,14 +86,11 @@ export class TaskManager extends PureComponent {
 
   saveAssigner = () => {
     const checkBoxes = [...document.querySelectorAll("input[type='checkbox']")];
-    const assigners = checkBoxes.map(({ checked, name }) => (checked ? name : 'disabled'));
-    const status = checkBoxes.map(({ checked }) => (checked ? 'active' : 'disabled'));
-
+    const assigners = checkBoxes.map(({ checked, name }) => (checked ? name : null)).filter((el) => el !== null);
     this.setState(({ data }) => ({
       data: {
         ...data,
         assigners,
-        status,
       },
     }));
   };
@@ -179,11 +163,11 @@ export class TaskManager extends PureComponent {
               Assigners:
             </List>
             {edit ? (
-              <Button onClick={this.saveTask} className='submit'>
+              <Button onClick={() => this.saveTask(false)} className='submit'>
                 Edit
               </Button>
             ) : (
-              <Button onClick={this.addTask} className='submit'>
+              <Button onClick={() => this.saveTask(true)} className='submit'>
                 Create
               </Button>
             )}
@@ -197,9 +181,9 @@ export class TaskManager extends PureComponent {
 TaskManager.propTypes = {
   members: PropTypes.instanceOf(Array).isRequired,
   tasks: PropTypes.instanceOf(Array).isRequired,
+  addUserTasks: PropTypes.func.isRequired,
   edit: PropTypes.bool.isRequired,
   closeEdit: PropTypes.func.isRequired,
-  addData: PropTypes.func.isRequired,
   saveData: PropTypes.func.isRequired,
   selected: PropTypes.number.isRequired,
 };

@@ -1,20 +1,22 @@
-import { useContext } from 'react';
 import './styles/Table.scss';
 import { Header } from '../components/Table/Header';
-import { MainContext } from '../services/context';
 import { Table } from '../components/Table/Table';
+import { ModalContext } from '../contexts/ModalContext';
+import { UserTasksContext } from '../contexts/UserTasksContext';
 
 export function Progress() {
-  const context = useContext(MainContext);
-  const { members, userTasks, selected } = context;
   return (
-    <MainContext.Consumer>
-      {() => (
-        <article>
-          <Header>{`${members[selected].name} ${members[selected].lastName}'s Progress (${userTasks.length})`}</Header>
-          <Table>progress</Table>
-        </article>
+    <UserTasksContext>
+      {({ userTasks, userData }) => (
+        <ModalContext>
+          {() => (
+            <article>
+              <Header>{`${userData.name} ${userData.lastName}'s Progress (${userTasks.length})`}</Header>
+              <Table>progress</Table>
+            </article>
+          )}
+        </ModalContext>
       )}
-    </MainContext.Consumer>
+    </UserTasksContext>
   );
 }
