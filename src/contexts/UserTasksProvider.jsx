@@ -28,7 +28,7 @@ export class UserTasksProvider extends Component {
         });
         console.log(res);
       })
-      .catch((err) => console.log(err));
+      .catch(console.log);
   };
 
   addUserTasks = (taskId, assigners) => {
@@ -66,7 +66,7 @@ export class UserTasksProvider extends Component {
     const { userTracks } = this.state;
     const { trackName, note, date, taskId, status, userId } = userTracks[track];
     const newTrack = {};
-    const newUserTracks = userTracks;
+    const newUserTracks = { ...userTracks };
     newTrack.taskId = taskId;
     newTrack.status = status;
     newTrack.userId = userId;

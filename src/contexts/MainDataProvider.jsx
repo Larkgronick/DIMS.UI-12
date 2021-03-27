@@ -18,13 +18,13 @@ export class MainDataProvider extends Component {
       .then((members) => {
         this.setState({ members });
       })
-      .catch((err) => console.log(err));
+      .catch(console.log);
     // TO DO Show message, when data load failed
     loadData('tasks')
       .then((tasks) => {
         this.setState({ tasks });
       })
-      .catch((err) => console.log(err));
+      .catch(console.log);
     // TO DO Show message, when data load failed
   };
 

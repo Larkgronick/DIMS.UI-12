@@ -13,10 +13,12 @@ export function Drawer({ children }) {
         <UserTasksContext.Consumer>
           {({ showUserTasks }) => {
             const openPage = (name) => {
-              if (name === 'My tasks' || name === 'My progress') {
-                showUserTasks();
-              }
               drawerToggle();
+              const page = {
+                'My tasks': showUserTasks(),
+                'My progress': showUserTasks(),
+              };
+              return page[name];
             };
             return (
               <div className={`side-drawer ${drawerOpen ? 'open' : ''}`}>

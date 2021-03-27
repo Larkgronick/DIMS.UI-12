@@ -52,9 +52,9 @@ export class TaskManager extends PureComponent {
 
   validateData = (length) => {
     const { data } = this.state;
-    const test = validateCategory('tasks', data);
-    this.setState({ validation: test });
-    return validateValues(test, length);
+    const validation = validateCategory('tasks', data);
+    this.setState({ validation });
+    return validateValues(validation, length);
   };
 
   saveTask = (isNew) => {
@@ -85,7 +85,8 @@ export class TaskManager extends PureComponent {
   };
 
   saveAssigner = () => {
-    const checkBoxes = [...document.querySelectorAll("input[type='checkbox']")];
+    const field = this.inputRef;
+    const checkBoxes = [...field.querySelectorAll("input[type='checkbox']")];
     const assigners = checkBoxes.map(({ checked, name }) => (checked ? name : null)).filter((el) => el !== null);
     this.setState(({ data }) => ({
       data: {
@@ -93,6 +94,10 @@ export class TaskManager extends PureComponent {
         assigners,
       },
     }));
+  };
+
+  setRef = (ref) => {
+    this.inputRef = ref;
   };
 
   render() {
@@ -154,6 +159,7 @@ export class TaskManager extends PureComponent {
               Deadline:
             </Input>
             <List
+              inputRef={this.setRef}
               items={members}
               elements={assigners}
               className='assigner'

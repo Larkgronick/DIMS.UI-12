@@ -14,7 +14,7 @@ export function MembersTable() {
             const isAdmin = userData.role === 'Admin';
             return (
               <ModalContext.Consumer>
-                {({ selectItem, openEdit }) => (
+                {({ openEdit }) => (
                   <tbody className='table-body'>
                     {members.map(
                       ({
@@ -50,24 +50,12 @@ export function MembersTable() {
                           <td>{convertDate(startDate)}</td>
                           <td>
                             <Link to='/progress'>
-                              <Button
-                                onClick={(e) => {
-                                  selectItem(e, 'selected');
-                                  showUserTasks(e);
-                                }}
-                                className='button dev'
-                              >
+                              <Button onClick={showUserTasks} className='button dev'>
                                 Progress
                               </Button>
                             </Link>
                             <Link to='/user-tasks'>
-                              <Button
-                                onClick={(e) => {
-                                  selectItem(e, 'selected');
-                                  showUserTasks(e);
-                                }}
-                                className='button tasks'
-                              >
+                              <Button onClick={showUserTasks} className='button tasks'>
                                 Tasks
                               </Button>
                             </Link>

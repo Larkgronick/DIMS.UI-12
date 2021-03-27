@@ -8,24 +8,17 @@ import { TaskTrackTable } from './TaskTrackTable';
 import { SettingsTable } from './SettingsTable';
 
 export function Table({ children }) {
-  function renderTable(page) {
-    switch (page) {
-      case 'members':
-        return <MembersTable />;
-      case 'tasks':
-        return <TasksTable />;
-      case 'progress':
-        return <ProgressTable />;
-      case 'users':
-        return <UserTasksTable />;
-      case 'taskTracks':
-        return <TaskTrackTable />;
-      case 'settings':
-        return <SettingsTable />;
-      default:
-        return null;
-    }
-  }
+  const renderTable = (page) => {
+    const table = {
+      members: <MembersTable />,
+      tasks: <TasksTable />,
+      progress: <ProgressTable />,
+      users: <UserTasksTable />,
+      taskTracks: <TaskTrackTable />,
+      settings: <SettingsTable />,
+    };
+    return table[page];
+  };
 
   return (
     <table className='table'>

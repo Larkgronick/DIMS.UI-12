@@ -13,7 +13,7 @@ export function Tasks() {
         <ModalContext.Consumer>
           {({ edit, openModal, closeEdit, selected }) => (
             <UserTasksContext.Consumer>
-              {({ addUserTasks }) => (
+              {({ addUserTasks, userData }) => (
                 <article>
                   {openModal ? (
                     <TaskManager
@@ -26,7 +26,7 @@ export function Tasks() {
                       selected={selected}
                     />
                   ) : null}
-                  <Header addButton text='Create'>{`Dev Incubator Tasks (${tasks.length})`}</Header>
+                  <Header role={userData.role} text='Create'>{`Dev Incubator Tasks (${tasks.length})`}</Header>
                   <Table>tasks</Table>
                 </article>
               )}

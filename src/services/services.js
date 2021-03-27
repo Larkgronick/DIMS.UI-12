@@ -129,7 +129,7 @@ export const loadUserTracks = async (id) => {
           }, {});
         tasks = Object.values(tasks);
         tasks = tasks.map((el) => el.find(({ userId }) => userId === id));
-        tasks = tasks.filter((el) => el !== undefined);
+        tasks = tasks.filter((el) => el);
         return tasks;
       }
       console.log(`Cannot find ${id} data`);

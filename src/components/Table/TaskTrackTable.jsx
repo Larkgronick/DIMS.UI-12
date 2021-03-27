@@ -10,6 +10,9 @@ export function TaskTrackTable() {
         <ModalContext.Consumer>
           {({ track, editTrack }) => {
             const { trackName, note, date } = userTracks[track];
+            const deleteTrack = (e) => {
+              saveTrackData({}, track, getIndex(e), 'delete');
+            };
             return (
               <tbody className='table-body'>
                 {trackName.map((el, i) => (
@@ -23,12 +26,7 @@ export function TaskTrackTable() {
                       </Button>
                     </td>
                     <td>
-                      <Button
-                        onClick={(e) => {
-                          saveTrackData({}, track, getIndex(e), 'delete');
-                        }}
-                        className='button danger'
-                      >
+                      <Button onClick={deleteTrack} className='button danger'>
                         Delete
                       </Button>
                     </td>

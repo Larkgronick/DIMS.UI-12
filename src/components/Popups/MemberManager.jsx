@@ -100,9 +100,9 @@ export class MemberManager extends PureComponent {
 
   validateData = (length) => {
     const { data } = this.state;
-    const test = validateCategory('members', data);
-    this.setState({ validation: test });
-    return validateValues(test, length);
+    const validation = validateCategory('members', data);
+    this.setState({ validation });
+    return validateValues(validation, length);
   };
 
   saveMember = () => {

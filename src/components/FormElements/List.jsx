@@ -1,10 +1,11 @@
+/* eslint react/prop-types: 0 */
 import PropTypes from 'prop-types';
 
-export function List({ children, items, elements, className, listId, onChange }) {
+export function List({ children, inputRef, items, elements, className, listId, onChange }) {
   return (
     <label htmlFor={listId}>
       {children}
-      <ul id={listId}>
+      <ul ref={inputRef} id={listId}>
         {items.map(({ name: firstName, id, lastName }) => (
           <li key={id} className={className}>
             <input checked={elements.includes(id)} type='checkbox' value='true' name={id} onChange={onChange} />
