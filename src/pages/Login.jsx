@@ -3,6 +3,7 @@ import './styles/Login.scss';
 import devLogo from '../assets/images/devLogo.png';
 import { Button } from '../components/Buttons/Button/Button';
 import { signInFirebase } from '../services/services';
+import { Spinner } from '../components/Loader/Spinner';
 
 export class Login extends Component {
   constructor(props) {
@@ -12,19 +13,19 @@ export class Login extends Component {
       password: '',
       emailError: '',
       passwordError: '',
+      isLoading: false,
     };
-    this.inputChange = this.inputChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
   }
 
-  // TO DO: deal with validation
-  async handleClick() {
+  handleClick = async () => {
     const { email, password } = this.state;
+    this.setState({ isLoading: true });
     const response = await signInFirebase(email, password);
     if (response.code) {
       this.validateLogin(response.code);
     }
-  }
+    this.setState({ isLoading: false });
+  };
 
   validateLogin = (res) => {
     switch (res) {
@@ -43,7 +44,7 @@ export class Login extends Component {
     }
   };
 
-  inputChange(event) {
+  inputChange = (event) => {
     const { name, value } = event.target;
 
     this.setState({
@@ -51,11 +52,11 @@ export class Login extends Component {
       emailError: '',
       passwordError: '',
     });
-  }
+  };
 
   render() {
-    const { emailError, passwordError } = this.state;
-
+    const { emailError, passwordError, isLoading } = this.state;
+    console.log(isLoading);
     return (
       <div className='login'>
         <header className='header-login'>
@@ -83,6 +84,7 @@ export class Login extends Component {
             <Button onClick={this.handleClick} className='button dev'>
               Sign In
             </Button>
+            <Spinner visible={isLoading} />
           </form>
         </main>
       </div>

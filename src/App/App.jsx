@@ -37,7 +37,6 @@ export class App extends PureComponent {
 
   render() {
     const { user } = this.state;
-    // TO DO:  Set correct welcome message
     return (
       <>
         {user ? (

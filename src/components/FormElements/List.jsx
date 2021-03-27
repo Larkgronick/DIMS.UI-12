@@ -1,4 +1,3 @@
-/* eslint react/prop-types: 0 */
 import PropTypes from 'prop-types';
 
 export function List({ children, inputRef, items, elements, className, listId, onChange }) {
@@ -19,6 +18,7 @@ export function List({ children, inputRef, items, elements, className, listId, o
 
 List.propTypes = {
   items: PropTypes.instanceOf(Array).isRequired,
+  inputRef: PropTypes.func.isRequired,
   elements: PropTypes.instanceOf(Array).isRequired,
   className: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
