@@ -1,4 +1,5 @@
 import { Drawer } from './Drawer';
+import { UserTasksContext } from '../../contexts/UserTasksContext';
 import './Drawer.scss';
 
 export function DrawerRouter() {
@@ -14,5 +15,5 @@ export function DrawerRouter() {
     }
   }
 
-  return <aside>{renderDrawer('Admin')}</aside>;
+  return <UserTasksContext.Consumer>{({ userData }) => renderDrawer(userData.role)}</UserTasksContext.Consumer>;
 }

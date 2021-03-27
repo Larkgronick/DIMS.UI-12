@@ -60,6 +60,7 @@ export class MemberManager extends PureComponent {
     const { edit, members, selected } = this.props;
     if (edit) {
       const {
+        id,
         direction,
         name,
         email,
@@ -77,6 +78,7 @@ export class MemberManager extends PureComponent {
       } = members[selected];
       this.setState({
         data: {
+          id,
           direction,
           name,
           email,

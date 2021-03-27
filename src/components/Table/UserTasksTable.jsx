@@ -7,49 +7,61 @@ import { getIndex } from '../../services/helpers';
 export function UserTasksTable() {
   return (
     <UserTasksContext.Consumer>
-      {({ userTasks, userTracks, setTaskStatus }) => (
+      {({ userTasks, userData, userTracks, setTaskStatus }) => (
         <ModalContext.Consumer>
-          {({ openEdit, selectItem }) => (
-            <tbody className='table-body'>
-              {userTasks.map((item, i) => (
-                <tr key={item.id} className='row'>
-                  <td>
-                    <Link to='/task-track'>
-                      <Button onClick={(e) => selectItem(e, 'track')} className='link'>
-                        {item.name}
+          {({ openEdit, selectItem }) => {
+            const isMember = userData.role === 'Member';
+            return (
+              <tbody className='table-body'>
+                {userTasks.map(({ id, name, start, deadline }, i) => (
+                  <tr key={id} className='row'>
+                    <td>
+                      {isMember ? (
+                        <Link to='/task-track'>
+                          <Button onClick={(e) => selectItem(e, 'track')} className='link'>
+                            {name}
+                          </Button>
+                        </Link>
+                      ) : (
+                        <span>{name}</span>
+                      )}
+                    </td>
+                    <td>
+                      <span className='attention'>{start}</span>
+                    </td>
+                    <td>{deadline}</td>
+                    <td>
+                      <span className={userTracks[i].status}>{userTracks[i].status}</span>
+                    </td>
+
+                    <td>
+                      {isMember ? (
+                        <Button
+                          onClick={(e) => {
+                            selectItem(e, 'track');
+                            openEdit();
+                          }}
+                          className='button edit'
+                        >
+                          Track
+                        </Button>
+                      ) : (
+                        <span />
+                      )}
+                    </td>
+                    <td>
+                      <Button onClick={(e) => setTaskStatus(getIndex(e), 'success', i)} className='button dev'>
+                        Success
                       </Button>
-                    </Link>
-                  </td>
-                  <td>
-                    <span className='attention'>{item.start}</span>
-                  </td>
-                  <td>{item.deadline}</td>
-                  <td>
-                    <span className={userTracks[i].status}>{userTracks[i].status}</span>
-                  </td>
-                  <td>
-                    <Button
-                      onClick={(e) => {
-                        selectItem(e, 'track');
-                        openEdit();
-                      }}
-                      className='button edit'
-                    >
-                      Track
-                    </Button>
-                  </td>
-                  <td>
-                    <Button onClick={(e) => setTaskStatus(getIndex(e), 'success', i)} className='button dev'>
-                      Success
-                    </Button>
-                    <Button onClick={(e) => setTaskStatus(getIndex(e), 'failed', i)} className='button danger'>
-                      Fail
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          )}
+                      <Button onClick={(e) => setTaskStatus(getIndex(e), 'failed', i)} className='button danger'>
+                        Fail
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            );
+          }}
         </ModalContext.Consumer>
       )}
     </UserTasksContext.Consumer>

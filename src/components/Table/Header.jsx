@@ -5,7 +5,7 @@ import { ModalContext } from '../../contexts/ModalContext';
 import { DrawerContext } from '../../contexts/DrawerContext';
 import { logOutFirebase } from '../../services/services';
 
-export function Header({ children, addButton, text }) {
+export function Header({ children, role, text }) {
   return (
     <DrawerContext.Consumer>
       {({ drawerToggle, drawerOpen }) => (
@@ -15,7 +15,7 @@ export function Header({ children, addButton, text }) {
               <header className='header'>
                 <div>
                   <Hamburger drawerOpen={drawerOpen} drawerToggle={drawerToggle} />
-                  {addButton ? (
+                  {role === 'Admin' ? (
                     <Button onClick={(e) => openEdit(e, false)} className='button dev'>
                       {text}
                     </Button>
@@ -36,6 +36,6 @@ export function Header({ children, addButton, text }) {
 
 Header.propTypes = {
   children: PropTypes.string.isRequired,
-  addButton: PropTypes.bool.isRequired,
+  role: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
 };

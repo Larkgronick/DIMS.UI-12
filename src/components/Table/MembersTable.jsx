@@ -10,79 +10,86 @@ export function MembersTable() {
     <MainDataContext.Consumer>
       {({ members, deleteData }) => (
         <UserTasksContext.Consumer>
-          {({ showUserTasks }) => (
-            <ModalContext.Consumer>
-              {({ selectItem, openEdit }) => (
-                <tbody className='table-body'>
-                  {members.map(
-                    ({
-                      id,
-                      name,
-                      lastName,
-                      direction,
-                      birthDate,
-                      email,
-                      sex,
-                      education,
-                      universityAverageScore,
-                      mathScore,
-                      address,
-                      mobilePhone,
-                      startDate,
-                      skype,
-                    }) => (
-                      <tr key={id} className='row'>
-                        <td className='name'>
-                          <span>{`${name} ${lastName}`}</span>
-                          <span className='attention'>{direction}</span>
-                        </td>
-                        <td>{email}</td>
-                        <td>{sex}</td>
-                        <td>{education}</td>
-                        <td>{getAge(birthDate)}</td>
-                        <td>{universityAverageScore}</td>
-                        <td>{mathScore}</td>
-                        <td>{address}</td>
-                        <td>{mobilePhone}</td>
-                        <td>{skype}</td>
-                        <td>{convertDate(startDate)}</td>
-                        <td>
-                          <Link to='/progress'>
-                            <Button
-                              onClick={(e) => {
-                                selectItem(e, 'selected');
-                                showUserTasks(e);
-                              }}
-                              className='button dev'
-                            >
-                              Progress
-                            </Button>
-                          </Link>
-                          <Link to='/user-tasks'>
-                            <Button
-                              onClick={(e) => {
-                                selectItem(e, 'selected');
-                                showUserTasks(e);
-                              }}
-                              className='button tasks'
-                            >
-                              Tasks
-                            </Button>
-                          </Link>
-                          <Button onClick={(e) => openEdit(e, 'selected')} className='button edit'>
-                            Edit
-                          </Button>
-                          <Button onClick={(e) => deleteData(e, 'members')} className='button danger'>
-                            Delete
-                          </Button>
-                        </td>
-                      </tr>
-                    ),
-                  )}
-                </tbody>
-              )}
-            </ModalContext.Consumer>
-          )}
+          {({ showUserTasks, userData }) => {
+            const isAdmin = userData.role === 'Admin';
+            return (
+              <ModalContext.Consumer>
+                {({ selectItem, openEdit }) => (
+                  <tbody className='table-body'>
+                    {members.map(
+                      ({
+                        id,
+                        name,
+                        lastName,
+                        direction,
+                        birthDate,
+                        email,
+                        sex,
+                        education,
+                        universityAverageScore,
+                        mathScore,
+                        address,
+                        mobilePhone,
+                        startDate,
+                        skype,
+                      }) => (
+                        <tr key={id} className='row'>
+                          <td className='name'>
+                            <span>{`${name} ${lastName}`}</span>
+                            <span className='attention'>{direction}</span>
+                          </td>
+                          <td>{email}</td>
+                          <td>{sex}</td>
+                          <td>{education}</td>
+                          <td>{getAge(birthDate)}</td>
+                          <td>{universityAverageScore}</td>
+                          <td>{mathScore}</td>
+                          <td>{address}</td>
+                          <td>{mobilePhone}</td>
+                          <td>{skype}</td>
+                          <td>{convertDate(startDate)}</td>
+                          <td>
+                            <Link to='/progress'>
+                              <Button
+                                onClick={(e) => {
+                                  selectItem(e, 'selected');
+                                  showUserTasks(e);
+                                }}
+                                className='button dev'
+                              >
+                                Progress
+                              </Button>
+                            </Link>
+                            <Link to='/user-tasks'>
+                              <Button
+                                onClick={(e) => {
+                                  selectItem(e, 'selected');
+                                  showUserTasks(e);
+                                }}
+                                className='button tasks'
+                              >
+                                Tasks
+                              </Button>
+                            </Link>
+                            {isAdmin ? (
+                              <span>
+                                <Button onClick={(e) => openEdit(e, 'selected')} className='button edit'>
+                                  Edit
+                                </Button>
+                                <Button onClick={(e) => deleteData(e, 'members')} className='button danger'>
+                                  Delete
+                                </Button>
+                              </span>
+                            ) : null}
+                          </td>
+                        </tr>
+                      ),
+                    )}
+                  </tbody>
+                )}
+              </ModalContext.Consumer>
+            );
+          }}
         </UserTasksContext.Consumer>
       )}
     </MainDataContext.Consumer>

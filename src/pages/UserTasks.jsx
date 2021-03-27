@@ -10,7 +10,7 @@ export function UserTasks() {
     <ModalContext>
       {({ openModal, closeEdit, track }) => (
         <UserTasksContext.Consumer>
-          {({ userTasks, userTracks, userData, saveTrackData }) => {
+          {({ userTasks, userTracks, memberData, saveTrackData }) => {
             return (
               <article>
                 {openModal ? (
@@ -22,7 +22,7 @@ export function UserTasks() {
                     closeEdit={closeEdit}
                   />
                 ) : null}
-                <Header>{`${userData.name} ${userData.lastName}'s Tasks (${userTasks.length})`}</Header>
+                <Header>{`${memberData.name} ${memberData.lastName}'s Tasks (${userTasks.length})`}</Header>
                 <Table>users</Table>
               </article>
             );

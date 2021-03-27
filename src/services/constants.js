@@ -24,6 +24,7 @@ export const menuItems = {
     'Mobile phone',
     'Skype',
     'Start date',
+    'Actions',
   ],
   tasks: ['Name', 'Start', 'Deadline', 'Actions'],
   progress: ['Task Name', 'Track', 'Note', 'Date'],
@@ -38,7 +39,6 @@ export const menuItems = {
     { name: 'Settings', path: '/settings', img: settingsIcon },
   ],
   drawerMember: [
-    { name: 'Members', path: '/members', img: membersIcon },
     { name: 'My tasks', path: '/my-tasks', img: myTasksIcon },
     { name: 'My progress', path: '/progress', img: progressIcon },
     { name: 'Settings', path: '/settings', img: settingsIcon },
