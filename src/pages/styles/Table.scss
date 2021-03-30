@@ -3,16 +3,21 @@ $roboto-regular: 'Roboto Regular', serif;
 
 $text-thead: #8492af;
 $table-line: #dadee7;
+$dev-color: #008f02;
+$danger: #da514b;
 
 .table {
-  width: 90vw;
+  width: 95vw;
   font-family: $roboto-regular;
   border-collapse: collapse;
+  text-align: center;
+  margin: 0 auto 30px auto;
 }
 
 header {
+  width: 85vw;
   display: flex;
-  justify-content: space-around;
+  margin: 0 auto;
 }
 
 .table-head {
@@ -41,4 +46,48 @@ header {
 
 td {
   text-align: center;
+}
+.progress {
+  vertical-align: initial;
+}
+
+.link {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.subtask {
+  margin: 30px 0;
+}
+
+.success {
+  color: $dev-color;
+}
+
+.failed {
+  color: $danger;
+}
+
+.error-caption {
+  padding: 45px 0;
+  font-size: 30px;
+  font-style: italic;
+}
+
+.error-border {
+  border: 2px solid $danger;
+}
+
+.hide {
+  display: none;
+}
+
+.description {
+  text-align: justify;
+  padding: 0px 30px;
+  line-height: 40px;
 }

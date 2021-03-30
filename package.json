@@ -17,6 +17,7 @@
     "test:coverage": "yarn test --coverage",
     "test:coverage:ci": "set CI=true && yarn test:coverage",
     "test:coverage:ci:codecov": "yarn test:coverage:ci && codecov",
+    "format": "prettier --write \"src/**/*.+(js|jsx|json|css|scss|md)\"",
     "lint": "eslint \"src/**/*.+(js|jsx)\"",
     "lint:fix": "eslint --fix \"src/**/*.+(js|jsx)\"",
     "clean": "rm -rf node_modules coverage build",
@@ -92,6 +93,7 @@
     "prop-types": "15.7.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-loader-spinner": "^4.0.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "4.0.2",
     "web-vitals": "1.1.0"

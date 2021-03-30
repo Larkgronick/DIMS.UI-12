@@ -1,24 +1,46 @@
 import PropTypes from 'prop-types';
 import './Drawer.scss';
 import { Link } from 'react-router-dom';
+import { DrawerContext } from '../../contexts/DrawerContext';
+import { UserTasksContext } from '../../contexts/UserTasksContext';
 import devLogo from '../../assets/images/devLogo.png';
-import { drawerMenuItems } from '../../services/constants';
+import { menuItems } from '../../services/constants';
 
-export function Drawer({ showDrawer, toggle }) {
+export function Drawer({ children }) {
   return (
-    <aside className={showDrawer ? 'side-drawer open' : 'side-drawer'}>
-      <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
-      {drawerMenuItems.map(({ name, path, img }) => (
-        <Link onClick={toggle} to={path} key={name} className='drawer-item'>
-          <img alt='img' src={img} />
-          <span className='drawer-item-name'> {name}</span>
-        </Link>
-      ))}
-    </aside>
+    <DrawerContext.Consumer>
+      {({ drawerOpen, drawerToggle }) => (
+        <UserTasksContext.Consumer>
+          {({ showUserTasks }) => {
+            const openPage = (name) => {
+              drawerToggle();
+              const page = {
+                'My tasks': showUserTasks(),
+                'My progress': showUserTasks(),
+              };
+              return page[name];
+            };
+            return (
+              <div className={`side-drawer ${drawerOpen ? 'open' : ''}`}>
+                <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
+                {menuItems[children].map(({ name, path, img }) => {
+                  return (
+                    <Link onClick={() => openPage(name)} to={path} key={name} className='drawer-item'>
+                      <img alt='img' src={img} />
+                      <span className='drawer-item-name'>{name}</span>
+                    </Link>
+                  );
+                })}
+                <div className={`main-page ${drawerOpen ? 'show' : ''}`} onClick={drawerToggle} aria-hidden='true' />
+              </div>
+            );
+          }}
+        </UserTasksContext.Consumer>
+      )}
+    </DrawerContext.Consumer>
   );
 }
 
 Drawer.propTypes = {
-  showDrawer: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired,
+  children: PropTypes.string.isRequired,
 };

@@ -4,16 +4,25 @@ $roboto-regular: 'Roboto Regular', serif;
 $text: #fff;
 $line-bg: #000;
 $dev-color: #008f02;
+$gradient-right: #dce35b;
+$gradient-left: #45b649;
 $input-line: #dadee7;
 $error: red;
 
+.login {
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(to right, $gradient-left, $gradient-right);
+}
 
 .header-login {
+  width: 100vw;
   display: flex;
   justify-content: space-between;
   color: $text;
   background-color: $line-bg;
 }
+
 .dev-logo-login {
   margin: 15px;
   height: 60px;
@@ -37,14 +46,21 @@ $error: red;
 .login-form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: top;
   font-family: $roboto-regular;
+  text-align: center;
 }
 
 .input-fields {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.welcome {
+  margin: 3% 0 5% 0;
+  font-size: 26px;
+  text-align: center;
 }
 
 .login-form h2 {
@@ -83,7 +99,5 @@ $error: red;
   color: $error;
   font-size: 12px;
   text-align: center;
-  width: 50%;
   margin: 5px 0;
 }
-

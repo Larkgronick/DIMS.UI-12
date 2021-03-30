@@ -1,47 +1,17 @@
-import PropTypes from 'prop-types';
 import './styles/Table.scss';
-import { Hamburger } from '../components/Buttons/Hamburger/Hamburger';
-import { progressMenuItems, progressBody } from '../services/constants';
+import { Header } from '../components/Table/Header';
+import { Table } from '../components/Table/Table';
+import { UserTasksContext } from '../contexts/UserTasksContext';
 
-export function Progress({ showDrawer, toggle, logOut }) {
+export function Progress() {
   return (
-    <article>
-      <header className='header'>
-        <Hamburger showDrawer={showDrawer} toggle={toggle} />
-        <button onClick={logOut} type='button'>
-          Log Out
-        </button>
-      </header>
-      <p className='page-name'>
-        Ivan&apos; progress
-        <span>({progressBody.length})</span>
-      </p>
-      <table className='table'>
-        <thead className='table-head'>
-          {progressMenuItems.map((item) => (
-            <th>{item}</th>
-          ))}
-        </thead>
-        <tbody className='table-body'>
-          {progressBody.map(({ name, note, dateImg, date, buttons }) => (
-            <tr className='row'>
-              <th className='name'>{name}</th>
-              <td>{note}</td>
-              <td>
-                <img className='logo' src={dateImg} alt='note-date' />
-                <span>{date}</span>
-              </td>
-              <td>{buttons}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </article>
+    <UserTasksContext.Consumer>
+      {({ userTasks, memberData }) => (
+        <article>
+          <Header>{`${memberData.name} ${memberData.lastName}'s Progress (${userTasks.length})`}</Header>
+          <Table>progress</Table>
+        </article>
+      )}
+    </UserTasksContext.Consumer>
   );
 }
-
-Progress.propTypes = {
-  showDrawer: PropTypes.func.isRequired,
-  logOut: PropTypes.func.isRequired,
-  toggle: PropTypes.bool.isRequired,
-};

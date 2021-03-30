@@ -1,12 +1,23 @@
 import PropTypes from 'prop-types';
+import { MainDataContext } from '../../../contexts/MainDataContext';
 import { Button } from '../Button/Button';
 import './Hamburger.scss';
 
-export function Hamburger({ showDrawer, toggle }) {
-  return <Button name={<span />} action={toggle} styles={`bt-menu-trigger ${showDrawer && 'bt-menu-open'}`} />;
+export function Hamburger({ drawerOpen, drawerToggle }) {
+  return (
+    <MainDataContext.Consumer>
+      {({ theme }) => {
+        return (
+          <Button onClick={drawerToggle} className={`bt-menu-trigger ${theme} ${drawerOpen && 'bt-menu-open'}`}>
+            <span />
+          </Button>
+        );
+      }}
+    </MainDataContext.Consumer>
+  );
 }
 
 Hamburger.propTypes = {
-  showDrawer: PropTypes.bool.isRequired,
-  toggle: PropTypes.bool.isRequired,
+  drawerOpen: PropTypes.bool.isRequired,
+  drawerToggle: PropTypes.func.isRequired,
 };

@@ -1,91 +1,40 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
 import './styles/Main.scss';
-import { Route } from 'react-router-dom';
-import { Members, Tasks, Progress } from './index';
-import { membersBody } from '../services/constants';
+import { Switch } from 'react-router-dom';
+import { PrivateRoute } from '../components/PrivateRoute/PrivateRoute';
+import { Members } from './Members';
+import { Tasks } from './Tasks';
+import { DrawerRouter } from '../components/Drawer/DrawerRouter';
+import Login from './Login';
+import { UserTasks } from './UserTasks';
+import { TaskTrack } from './TaskTrack';
+import { Progress } from './Progress';
+import { Settings } from './Settings';
+import { About } from './About';
+import { MainDataContext } from '../contexts/MainDataContext';
 
-export class Main extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      members: membersBody,
-      openModal: false,
-      selected: 0,
-    };
-  }
-
-  modalToggle = () => {
-    const { openModal } = this.state;
-    this.setState({
-      openModal: !openModal,
-    });
-  };
-
-  addMember = (e, member) => {
-    const { members } = this.state;
-    e.preventDefault();
-    members.push(member);
-    this.setState({ openModal: false });
-  };
-
-  addTask = (e, task) => {
-    const { members, selected } = this.state;
-    e.preventDefault();
-    members[selected].tasks.push(task);
-    this.setState({ openModal: false });
-  };
-
-  selectMember = (e) => {
-    const el = e.target.closest('.row');
-    const selected = [...el.parentElement.children].indexOf(el);
-    this.setState({
-      selected,
-    });
-  };
-
-  render() {
-    const { members, openModal, selected } = this.state;
-    const { showDrawer, toggle } = this.props;
-    console.log(this.state);
-
-    return (
-      <main className={showDrawer ? 'drawer-open' : ''}>
-        <Route
-          path='/members'
-          component={() => (
-            <Members
-              members={members}
-              addMember={this.addMember}
-              modalToggle={this.modalToggle}
-              selectMember={this.selectMember}
-              openModal={openModal}
-              showDrawer={showDrawer}
-              toggle={toggle}
-            />
-          )}
-        />
-        <Route
-          path='/tasks'
-          component={() => (
-            <Tasks
-              members={members}
-              addTask={this.addTask}
-              modalToggle={this.modalToggle}
-              openModal={openModal}
-              showDrawer={showDrawer}
-              toggle={toggle}
-              selected={selected}
-            />
-          )}
-        />
-        <Route path='/progress' component={() => <Progress showDrawer={showDrawer} toggle={toggle} />} />
-      </main>
-    );
-  }
+export function Main() {
+  return (
+    <MainDataContext.Consumer>
+      {({ isLogged, theme }) => {
+        return (
+          <>
+            <DrawerRouter />
+            <main className={theme}>
+              <Switch>
+                <PrivateRoute path='/login' redirectPath='/' condition={!isLogged} component={Login} />
+                <PrivateRoute path='/members' condition={isLogged} component={Members} />
+                <PrivateRoute path='/tasks' condition={isLogged} component={Tasks} />
+                <PrivateRoute path='/user-tasks' condition={isLogged} component={UserTasks} />
+                <PrivateRoute path='/progress' condition={isLogged} component={Progress} />
+                <PrivateRoute path='/my-tasks' condition={isLogged} component={UserTasks} />
+                <PrivateRoute path='/task-track' condition={isLogged} component={TaskTrack} />
+                <PrivateRoute path='/settings' condition={isLogged} component={Settings} />
+                <PrivateRoute path='/' condition={isLogged} component={About} />
+              </Switch>
+            </main>
+          </>
+        );
+      }}
+    </MainDataContext.Consumer>
+  );
 }
-
-Main.propTypes = {
-  toggle: PropTypes.func.isRequired,
-  showDrawer: PropTypes.bool.isRequired,
-};
