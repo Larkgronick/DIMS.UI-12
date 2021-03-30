@@ -4,27 +4,26 @@ export function ProgressTable() {
   return (
     <UserTasksContext.Consumer>
       {({ userTasks, userTracks }) => {
-        console.log(userTracks);
         return (
           <tbody className='table-body'>
             {userTasks.map((item, i) => {
               const { trackName, note, date } = userTracks[i];
               return (
-                <tr key={item} className='row'>
+                <tr key={item.name} className='row'>
                   <td className='progress'>{item.name}</td>
                   <td>
                     {trackName.map((el) => (
-                      <p>{el}</p>
+                      <p key={el}>{el}</p>
                     ))}
                   </td>
                   <td>
                     {note.map((el) => (
-                      <p>{el}</p>
+                      <p key={el}>{el}</p>
                     ))}
                   </td>
                   <td>
                     {date.map((el) => (
-                      <p>{el}</p>
+                      <p key={el}>{el}</p>
                     ))}
                   </td>
                 </tr>

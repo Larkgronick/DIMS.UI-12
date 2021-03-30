@@ -1,5 +1,5 @@
 import { Drawer } from './Drawer';
-import { UserTasksContext } from '../../contexts/UserTasksContext';
+import { MainDataContext } from '../../contexts/MainDataContext';
 import './Drawer.scss';
 
 export function DrawerRouter() {
@@ -12,5 +12,5 @@ export function DrawerRouter() {
     return drawer[role];
   };
 
-  return <UserTasksContext.Consumer>{({ userData }) => renderDrawer(userData.role)}</UserTasksContext.Consumer>;
+  return <MainDataContext.Consumer>{({ userData }) => renderDrawer(userData.role)}</MainDataContext.Consumer>;
 }

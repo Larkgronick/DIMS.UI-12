@@ -5,18 +5,20 @@ import { getIndex } from '../../services/helpers';
 
 export function TaskTrackTable() {
   return (
-    <UserTasksContext>
+    <UserTasksContext.Consumer>
       {({ userTracks, saveTrackData }) => (
         <ModalContext.Consumer>
           {({ track, editTrack }) => {
             const { trackName, note, date } = userTracks[track];
             const deleteTrack = (e) => {
-              saveTrackData({}, track, getIndex(e), 'delete');
+              if (window.confirm('Are you sure you wish to delete this item?')) {
+                saveTrackData({}, track, getIndex(e), 'delete');
+              }
             };
             return (
               <tbody className='table-body'>
                 {trackName.map((el, i) => (
-                  <tr className='row'>
+                  <tr key={el} className='row'>
                     <td>{trackName[i]}</td>
                     <td>{note[i]}</td>
                     <td>{date[i]}</td>
@@ -24,8 +26,6 @@ export function TaskTrackTable() {
                       <Button onClick={editTrack} className='button edit'>
                         Edit
                       </Button>
-                    </td>
-                    <td>
                       <Button onClick={deleteTrack} className='button danger'>
                         Delete
                       </Button>
@@ -37,6 +37,6 @@ export function TaskTrackTable() {
           }}
         </ModalContext.Consumer>
       )}
-    </UserTasksContext>
+    </UserTasksContext.Consumer>
   );
 }

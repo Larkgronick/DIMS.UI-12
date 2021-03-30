@@ -9,11 +9,11 @@ import { UserTasksContext } from '../contexts/UserTasksContext';
 export function Tasks() {
   return (
     <MainDataContext.Consumer>
-      {({ members, tasks, saveData }) => (
+      {({ userData, members, tasks, saveData }) => (
         <ModalContext.Consumer>
           {({ edit, openModal, closeEdit, selected }) => (
             <UserTasksContext.Consumer>
-              {({ addUserTasks, userData }) => (
+              {({ addUserTasks }) => (
                 <article>
                   {openModal ? (
                     <TaskManager

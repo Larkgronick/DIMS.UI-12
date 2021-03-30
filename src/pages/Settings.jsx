@@ -1,17 +1,21 @@
 import './styles/Table.scss';
 import { Header } from '../components/Table/Header';
 import { Table } from '../components/Table/Table';
-import { UserTasksContext } from '../contexts/UserTasksContext';
+import { MainDataContext } from '../contexts/MainDataContext';
+import { images } from '../services/constants';
 
 export function Settings() {
   return (
-    <UserTasksContext.Consumer>
+    <MainDataContext.Consumer>
       {({ userData }) => (
         <article>
-          <Header>{`${userData.name} ${userData.lastName}`}</Header>
+          <Header>
+            <img src={images.userIcon} alt='members-icon' />
+            {`${userData.name} ${userData.lastName}`}
+          </Header>
           <Table>settings</Table>
         </article>
       )}
-    </UserTasksContext.Consumer>
+    </MainDataContext.Consumer>
   );
 }

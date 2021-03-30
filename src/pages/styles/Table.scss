@@ -7,13 +7,17 @@ $dev-color: #008f02;
 $danger: #da514b;
 
 .table {
-  width: 90vw;
+  width: 95vw;
   font-family: $roboto-regular;
   border-collapse: collapse;
+  text-align: center;
+  margin: 0 auto 30px auto;
 }
 
 header {
+  width: 85vw;
   display: flex;
+  margin: 0 auto;
 }
 
 .table-head {
@@ -80,4 +84,10 @@ td {
 
 .hide {
   display: none;
+}
+
+.description {
+  text-align: justify;
+  padding: 0px 30px;
+  line-height: 40px;
 }

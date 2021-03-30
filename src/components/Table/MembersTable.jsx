@@ -8,9 +8,9 @@ import { UserTasksContext } from '../../contexts/UserTasksContext';
 export function MembersTable() {
   return (
     <MainDataContext.Consumer>
-      {({ members, deleteData }) => (
+      {({ userData, members, deleteData }) => (
         <UserTasksContext.Consumer>
-          {({ showUserTasks, userData }) => {
+          {({ showUserTasks }) => {
             const isAdmin = userData.role === 'Admin';
             return (
               <ModalContext.Consumer>

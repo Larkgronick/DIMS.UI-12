@@ -1,10 +1,17 @@
 $header-line: #dadee7;
-$page-bg: #f6f7fa;
+$light-bg: #f6f7fa;
+$light-font: #000000;
+$dark-bg: #2a2c2d;
+$dark-font: #ffffff;
 
 body {
-  width: 90vw;
+  width: 100vw;
   margin: 0 auto;
-  height: 100%;
+}
+
+main {
+  height: 100vh;
+  overflow-x: hidden;
 }
 
 .header {
@@ -12,14 +19,21 @@ body {
   padding: 15px;
 }
 
-.page-content {
-  background-color: $page-bg;
-}
-
 .page-name {
+  margin-left: 70px;
   font-size: 20pt;
 }
 
 .page-name span {
   margin: 0 15px;
+}
+
+.light {
+  color: $light-font;
+  background-color: $light-bg;
+}
+
+.dark {
+  color: $dark-font;
+  background-color: $dark-bg;
 }

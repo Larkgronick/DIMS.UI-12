@@ -13,6 +13,20 @@ export const signInFirebase = async (email, password) => {
   }
 };
 
+export const signInWithGoogle = () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  console.log(provider);
+  firebase
+    .auth()
+    .signInWithPopup(provider)
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 export const logOutFirebase = async () => {
   try {
     await firebase.auth().signOut();
@@ -112,7 +126,7 @@ export const loadMemberData = async (e) => {
   const userTasks = tasks.filter((el) => el.assigners.includes(members[userIndex].id));
   const userTracks = await loadUserTracks(userData.id);
 
-  return { userData, userIndex, userTasks, userTracks };
+  return { userData, userTasks, userTracks };
 };
 
 export const loadUserTracks = async (id) => {

@@ -7,16 +7,12 @@ export class UserTasksProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: [],
       memberData: [],
       userTasks: [],
       userTracks: [],
+      isLoading: false,
     };
   }
-
-  componentDidMount = async () => {
-    this.loadUserData();
-  };
 
   loadUserData = async () => {
     loadMemberData()
@@ -95,23 +91,24 @@ export class UserTasksProvider extends Component {
   };
 
   showUserTasks = async (e) => {
+    this.setState({ isLoading: true });
     const { userData, userTasks, userTracks } = await loadMemberData(e);
-
     this.setState({
       memberData: userData,
       userTasks,
       userTracks,
+      isLoading: false,
     });
   };
 
   render() {
-    const { userData, memberData, userTasks, userTracks } = this.state;
+    const { memberData, userTasks, userTracks, isLoading } = this.state;
     const { addUserTasks, setTaskStatus, showUserTasks, saveTrackData } = this;
     const value = {
-      userData,
       memberData,
       userTasks,
       userTracks,
+      isLoading,
       addUserTasks,
       setTaskStatus,
       showUserTasks,

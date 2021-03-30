@@ -7,7 +7,7 @@ import { UserTasksContext } from '../contexts/UserTasksContext';
 
 export function UserTasks() {
   return (
-    <ModalContext>
+    <ModalContext.Consumer>
       {({ openModal, closeEdit, track }) => (
         <UserTasksContext.Consumer>
           {({ userTasks, userTracks, memberData, saveTrackData }) => {
@@ -29,6 +29,6 @@ export function UserTasks() {
           }}
         </UserTasksContext.Consumer>
       )}
-    </ModalContext>
+    </ModalContext.Consumer>
   );
 }

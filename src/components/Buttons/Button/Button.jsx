@@ -11,11 +11,12 @@ export function Button({ children, onClick, className }) {
 }
 
 Button.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.node,
   className: PropTypes.string.isRequired,
   onClick: PropTypes.func,
 };
 
 Button.defaultProps = {
   onClick: noop,
+  children: null,
 };

@@ -35,7 +35,17 @@ export function Header({ children, role, text }) {
 }
 
 Header.propTypes = {
-  children: PropTypes.string.isRequired,
-  role: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  children: PropTypes.node,
+  role: PropTypes.string,
+  text: PropTypes.string,
+};
+
+Header.defaultProps = {
+  children: null,
+  role: 'Member',
+  text: 'Create',
+};
+
+Header.defaultProps = {
+  children: null,
 };

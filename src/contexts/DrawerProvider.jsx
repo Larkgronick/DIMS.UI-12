@@ -6,7 +6,7 @@ export class DrawerProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      drawerOpen: true,
+      drawerOpen: false,
     };
   }
 

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import './style/Popup.scss';
-import { MainDataContext } from '../../contexts/MainDataContext';
 import { Button } from '../Buttons/Button/Button';
 import { Select } from '../FormElements/Select';
 import { Input } from '../FormElements/Input';
@@ -345,5 +344,3 @@ MemberManager.propTypes = {
   edit: PropTypes.bool.isRequired,
   selected: PropTypes.number.isRequired,
 };
-
-MemberManager.contextType = MainDataContext;

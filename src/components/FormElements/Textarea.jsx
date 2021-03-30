@@ -19,7 +19,7 @@ Textarea.propTypes = {
   isError: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,

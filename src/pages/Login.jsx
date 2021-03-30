@@ -1,11 +1,14 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import './styles/Login.scss';
 import devLogo from '../assets/images/devLogo.png';
 import { Button } from '../components/Buttons/Button/Button';
-import { signInFirebase } from '../services/services';
+import { signInFirebase, signInWithGoogle } from '../services/services';
+import { GoogleButton } from '../components/Buttons/GoogleButton/GoogleButton';
 import { Spinner } from '../components/Loader/Spinner';
 
-export class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,6 +31,7 @@ export class Login extends Component {
   };
 
   validateLogin = (res) => {
+    const { history } = this.props;
     switch (res) {
       case 'auth/invalid-email':
         this.setState({ emailError: 'The email address is badly formatted' });
@@ -36,10 +40,10 @@ export class Login extends Component {
         this.setState({ emailError: "This email doesn't exist in DIMS system" });
         break;
       case 'auth/wrong-password':
-        console.log(res);
         this.setState({ passwordError: 'Invalid password' });
         break;
       default:
+        history.push('/my-tasks');
         break;
     }
   };
@@ -56,7 +60,6 @@ export class Login extends Component {
 
   render() {
     const { emailError, passwordError, isLoading } = this.state;
-    console.log(isLoading);
     return (
       <div className='login'>
         <header className='header-login'>
@@ -67,7 +70,7 @@ export class Login extends Component {
             Welcome to <span>Dev Incubator!</span>
           </p>
           <form className='input-fields'>
-            <input id='email-field' name='email' onChange={this.inputChange} type='email' placeholder='Login' />
+            <input id='email-field' name='email' onChange={this.inputChange} type='email' placeholder='Email' />
             <label className='error-message' htmlFor='email-field'>
               {emailError}
             </label>
@@ -84,6 +87,7 @@ export class Login extends Component {
             <Button onClick={this.handleClick} className='button dev'>
               Sign In
             </Button>
+            <GoogleButton onClick={signInWithGoogle}>Sign in with Google</GoogleButton>
             <Spinner visible={isLoading} />
           </form>
         </main>
@@ -91,3 +95,11 @@ export class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default withRouter(Login);

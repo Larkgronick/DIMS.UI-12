@@ -1,3 +1,7 @@
 .spinner {
-  margin-top: 50px;
+  position: absolute;
+  z-index: 3;
+  left: 45%;
+  top: 30%;
+  margin: 50px auto;
 }

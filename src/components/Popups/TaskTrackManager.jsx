@@ -153,12 +153,19 @@ export class TaskTrackManager extends PureComponent {
 TaskTrackManager.propTypes = {
   userTasks: PropTypes.instanceOf(Array).isRequired,
   userTracks: PropTypes.instanceOf(Array).isRequired,
-  date: PropTypes.string.isRequired,
-  note: PropTypes.string.isRequired,
-  trackName: PropTypes.string.isRequired,
+  date: PropTypes.string,
+  note: PropTypes.string,
+  trackName: PropTypes.string,
   saveTrackData: PropTypes.func.isRequired,
   closeEdit: PropTypes.func.isRequired,
   track: PropTypes.number.isRequired,
-  subtask: PropTypes.number.isRequired,
-  edit: PropTypes.bool.isRequired,
+  subtask: PropTypes.number,
+  edit: PropTypes.bool,
+};
+TaskTrackManager.defaultProps = {
+  date: getCurrentDate,
+  note: 'note',
+  trackName: 'track name',
+  subtask: 0,
+  edit: false,
 };
