@@ -7,6 +7,7 @@ import { Button } from '../components/Buttons/Button/Button';
 import { signInFirebase, signInWithGoogle } from '../services/services';
 import { GoogleButton } from '../components/Buttons/GoogleButton/GoogleButton';
 import { Spinner } from '../components/Loader/Spinner';
+import { validateEmail } from '../services/validation';
 
 class Login extends Component {
   constructor(props) {
@@ -25,26 +26,31 @@ class Login extends Component {
     this.setState({ isLoading: true });
     const response = await signInFirebase(email, password);
     if (response.code) {
-      this.validateLogin(response.code);
+      this.validateLogin(response.code, email);
     }
     this.setState({ isLoading: false });
   };
 
-  validateLogin = (res) => {
+  validateLogin = (res, email) => {
     const { history } = this.props;
-    switch (res) {
-      case 'auth/invalid-email':
-        this.setState({ emailError: 'The email address is badly formatted' });
-        break;
-      case 'auth/user-not-found':
-        this.setState({ emailError: "This email doesn't exist in DIMS system" });
-        break;
-      case 'auth/wrong-password':
-        this.setState({ passwordError: 'Invalid password' });
-        break;
-      default:
-        history.push('/my-tasks');
-        break;
+    if (validateEmail(email)) {
+      this.setState({ emailError: "Email must be in valid format, for example 'username@mailbox.com'" });
+    } else {
+      switch (res) {
+        case 'auth/invalid-email':
+          this.setState({ emailError: 'The email address is badly formatted' });
+          break;
+        case 'auth/user-not-found':
+          this.setState({ emailError: "This email doesn't exist in DIMS system" });
+
+          break;
+        case 'auth/wrong-password':
+          this.setState({ passwordError: 'Invalid password' });
+          break;
+        default:
+          history.push('/my-tasks');
+          break;
+      }
     }
   };
 
@@ -65,12 +71,19 @@ class Login extends Component {
         <header className='header-login'>
           <img className='dev-logo-login' src={devLogo} alt='dev-incubator-logo' />
         </header>
-        <main className='login-form'>
+        <main className={isLoading ? `drop-shadow login-form` : `login-form`}>
           <p className='welcome'>
             Welcome to <span>Dev Incubator!</span>
           </p>
           <form className='input-fields'>
-            <input id='email-field' name='email' onChange={this.inputChange} type='email' placeholder='Email' />
+            <input
+              id='email-field'
+              name='email'
+              onChange={this.inputChange}
+              autoComplete='off'
+              type='email'
+              placeholder='Email'
+            />
             <label className='error-message' htmlFor='email-field'>
               {emailError}
             </label>

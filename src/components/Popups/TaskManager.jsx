@@ -6,7 +6,14 @@ import { Input } from '../FormElements/Input';
 import { Textarea } from '../FormElements/Textarea';
 import { List } from '../FormElements/List';
 import { TASK_VALIDATIONS } from '../../services/constants';
-import { getCurrentDate, onFocusDate, onBlurDate, validateValues, generateID } from '../../services/helpers';
+import {
+  getCurrentDate,
+  onFocusDate,
+  onBlurDate,
+  validateValues,
+  generateID,
+  convertDate,
+} from '../../services/helpers';
 import { validateCategory, validateField } from '../../services/validation';
 
 export class TaskManager extends PureComponent {
@@ -27,7 +34,6 @@ export class TaskManager extends PureComponent {
         startErr: false,
         deadlineErr: false,
         textMessage: 'This field must have at least one character',
-        dateMessage: 'Date cannot be greater than current or lesser than 01 January 1970',
         deadlineMessage: 'Date cannot be lower than current',
       },
     };
@@ -101,13 +107,13 @@ export class TaskManager extends PureComponent {
   };
 
   render() {
-    const { members, closeEdit, edit } = this.props;
+    const { members, closeEdit, edit, theme } = this.props;
     const { data, validation } = this.state;
     const { name, description, start, deadline, assigners } = data;
-    const { nameErr, descriptionErr, startErr, deadlineErr, textMessage, dateMessage, deadlineMessage } = validation;
+    const { nameErr, descriptionErr, startErr, deadlineErr, textMessage, deadlineMessage } = validation;
     return (
       <div className='modal'>
-        <div className='modal-content'>
+        <div className={`${theme} modal-content`}>
           <Button onClick={closeEdit} className='close'>
             <span>&times;</span>
           </Button>
@@ -134,11 +140,12 @@ export class TaskManager extends PureComponent {
             </Textarea>
             <Input
               isError={startErr}
-              errorMessage={dateMessage}
+              errorMessage={deadlineMessage}
               onFocus={onFocusDate}
               onBlur={onBlurDate}
-              placeholder={start}
+              placeholder={convertDate(start)}
               type='date'
+              max='2999-12-31'
               value={start}
               name='start'
               onChange={this.inputChange}
@@ -150,8 +157,9 @@ export class TaskManager extends PureComponent {
               errorMessage={deadlineMessage}
               onFocus={onFocusDate}
               onBlur={onBlurDate}
-              placeholder={deadline}
+              placeholder={convertDate(deadline)}
               type='date'
+              max='2999-12-31'
               value={deadline}
               name='deadline'
               onChange={this.inputChange}
@@ -192,4 +200,5 @@ TaskManager.propTypes = {
   closeEdit: PropTypes.func.isRequired,
   saveData: PropTypes.func.isRequired,
   selected: PropTypes.number.isRequired,
+  theme: PropTypes.string.isRequired,
 };

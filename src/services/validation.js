@@ -34,7 +34,6 @@ export const validateField = (name, value) => {
       return validateText(value);
     case 'birthDate':
     case 'startDate':
-    case 'start':
     case 'date':
       return validateDate(value);
     case 'mobilePhone':
@@ -43,6 +42,7 @@ export const validateField = (name, value) => {
       return validateEmail(value);
     case 'skype':
       return validateEng(value);
+    case 'start':
     case 'deadline':
       return validateDeadline(value);
     default:
@@ -63,7 +63,7 @@ const validateNumber = (value) => {
   return !belarusNumber.test(value);
 };
 
-const validateEmail = (value) => {
+export const validateEmail = (value) => {
   const email = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return !email.test(String(value).toLowerCase());
 };

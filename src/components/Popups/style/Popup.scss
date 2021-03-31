@@ -1,9 +1,9 @@
-$popup-back: #fefefe;
 $window-back: #000;
-$shadow: #999999;
+$shadow: #a5ce86;
 $border: #888;
 $dev-color: #008f02;
 $submit-text: #fff;
+$drop-shadow: rgba(202, 200, 200, 0.3);
 
 .modal {
   position: fixed;
@@ -14,16 +14,29 @@ $submit-text: #fff;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: $window-back;
-  background-color: $shadow;
+  background: $drop-shadow;
 }
 
 .modal-content {
-  background-color: $popup-back;
   margin: auto;
   padding: 20px;
   border: 1px solid $border;
-  width: 80%;
+  width: 45%;
+}
+
+.members {
+  width: 45%;
+}
+
+.new-member {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.column {
+  width: 300px;
+  margin: 10px;
 }
 
 .close {
@@ -56,12 +69,10 @@ textarea,
   box-sizing: border-box;
 }
 
-#submit {
+.submit {
   width: 100%;
   background-color: $dev-color;
   color: $submit-text;
-  padding: 14px 20px;
-  margin: 8px 0;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -76,4 +87,12 @@ textarea,
 .assigner {
   display: flex;
   margin: 7px 15px;
+  input {
+    width: 20px;
+    margin-right: 3px;
+  }
+}
+
+.hide-error {
+  display: none;
 }

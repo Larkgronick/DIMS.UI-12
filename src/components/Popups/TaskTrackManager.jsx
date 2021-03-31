@@ -5,7 +5,7 @@ import { Button } from '../Buttons/Button/Button';
 import { Input } from '../FormElements/Input';
 import { Textarea } from '../FormElements/Textarea';
 import { TASK_TRACK_VALIDATIONS } from '../../services/constants';
-import { getCurrentDate, onFocusDate, onBlurDate, validateValues } from '../../services/helpers';
+import { getCurrentDate, onFocusDate, onBlurDate, validateValues, convertDate } from '../../services/helpers';
 import { validateCategory, validateField } from '../../services/validation';
 
 export class TaskTrackManager extends PureComponent {
@@ -85,14 +85,14 @@ export class TaskTrackManager extends PureComponent {
   };
 
   render() {
-    const { closeEdit, edit } = this.props;
+    const { closeEdit, edit, theme } = this.props;
     const { data, validation } = this.state;
     const { name, trackName, date, note } = data;
     const { trackNameErr, dateErr, noteErr, textMessage, dateMessage } = validation;
 
     return (
       <div className='modal'>
-        <div className='modal-content'>
+        <div className={`${theme} modal-content`}>
           <Button onClick={closeEdit} className='close'>
             <span>&times;</span>
           </Button>
@@ -106,8 +106,9 @@ export class TaskTrackManager extends PureComponent {
               errorMessage={dateMessage}
               onFocus={onFocusDate}
               onBlur={onBlurDate}
-              placeholder={date}
+              placeholder={convertDate(date)}
               type='date'
+              max='2999-12-31'
               value={date}
               name='date'
               onChange={this.inputChange}
@@ -161,6 +162,7 @@ TaskTrackManager.propTypes = {
   track: PropTypes.number.isRequired,
   subtask: PropTypes.number,
   edit: PropTypes.bool,
+  theme: PropTypes.string.isRequired,
 };
 TaskTrackManager.defaultProps = {
   date: getCurrentDate,

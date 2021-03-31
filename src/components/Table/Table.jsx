@@ -11,18 +11,19 @@ import { HowToTable } from './HowToTable';
 import { Spinner } from '../Loader/Spinner';
 import { UserTasksContext } from '../../contexts/UserTasksContext';
 
+const table = {
+  members: <MembersTable />,
+  tasks: <TasksTable />,
+  progress: <ProgressTable />,
+  users: <UserTasksTable />,
+  taskTracks: <TaskTrackTable />,
+  settings: <SettingsTable />,
+  about: <AboutTable />,
+  howto: <HowToTable />,
+};
+
 export function Table({ children }) {
   const renderTable = (page) => {
-    const table = {
-      members: <MembersTable />,
-      tasks: <TasksTable />,
-      progress: <ProgressTable />,
-      users: <UserTasksTable />,
-      taskTracks: <TaskTrackTable />,
-      settings: <SettingsTable />,
-      about: <AboutTable />,
-      howto: <HowToTable />,
-    };
     return table[page];
   };
 

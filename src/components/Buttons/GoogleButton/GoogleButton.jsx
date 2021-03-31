@@ -5,11 +5,11 @@ import { images } from '../../../services/constants';
 
 export function GoogleButton({ children, onClick }) {
   return (
-    <div onClick={onClick} className='google-btn' aria-hidden='true'>
-      <div className='google-icon-wrapper'>
+    <div onClick={onClick} className='google-button' aria-hidden='true'>
+      <div className='wrapper'>
         <img className='google-icon' src={images.googleIcon} alt='google-logo' />
       </div>
-      <p className='btn-text'>
+      <p className='button-text'>
         <b>{children}</b>
       </p>
     </div>

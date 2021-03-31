@@ -8,7 +8,7 @@ export function getIndex(e) {
 export function validateValues(obj, length) {
   return Object.values(obj)
     .slice(0, length)
-    .every((el) => el === false);
+    .every((el) => !el);
 }
 
 export function removeUserTaskData(arr, index) {
@@ -32,16 +32,22 @@ export function getCurrentDate() {
 }
 
 export function getAge(birthDate) {
-  const birthConvert = new Date(birthDate);
-  const ageDiffMs = Date.now() - birthConvert.getTime();
-  const ageDate = new Date(ageDiffMs);
+  if (birthDate) {
+    const birthConvert = new Date(birthDate);
+    const ageDiffMs = Date.now() - birthConvert.getTime();
+    const ageDate = new Date(ageDiffMs);
 
-  return Math.abs(ageDate.getUTCFullYear() - 1970);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  }
+  return null;
 }
 
 export function convertDate(date) {
-  const [year, month, day] = date.match(/\d+/g);
-  return `${day}.${month}.${year}`;
+  if (date) {
+    const [year, month, day] = date.match(/\d+/g);
+    return `${day}.${month}.${year}`;
+  }
+  return null;
 }
 
 export function generateID() {

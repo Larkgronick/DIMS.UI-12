@@ -8,20 +8,21 @@ import { getIndex } from '../../services/helpers';
 export function UserTasksTable() {
   return (
     <MainDataContext.Consumer>
-      {({ userData }) => (
+      {({ role }) => (
         <UserTasksContext.Consumer>
           {({ userTasks, userTracks, setTaskStatus }) => (
             <ModalContext.Consumer>
               {({ openEdit, selectItem }) => {
-                const isMember = userData.role === 'Member';
+                const isMember = role === 'Member';
+
                 const renderActions = (memberRole, i) => {
                   if (!memberRole) {
                     return (
                       <>
-                        <Button onClick={(e) => setTaskStatus(getIndex(e), 'success', i)} className='button dev'>
+                        <Button onClick={set('success', i)} className='button dev'>
                           Success
                         </Button>
-                        <Button onClick={(e) => setTaskStatus(getIndex(e), 'failed', i)} className='button danger'>
+                        <Button onClick={set('failed', i)} className='button danger'>
                           Fail
                         </Button>
                       </>
@@ -29,6 +30,22 @@ export function UserTasksTable() {
                   }
                   return null;
                 };
+
+                const select = (track) => {
+                  return (e) => selectItem(e, track);
+                };
+
+                const set = (status, index) => {
+                  return (e) => setTaskStatus(getIndex(e), status, index);
+                };
+
+                const edit = (track) => {
+                  return (e) => {
+                    selectItem(e, track);
+                    openEdit();
+                  };
+                };
+
                 return (
                   <tbody className='table-body'>
                     {userTasks.map(({ id, name, start, deadline }, i) => (
@@ -36,7 +53,7 @@ export function UserTasksTable() {
                         <td>
                           {isMember ? (
                             <Link to='/task-track'>
-                              <Button onClick={(e) => selectItem(e, 'track')} className='link'>
+                              <Button onClick={select('track')} className='link'>
                                 {name}
                               </Button>
                             </Link>
@@ -51,23 +68,14 @@ export function UserTasksTable() {
                         <td>
                           <span className={userTracks[i].status}>{userTracks[i].status}</span>
                         </td>
-
-                        <td>
-                          {isMember ? (
-                            <Button
-                              onClick={(e) => {
-                                selectItem(e, 'track');
-                                openEdit();
-                              }}
-                              className='button edit'
-                            >
+                        {isMember ? (
+                          <td>
+                            <Button onClick={edit('track')} className='button edit'>
                               Track
                             </Button>
-                          ) : (
-                            <span />
-                          )}
-                        </td>
-                        <td>{renderActions(isMember, i)}</td>
+                          </td>
+                        ) : null}
+                        {!isMember ? <td className='actions'>{renderActions(isMember, i)}</td> : null}
                       </tr>
                     ))}
                   </tbody>

@@ -6,7 +6,7 @@ export function Select({ children, isError, options, value, onChange, name }) {
       {children}
       <select className={isError ? 'error-border' : null} name={name} value={value} onChange={onChange}>
         <option value='' disabled selected hidden>
-          Please Choose...
+          Choose...
         </option>
         {options.map((el) => (
           <option key={el}>{el}</option>

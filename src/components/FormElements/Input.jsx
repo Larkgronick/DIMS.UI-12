@@ -24,13 +24,15 @@ export function Input({
         name={name}
         min={min}
         max={max}
-        placeholder={isError ? errorMessage : placeholder}
+        placeholder={placeholder}
         value={value}
         valueAsDate={valueAsDate}
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
+        autoComplete='off'
       />
+      <div className={isError ? 'error-message' : 'hide-error'}>{errorMessage}</div>
     </label>
   );
 }

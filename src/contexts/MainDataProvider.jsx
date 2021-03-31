@@ -14,7 +14,10 @@ export class MainDataProvider extends Component {
       isLogged: false,
       members: [],
       tasks: [],
-      userData: {},
+      role: '',
+      name: '',
+      lastName: '',
+      email: '',
       theme: 'dark',
     };
   }
@@ -29,10 +32,14 @@ export class MainDataProvider extends Component {
     this.listener = firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
         const { userData } = await loadMemberData();
+        const { role, name, lastName, email } = userData;
 
         this.setState({
           isLogged: true,
-          userData,
+          role,
+          name,
+          lastName,
+          email,
         });
 
         loadData('members')
@@ -102,13 +109,16 @@ export class MainDataProvider extends Component {
   };
 
   render() {
-    const { isLogged, members, tasks, userData, isLoading, theme } = this.state;
+    const { isLogged, members, tasks, role, name, lastName, email, isLoading, theme } = this.state;
     const { saveData, deleteData, switchTheme } = this;
     const value = {
       isLogged,
       members,
       tasks,
-      userData,
+      role,
+      name,
+      lastName,
+      email,
       isLoading,
       saveData,
       deleteData,
