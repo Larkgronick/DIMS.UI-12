@@ -8,7 +8,7 @@ import { ModalContext } from '../contexts/ModalContext';
 export function Members() {
   return (
     <MainDataContext.Consumer>
-      {({ userData, members, tasks, saveData }) => (
+      {({ role, members, tasks, saveData, theme }) => (
         <ModalContext.Consumer>
           {({ edit, openModal, closeEdit, selected }) => (
             <article>
@@ -20,9 +20,10 @@ export function Members() {
                   saveData={saveData}
                   edit={edit}
                   selected={selected}
+                  theme={theme}
                 />
               ) : null}
-              <Header role={userData.role} text='Register'>{`Members (${members.length})`}</Header>
+              <Header role={role} text='Register'>{`Members (${members.length})`}</Header>
               <Table>members</Table>
             </article>
           )}

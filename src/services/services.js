@@ -41,7 +41,8 @@ export const registerNewUser = async (email, password) => {
     await firebase.auth().sendPasswordResetEmail(email);
     return response;
   } catch (error) {
-    throw new Error('Error with registration:', error);
+    console.log('Error with registration:', error);
+    return null;
   }
 };
 

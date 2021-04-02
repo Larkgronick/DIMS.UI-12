@@ -9,7 +9,7 @@ import { UserTasksContext } from '../contexts/UserTasksContext';
 export function Tasks() {
   return (
     <MainDataContext.Consumer>
-      {({ userData, members, tasks, saveData }) => (
+      {({ role, members, tasks, saveData, theme }) => (
         <ModalContext.Consumer>
           {({ edit, openModal, closeEdit, selected }) => (
             <UserTasksContext.Consumer>
@@ -24,9 +24,10 @@ export function Tasks() {
                       addUserTasks={addUserTasks}
                       edit={edit}
                       selected={selected}
+                      theme={theme}
                     />
                   ) : null}
-                  <Header role={userData.role} text='Create'>{`Dev Incubator Tasks (${tasks.length})`}</Header>
+                  <Header role={role} text='Create'>{`Dev Incubator Tasks (${tasks.length})`}</Header>
                   <Table>tasks</Table>
                 </article>
               )}

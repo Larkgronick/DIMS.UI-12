@@ -7,10 +7,11 @@ export function Textarea({ children, errorMessage, isError, placeholder, value, 
       <textarea
         className={isError ? 'error-border' : null}
         name={name}
-        placeholder={isError ? errorMessage : placeholder}
+        placeholder={placeholder}
         value={value}
         onChange={onChange}
       />
+      <div className={isError ? 'error-message' : 'hide-error'}>{errorMessage}</div>
     </label>
   );
 }

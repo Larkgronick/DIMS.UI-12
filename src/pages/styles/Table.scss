@@ -17,6 +17,7 @@ $danger: #da514b;
 header {
   width: 85vw;
   display: flex;
+  justify-content: space-between;
   margin: 0 auto;
 }
 
@@ -25,10 +26,8 @@ header {
   margin-bottom: 10px;
 }
 
-.name {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 10px;
+.actions {
+  width: 400px;
 }
 
 .attention {
@@ -46,6 +45,7 @@ header {
 
 td {
   text-align: center;
+  border: 2px solid $table-line;
 }
 .progress {
   vertical-align: initial;

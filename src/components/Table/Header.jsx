@@ -10,24 +10,29 @@ export function Header({ children, role, text }) {
     <DrawerContext.Consumer>
       {({ drawerToggle, drawerOpen }) => (
         <ModalContext.Consumer>
-          {({ openEdit }) => (
-            <>
-              <header className='header'>
-                <div>
-                  <Hamburger drawerOpen={drawerOpen} drawerToggle={drawerToggle} />
-                  {role === 'Admin' ? (
-                    <Button onClick={(e) => openEdit(e, false)} className='button dev'>
-                      {text}
-                    </Button>
-                  ) : null}
-                </div>
-                <Button onClick={logOutFirebase} className='button danger'>
-                  Log Out
-                </Button>
-              </header>
-              <p className='page-name'>{children}</p>
-            </>
-          )}
+          {({ openEdit }) => {
+            const edit = (isNew) => {
+              return (e) => openEdit(e, isNew);
+            };
+            return (
+              <>
+                <header className='header'>
+                  <div>
+                    <Hamburger drawerOpen={drawerOpen} drawerToggle={drawerToggle} />
+                    {role === 'Admin' ? (
+                      <Button onClick={edit(false)} className='button dev'>
+                        {text}
+                      </Button>
+                    ) : null}
+                  </div>
+                  <Button onClick={logOutFirebase} className='button danger'>
+                    Log Out
+                  </Button>
+                </header>
+                <p className='page-name'>{children}</p>
+              </>
+            );
+          }}
         </ModalContext.Consumer>
       )}
     </DrawerContext.Consumer>

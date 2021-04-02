@@ -7,11 +7,11 @@ import { images } from '../services/constants';
 export function Settings() {
   return (
     <MainDataContext.Consumer>
-      {({ userData }) => (
+      {({ name, lastName }) => (
         <article>
           <Header>
             <img src={images.userIcon} alt='members-icon' />
-            {`${userData.name} ${userData.lastName}`}
+            {`${name} ${lastName}`}
           </Header>
           <Table>settings</Table>
         </article>

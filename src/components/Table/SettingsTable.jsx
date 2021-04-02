@@ -20,21 +20,22 @@ export function SettingsTable() {
   const changePassword = (email) => {
     const auth = firebase.auth();
     const emailAddress = email;
-    auth
-      .sendPasswordResetEmail(emailAddress)
-      .then(() => showMessage(false))
-      .catch(() => showMessage(true));
+    return () =>
+      auth
+        .sendPasswordResetEmail(emailAddress)
+        .then(() => showMessage(false))
+        .catch(() => showMessage(true));
   };
 
   return (
     <MainDataContext.Consumer>
-      {({ userData }) => (
+      {({ email, role }) => (
         <tbody className='table-body'>
           <tr className='row'>
-            <td>{userData.role}</td>
-            <td>{userData.email}</td>
+            <td>{role}</td>
+            <td>{email}</td>
             <td>
-              <Button onClick={() => changePassword(userData.email)} className='button dev'>
+              <Button onClick={changePassword(email)} className='button dev'>
                 Change
               </Button>
               <p className={isError ? 'error-message' : 'success'}>{message}</p>

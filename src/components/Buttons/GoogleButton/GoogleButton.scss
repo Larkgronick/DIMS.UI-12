@@ -2,7 +2,7 @@ $white: #fff;
 $google-blue: #4285f4;
 $button-active-blue: #1669f2;
 
-.google-btn {
+.google-button {
   position: relative;
   margin-top: 30px;
   width: 184px;
@@ -10,7 +10,7 @@ $button-active-blue: #1669f2;
   background-color: $google-blue;
   border-radius: 2px;
   box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.25);
-  .google-icon-wrapper {
+  .wrapper {
     margin-top: 1px;
     margin-left: 1px;
     width: 40px;
@@ -23,7 +23,7 @@ $button-active-blue: #1669f2;
     width: 32px;
     height: 32px;
   }
-  .btn-text {
+  .button-text {
     position: relative;
     bottom: 38px;
     float: right;

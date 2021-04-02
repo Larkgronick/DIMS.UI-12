@@ -26,21 +26,28 @@ export const images = {
   googleIcon: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg',
 };
 
+const commonButtons = [
+  { name: 'My tasks', load: true, className: 'button tasks', path: '/my-tasks', img: myTasksIcon },
+  { name: 'My progress', load: true, className: 'button edit', path: '/progress', img: progressIcon },
+  { name: 'Settings', load: false, className: 'button danger', path: '/settings', img: settingsIcon },
+];
+
+const allButtons = [
+  { name: 'Members', load: false, className: 'button dev', path: '/members', img: membersIcon },
+  { name: 'Tasks', load: false, className: 'button tasks', path: '/tasks', img: tasksIcon },
+  ...commonButtons,
+];
+
+const aboutButton = [{ name: 'About', className: '', path: '/about', img: aboutIcon }];
+
+export const buttons = {
+  Admin: allButtons,
+  Mentor: allButtons,
+  Member: commonButtons,
+};
+
 export const menuItems = {
-  members: [
-    'Name / Direction',
-    'Email',
-    'Sex',
-    'Education',
-    'Age',
-    'University average scope',
-    'Math scope',
-    'Address',
-    'Mobile phone',
-    'Skype',
-    'Start date',
-    'Actions',
-  ],
+  members: ['Name / Direction', 'Email', 'Education', 'Mobile phone', 'Start date', 'Actions'],
   tasks: ['Name', 'Start', 'Deadline', 'Actions'],
   progress: ['Task Name', 'Track', 'Note', 'Date'],
   users: ['Name', 'Start', 'Deadline', 'Status'],
@@ -48,21 +55,9 @@ export const menuItems = {
   settings: ['Role', 'Email', 'Password', 'Theme'],
   howto: ["What's next?"],
   about: ['DIMS-UI-12'],
-  drawerAdmin: [
-    { name: 'Members', className: 'button dev', path: '/members', img: membersIcon },
-    { name: 'My tasks', className: 'button edit', path: '/my-tasks', img: myTasksIcon },
-    { name: 'Tasks', className: 'button tasks', path: '/tasks', img: tasksIcon },
-    { name: 'My progress', className: 'button edit', path: '/progress', img: progressIcon },
-    { name: 'Settings', className: 'button danger', path: '/settings', img: settingsIcon },
-    { name: 'About', className: '', path: '/about', img: aboutIcon },
-  ],
-
-  drawerMember: [
-    { name: 'My tasks', className: 'button tasks', path: '/my-tasks', img: myTasksIcon },
-    { name: 'My progress', className: 'button edit', path: '/progress', img: progressIcon },
-    { name: 'Settings', className: 'button danger', path: '/settings', img: settingsIcon },
-    { name: 'About', className: '', path: '/', img: aboutIcon },
-  ],
+  drawerAdmin: [...buttons.Admin, ...aboutButton],
+  drawerMentor: [...buttons.Mentor, ...aboutButton],
+  drawerMember: [...buttons.Member, ...aboutButton],
 };
 
 export const validation = {

@@ -2,23 +2,21 @@ import { Link } from 'react-router-dom';
 import { MainDataContext } from '../../contexts/MainDataContext';
 import { UserTasksContext } from '../../contexts/UserTasksContext';
 import { Button } from '../Buttons/Button/Button';
-import { menuItems, images } from '../../services/constants';
+import { buttons, images } from '../../services/constants';
 
 export function HowToTable() {
   return (
     <MainDataContext.Consumer>
-      {({ userData }) => (
+      {({ role }) => (
         <UserTasksContext.Consumer>
           {({ showUserTasks }) => {
-            const { role } = userData;
-            const buttons = menuItems[`drawer${role}`].slice(0, -1);
-            const openPage = (name) => {
-              const page = {
-                'My tasks': showUserTasks(),
-                'My progress': showUserTasks(),
-              };
-              return page[name];
+            const open = (isNew) => {
+              if (isNew) {
+                return () => showUserTasks();
+              }
+              return null;
             };
+
             return (
               <tbody className='table-body'>
                 <tr className='row'>
@@ -37,13 +35,13 @@ export function HowToTable() {
                     <p>
                       Or <b>jump to work</b> right now:
                     </p>
-                    <img src={images.birdIcon} alt='bird-con' />
-                    {buttons.map(({ name, className, path }) => (
-                      <Link onClick={() => openPage(name)} key={name} to={path}>
+                    <img src={images.birdIcon} alt='bird-in-egg' />
+                    {buttons[role].map(({ name, className, load, path }) => (
+                      <Link onClick={open(load)} key={name} to={path}>
                         <Button className={className}>{name}</Button>
                       </Link>
                     ))}
-                    <img src={images.birdIcon} alt='bird-icon' />
+                    <img src={images.birdIcon} alt='bird-in-egg' />
                   </td>
                 </tr>
               </tbody>

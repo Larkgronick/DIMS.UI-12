@@ -1,46 +1,51 @@
-import PropTypes from 'prop-types';
 import './Drawer.scss';
 import { Link } from 'react-router-dom';
 import { DrawerContext } from '../../contexts/DrawerContext';
+import { MainDataContext } from '../../contexts/MainDataContext';
 import { UserTasksContext } from '../../contexts/UserTasksContext';
 import devLogo from '../../assets/images/devLogo.png';
-import { menuItems } from '../../services/constants';
+import { buttons } from '../../services/constants';
 
-export function Drawer({ children }) {
+export function Drawer() {
   return (
-    <DrawerContext.Consumer>
-      {({ drawerOpen, drawerToggle }) => (
-        <UserTasksContext.Consumer>
-          {({ showUserTasks }) => {
-            const openPage = (name) => {
-              drawerToggle();
-              const page = {
-                'My tasks': showUserTasks(),
-                'My progress': showUserTasks(),
-              };
-              return page[name];
-            };
-            return (
-              <div className={`side-drawer ${drawerOpen ? 'open' : ''}`}>
-                <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
-                {menuItems[children].map(({ name, path, img }) => {
-                  return (
-                    <Link onClick={() => openPage(name)} to={path} key={name} className='drawer-item'>
-                      <img alt='img' src={img} />
-                      <span className='drawer-item-name'>{name}</span>
-                    </Link>
-                  );
-                })}
-                <div className={`main-page ${drawerOpen ? 'show' : ''}`} onClick={drawerToggle} aria-hidden='true' />
-              </div>
-            );
-          }}
-        </UserTasksContext.Consumer>
+    <MainDataContext>
+      {({ role }) => (
+        <DrawerContext.Consumer>
+          {({ drawerOpen, drawerToggle }) => (
+            <UserTasksContext.Consumer>
+              {({ showUserTasks }) => {
+                const open = (isNew) => {
+                  if (isNew) {
+                    return () => {
+                      showUserTasks();
+                      drawerToggle();
+                    };
+                  }
+                  return () => drawerToggle();
+                };
+                return (
+                  <div className={`side-drawer ${drawerOpen ? 'open' : ''}`}>
+                    <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
+                    {buttons[role].map(({ name, path, load, img }) => {
+                      return (
+                        <Link onClick={open(load)} to={path} key={name} className='drawer-item'>
+                          <img alt='img' src={img} />
+                          <span className='drawer-item-name'>{name}</span>
+                        </Link>
+                      );
+                    })}
+                    <div
+                      className={`main-page ${drawerOpen ? 'show' : ''}`}
+                      onClick={drawerToggle}
+                      aria-hidden='true'
+                    />
+                  </div>
+                );
+              }}
+            </UserTasksContext.Consumer>
+          )}
+        </DrawerContext.Consumer>
       )}
-    </DrawerContext.Consumer>
+    </MainDataContext>
   );
 }
-
-Drawer.propTypes = {
-  children: PropTypes.string.isRequired,
-};
