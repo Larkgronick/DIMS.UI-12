@@ -1,13 +1,13 @@
+import './styles/Login.scss';
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import './styles/Login.scss';
-import devLogo from '../assets/images/devLogo.png';
 import { Button } from '../components/Buttons/Button/Button';
-import { signInFirebase, signInWithGoogle } from '../services/services';
 import { GoogleButton } from '../components/Buttons/GoogleButton/GoogleButton';
 import { Spinner } from '../components/Loader/Spinner';
 import { validateEmail } from '../services/validation';
+import { signInFirebase, signInWithGoogle } from '../services/services';
+import devLogo from '../assets/images/devLogo.png';
 
 class Login extends Component {
   constructor(props) {

@@ -113,21 +113,20 @@ export class MemberManager extends PureComponent {
 
   saveMember = () => {
     const { data } = this.state;
-    const { selected, saveData, closeEdit } = this.props;
-
+    const { save, close } = this.props;
     if (this.validateData(MEMBERS_VALIDATIONS)) {
-      saveData('members', data, selected, false);
-      closeEdit();
+      save(data, false);
+      close();
     }
   };
 
   addMember = () => {
     const { data } = this.state;
     // const { email } = this.state;  COMMENTED TO PREVENT E-MAIL LETTER SENDINGS IN DEVELOPEMENT
-    const { selected, saveData, closeEdit } = this.props;
+    const { save, close } = this.props;
     if (this.validateData(MEMBERS_VALIDATIONS)) {
-      saveData('members', data, selected, true);
-      closeEdit();
+      save(data, true);
+      close();
       // registerNewUser(email, generateID());  COMMENTED TO PREVENT E-MAIL LETTER SENDINGS IN DEVELOPEMENT
     }
   };
@@ -148,7 +147,7 @@ export class MemberManager extends PureComponent {
   };
 
   render() {
-    const { closeEdit, edit, theme } = this.props;
+    const { close, edit, theme } = this.props;
     const { data, validation } = this.state;
     const {
       name,
@@ -191,7 +190,7 @@ export class MemberManager extends PureComponent {
     return (
       <div className='modal'>
         <div className={`${theme} members modal-content`}>
-          <Button onClick={closeEdit} className='close'>
+          <Button onClick={close} className='close'>
             <span>&times;</span>
           </Button>
           <form>
@@ -360,8 +359,8 @@ export class MemberManager extends PureComponent {
 
 MemberManager.propTypes = {
   members: PropTypes.instanceOf(Array).isRequired,
-  closeEdit: PropTypes.func.isRequired,
-  saveData: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
+  save: PropTypes.func.isRequired,
   edit: PropTypes.bool.isRequired,
   selected: PropTypes.number.isRequired,
   theme: PropTypes.string.isRequired,

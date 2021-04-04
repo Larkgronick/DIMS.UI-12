@@ -1,12 +1,16 @@
 import firebase from 'firebase';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Button } from '../Buttons/Button/Button';
-import { MainDataContext } from '../../contexts/MainDataContext';
 import { ThemeSwitcher } from '../ThemeSwitcher/ThemeSwitcher';
 
 export function SettingsTable() {
   const [message, setMessage] = useState('');
   const [isError, addError] = useState(false);
+
+  const {
+    main: { email, role },
+  } = useSelector((state) => state);
 
   const showMessage = (isSend) => {
     if (isSend) {
@@ -17,9 +21,9 @@ export function SettingsTable() {
     addError(isSend);
   };
 
-  const changePassword = (email) => {
+  const changePassword = (userEmail) => {
     const auth = firebase.auth();
-    const emailAddress = email;
+    const emailAddress = userEmail;
     return () =>
       auth
         .sendPasswordResetEmail(emailAddress)
@@ -28,24 +32,20 @@ export function SettingsTable() {
   };
 
   return (
-    <MainDataContext.Consumer>
-      {({ email, role }) => (
-        <tbody className='table-body'>
-          <tr className='row'>
-            <td>{role}</td>
-            <td>{email}</td>
-            <td>
-              <Button onClick={changePassword(email)} className='button dev'>
-                Change
-              </Button>
-              <p className={isError ? 'error-message' : 'success'}>{message}</p>
-            </td>
-            <td>
-              <ThemeSwitcher />
-            </td>
-          </tr>
-        </tbody>
-      )}
-    </MainDataContext.Consumer>
+    <tbody className='table-body'>
+      <tr className='row'>
+        <td>{role}</td>
+        <td>{email}</td>
+        <td>
+          <Button onClick={changePassword(email)} className='button dev'>
+            Change
+          </Button>
+          <p className={isError ? 'error-message' : 'success'}>{message}</p>
+        </td>
+        <td>
+          <ThemeSwitcher />
+        </td>
+      </tr>
+    </tbody>
   );
 }

@@ -1,6 +1,6 @@
+import './style/Popup.scss';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import './style/Popup.scss';
 import { Button } from '../Buttons/Button/Button';
 import { Input } from '../FormElements/Input';
 import { Textarea } from '../FormElements/Textarea';
@@ -14,6 +14,7 @@ import {
   generateID,
   convertDate,
 } from '../../services/helpers';
+import { addUserTasks } from '../../services/services';
 import { validateCategory, validateField } from '../../services/validation';
 
 export class TaskManager extends PureComponent {
@@ -66,12 +67,13 @@ export class TaskManager extends PureComponent {
   saveTask = (isNew) => {
     const { data } = this.state;
     const { id, assigners } = data;
-    const { selected, saveData, closeEdit, addUserTasks } = this.props;
-    addUserTasks(id, assigners, selected);
+    const { save, close, load } = this.props;
 
     if (this.validateData(TASK_VALIDATIONS)) {
-      saveData('tasks', data, selected, isNew);
-      closeEdit();
+      addUserTasks(id, assigners);
+      load();
+      save(data, isNew);
+      close();
     }
   };
 
@@ -107,14 +109,14 @@ export class TaskManager extends PureComponent {
   };
 
   render() {
-    const { members, closeEdit, edit, theme } = this.props;
+    const { members, close, edit, theme } = this.props;
     const { data, validation } = this.state;
     const { name, description, start, deadline, assigners } = data;
     const { nameErr, descriptionErr, startErr, deadlineErr, textMessage, deadlineMessage } = validation;
     return (
       <div className='modal'>
         <div className={`${theme} modal-content`}>
-          <Button onClick={closeEdit} className='close'>
+          <Button onClick={close} className='close'>
             <span>&times;</span>
           </Button>
           <form>
@@ -195,10 +197,10 @@ export class TaskManager extends PureComponent {
 TaskManager.propTypes = {
   members: PropTypes.instanceOf(Array).isRequired,
   tasks: PropTypes.instanceOf(Array).isRequired,
-  addUserTasks: PropTypes.func.isRequired,
   edit: PropTypes.bool.isRequired,
-  closeEdit: PropTypes.func.isRequired,
-  saveData: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
+  save: PropTypes.func.isRequired,
+  load: PropTypes.func.isRequired,
   selected: PropTypes.number.isRequired,
   theme: PropTypes.string.isRequired,
 };

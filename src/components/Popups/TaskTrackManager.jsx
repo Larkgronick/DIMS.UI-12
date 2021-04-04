@@ -1,6 +1,6 @@
+import './style/Popup.scss';
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import './style/Popup.scss';
 import { Button } from '../Buttons/Button/Button';
 import { Input } from '../FormElements/Input';
 import { Textarea } from '../FormElements/Textarea';
@@ -59,12 +59,12 @@ export class TaskTrackManager extends PureComponent {
   };
 
   saveTrack = (action) => {
-    const { closeEdit, track, subtask, saveTrackData } = this.props;
+    const { close, save } = this.props;
     const { data } = this.state;
 
     if (this.validateData(TASK_TRACK_VALIDATIONS)) {
-      saveTrackData(data, track, subtask, action);
-      closeEdit();
+      save(data, action);
+      close();
     }
   };
 
@@ -85,7 +85,7 @@ export class TaskTrackManager extends PureComponent {
   };
 
   render() {
-    const { closeEdit, edit, theme } = this.props;
+    const { close, edit, theme } = this.props;
     const { data, validation } = this.state;
     const { name, trackName, date, note } = data;
     const { trackNameErr, dateErr, noteErr, textMessage, dateMessage } = validation;
@@ -93,7 +93,7 @@ export class TaskTrackManager extends PureComponent {
     return (
       <div className='modal'>
         <div className={`${theme} modal-content`}>
-          <Button onClick={closeEdit} className='close'>
+          <Button onClick={close} className='close'>
             <span>&times;</span>
           </Button>
           <form>
@@ -157,8 +157,8 @@ TaskTrackManager.propTypes = {
   date: PropTypes.string,
   note: PropTypes.string,
   trackName: PropTypes.string,
-  saveTrackData: PropTypes.func.isRequired,
-  closeEdit: PropTypes.func.isRequired,
+  save: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
   track: PropTypes.number.isRequired,
   subtask: PropTypes.number,
   edit: PropTypes.bool,

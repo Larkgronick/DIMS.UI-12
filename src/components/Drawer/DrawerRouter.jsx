@@ -1,6 +1,6 @@
-import { Drawer } from './Drawer';
-import { MainDataContext } from '../../contexts/MainDataContext';
 import './Drawer.scss';
+import { useSelector } from 'react-redux';
+import Drawer from './Drawer';
 
 const drawer = {
   Admin: <Drawer>drawerAdmin</Drawer>,
@@ -9,9 +9,13 @@ const drawer = {
 };
 
 export function DrawerRouter() {
-  const renderDrawer = (role) => {
-    return drawer[role];
+  const {
+    main: { role },
+  } = useSelector((state) => state);
+
+  const renderDrawer = (userRole) => {
+    return drawer[userRole];
   };
 
-  return <MainDataContext.Consumer>{({ role }) => renderDrawer(role)}</MainDataContext.Consumer>;
+  return <div>{renderDrawer(role)}</div>;
 }

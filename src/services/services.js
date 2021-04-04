@@ -15,7 +15,6 @@ export const signInFirebase = async (email, password) => {
 
 export const signInWithGoogle = () => {
   const provider = new firebase.auth.GoogleAuthProvider();
-  console.log(provider);
   firebase
     .auth()
     .signInWithPopup(provider)
@@ -79,6 +78,21 @@ export const loadData = async (field) => {
     .catch((error) => {
       console.log('Error with data loading:', error);
     });
+};
+
+export const addUserTasks = (taskId, assigners) => {
+  let tracks = [];
+  assigners.forEach((id) => {
+    const track = {};
+    track.userId = id;
+    track.taskId = taskId;
+    track.trackName = ['My first track...'];
+    track.date = ['23.03.11'];
+    track.note = ['23.03.11'];
+    track.status = 'active';
+    tracks = tracks.concat([track]);
+  });
+  setUserTracks(taskId, tracks);
 };
 
 export const setUserTracks = async (field, value) => {
