@@ -17,8 +17,10 @@ export function UserTasksTable() {
     return (e) => dispatch(selectItem(e, track));
   };
 
-  const edit = (track) => {
-    return (e) => dispatch(openEdit(e, track));
+  const edit = (isNew, selected) => {
+    return (e) => {
+      dispatch(openEdit(e, isNew, selected));
+    };
   };
 
   const set = (status, index) => {
@@ -36,6 +38,9 @@ export function UserTasksTable() {
           </Button>
           <Button onClick={set('failed', i)} className='button danger'>
             Fail
+          </Button>
+          <Button onClick={set('active', i)} className='button reset circle '>
+            Reset
           </Button>
         </>
       );
@@ -67,7 +72,7 @@ export function UserTasksTable() {
           </td>
           {isMember ? (
             <td>
-              <Button onClick={edit('track')} className='button edit'>
+              <Button onClick={edit(false, 'track')} className='button edit'>
                 Track
               </Button>
             </td>

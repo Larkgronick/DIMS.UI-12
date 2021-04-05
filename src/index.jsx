@@ -14,7 +14,6 @@ import reportWebVitals from './reportWebVitals';
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 const store = createStore(allReducers, composeEnhancers(applyMiddleware(thunk)));
-console.log(store);
 
 ReactDOM.render(
   <React.StrictMode>

@@ -26,7 +26,7 @@ export function Table({ children }) {
   };
 
   return (
-    <table className='table'>
+    <table className={children === 'settings' ? 'table settings' : 'table'}>
       <thead className='table-head'>
         <tr>
           {menuItems[children].map((item) => (

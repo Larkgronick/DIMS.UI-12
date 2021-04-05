@@ -83,5 +83,5 @@ export const deleteData = (category, e, field) => {
       payload: { [field]: removed },
     };
   }
-  return null;
+  return { type: DELETE_DATA, payload: [field] };
 };

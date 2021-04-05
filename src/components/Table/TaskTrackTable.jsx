@@ -13,8 +13,8 @@ export function TaskTrackTable() {
 
   const { trackName, note, date } = userTracks[track];
 
-  const edit = (selected) => {
-    return (e) => dispatch(openEdit(e, selected));
+  const edit = (isNew, selected) => {
+    return (e) => dispatch(openEdit(e, isNew, selected));
   };
 
   const deleteTrack = (e) => {
@@ -32,7 +32,7 @@ export function TaskTrackTable() {
           <td>{note[i]}</td>
           <td>{convertDate(date[i])}</td>
           <td>
-            <Button onClick={edit('subtask')} className='button edit'>
+            <Button onClick={edit(true, 'subtask')} className='button edit'>
               Edit
             </Button>
             <Button onClick={deleteTrack} className='button danger'>

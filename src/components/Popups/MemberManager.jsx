@@ -1,367 +1,291 @@
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import './style/Popup.scss';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeEdit } from '../../store/actions/modalAction';
+import { saveData } from '../../store/actions/mainDataAction';
 import { Button } from '../Buttons/Button/Button';
 import { Select } from '../FormElements/Select';
 import { Input } from '../FormElements/Input';
-import { MEMBERS_VALIDATIONS, directions, roles, scoreScale } from '../../services/constants';
+import {
+  MEMBERS_VALIDATIONS,
+  directions,
+  roles,
+  scoreScale,
+  memberInit,
+  memberInitVal,
+} from '../../services/constants';
 import {
   getCurrentDate,
-  generateID,
   onBlurDate,
   onFocusDate,
   validateValues,
   convertDate,
+  generateID,
 } from '../../services/helpers';
 import { validateCategory, validateField } from '../../services/validation';
+import { registerNewUser } from '../../services/services';
 
-// import { registerNewUser } from '../../services/services'; COMMENTED TO PREVENT E-MAIL LETTER SENDINGS IN DEVELOPEMENT
+export function MemberManager() {
+  const dispatch = useDispatch();
+  const [data, setData] = useState(memberInit);
+  const [validation, setValidation] = useState(memberInitVal);
 
-export class MemberManager extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: {
-        id: generateID(),
-        direction: '',
-        name: '',
-        email: '',
-        lastName: '',
-        sex: '',
-        education: '',
-        birthDate: '2000-01-01',
-        universityAverageScore: 50,
-        mathScore: 50,
-        address: '',
-        mobilePhone: '',
-        skype: '',
-        startDate: getCurrentDate(),
-        role: '',
-      },
-      validation: {
-        directionErr: false,
-        nameErr: false,
-        emailErr: false,
-        lastNameErr: false,
-        sexErr: false,
-        educationErr: false,
-        birthDateErr: false,
-        universityAverageScoreErr: false,
-        mathScoreErr: false,
-        addressErr: false,
-        mobilePhoneErr: false,
-        skypeErr: false,
-        startDateErr: false,
-        roleErr: false,
-        textMessage: 'This field must have at least one character',
-        phoneMessage: 'Input phone number in this format: +375290000000',
-        emailMessage: "Email must be in valid format, for example 'username@mailbox.com'",
-        engMessage: 'This value must consist only english letters',
-        dateMessage: 'Date cannot be greater than current or lesser than 01 January 1970',
-      },
-    };
-  }
+  const {
+    main: { members, theme },
+    modal: { edit, selected },
+  } = useSelector((state) => state);
 
-  componentDidMount() {
-    const { edit, members, selected } = this.props;
+  useEffect(() => {
     if (edit) {
-      const {
-        id,
-        direction,
-        name,
-        email,
-        lastName,
-        sex,
-        education,
-        birthDate,
-        universityAverageScore,
-        mathScore,
-        address,
-        mobilePhone,
-        skype,
-        startDate,
-        role,
-      } = members[selected];
-      this.setState({
-        data: {
-          id,
-          direction,
-          name,
-          email,
-          lastName,
-          sex,
-          education,
-          birthDate,
-          universityAverageScore,
-          mathScore,
-          address,
-          mobilePhone,
-          skype,
-          startDate,
-          role,
-        },
-      });
+      setData(members[selected]);
     }
-  }
+  }, []);
 
-  validateData = (length) => {
-    const { data } = this.state;
-    const validation = validateCategory('members', data);
-    this.setState({ validation });
-    return validateValues(validation, length);
+  const close = () => {
+    return dispatch(closeEdit());
   };
 
-  saveMember = () => {
-    const { data } = this.state;
-    const { save, close } = this.props;
-    if (this.validateData(MEMBERS_VALIDATIONS)) {
+  const save = (newData, isNew) => {
+    return dispatch(saveData(members, 'members', newData, selected, isNew));
+  };
+
+  const validateData = (length) => {
+    const validateResult = validateCategory('members', data);
+    setValidation(validateResult);
+    return validateValues(validateResult, length);
+  };
+
+  const saveMember = () => {
+    if (validateData(MEMBERS_VALIDATIONS)) {
       save(data, false);
       close();
     }
   };
 
-  addMember = () => {
-    const { data } = this.state;
-    // const { email } = this.state;  COMMENTED TO PREVENT E-MAIL LETTER SENDINGS IN DEVELOPEMENT
-    const { save, close } = this.props;
-    if (this.validateData(MEMBERS_VALIDATIONS)) {
+  const addMember = () => {
+    const { email } = data;
+    if (validateData(MEMBERS_VALIDATIONS)) {
       save(data, true);
       close();
-      // registerNewUser(email, generateID());  COMMENTED TO PREVENT E-MAIL LETTER SENDINGS IN DEVELOPEMENT
+      registerNewUser(email, generateID());
     }
   };
 
-  inputChange = (event) => {
+  const inputChange = (event) => {
     const { name, value } = event.target;
     const error = `${name}Err`;
-    this.setState(({ data, validation }) => ({
-      data: {
+    setData(() => {
+      return {
         ...data,
         [name]: value,
-      },
-      validation: {
+      };
+    });
+    setValidation(() => {
+      return {
         ...validation,
         [error]: validateField(name, value),
-      },
-    }));
+      };
+    });
   };
 
-  render() {
-    const { close, edit, theme } = this.props;
-    const { data, validation } = this.state;
-    const {
-      name,
-      lastName,
-      direction,
-      address,
-      mobilePhone,
-      skype,
-      email,
-      sex,
-      education,
-      universityAverageScore,
-      mathScore,
-      birthDate,
-      startDate,
-      role,
-    } = data;
+  const {
+    name,
+    lastName,
+    direction,
+    address,
+    mobilePhone,
+    skype,
+    email,
+    sex,
+    education,
+    universityAverageScore,
+    mathScore,
+    birthDate,
+    startDate,
+    role,
+  } = data;
 
-    const {
-      directionErr,
-      nameErr,
-      emailErr,
-      lastNameErr,
-      sexErr,
-      educationErr,
-      birthDateErr,
-      universityAverageScoreErr,
-      mathScoreErr,
-      addressErr,
-      mobilePhoneErr,
-      skypeErr,
-      startDateErr,
-      roleErr,
-      textMessage,
-      phoneMessage,
-      dateMessage,
-      emailMessage,
-      engMessage,
-    } = validation;
-    return (
-      <div className='modal'>
-        <div className={`${theme} members modal-content`}>
-          <Button onClick={close} className='close'>
-            <span>&times;</span>
-          </Button>
-          <form>
-            <div className='new-member'>
-              <div className='column'>
-                <Input
-                  isError={nameErr}
-                  errorMessage={textMessage}
-                  placeholder='Name'
-                  value={name}
-                  name='name'
-                  onChange={this.inputChange}
-                >
-                  Name:
-                </Input>
-                <Input
-                  isError={lastNameErr}
-                  errorMessage={textMessage}
-                  placeholder='Surname'
-                  value={lastName}
-                  name='lastName'
-                  onChange={this.inputChange}
-                  required
-                >
-                  Surname:
-                </Input>
-                <Select
-                  isError={sexErr}
-                  options={['male', 'female']}
-                  value={sex}
-                  name='sex'
-                  onChange={this.inputChange}
-                >
-                  Sex:
-                </Select>
-                <Input
-                  isError={birthDateErr}
-                  errorMessage={dateMessage}
-                  onFocus={onFocusDate}
-                  onBlur={onBlurDate}
-                  placeholder={convertDate(birthDate)}
-                  type='date'
-                  max='2999-12-31'
-                  value={birthDate}
-                  name='birthDate'
-                  onChange={this.inputChange}
-                >
-                  Birth Date:
-                </Input>
-                <Input
-                  isError={educationErr}
-                  errorMessage={textMessage}
-                  placeholder='Education'
-                  value={education}
-                  name='education'
-                  onChange={this.inputChange}
-                >
-                  Education:
-                </Input>
-                <Select
-                  isError={universityAverageScoreErr}
-                  options={scoreScale}
-                  value={universityAverageScore}
-                  name='universityAverageScore'
-                  onChange={this.inputChange}
-                >
-                  University Average Score:
-                </Select>
-                <Select
-                  isError={mathScoreErr}
-                  options={scoreScale}
-                  value={mathScore}
-                  name='mathScore'
-                  onChange={this.inputChange}
-                >
-                  Math Score:
-                </Select>
-              </div>
-              <div className='column'>
-                <Input
-                  isError={addressErr}
-                  errorMessage={textMessage}
-                  placeholder='Address'
-                  value={address}
-                  name='address'
-                  onChange={this.inputChange}
-                >
-                  Address:
-                </Input>
-                <Input
-                  isError={mobilePhoneErr}
-                  errorMessage={phoneMessage}
-                  placeholder='Mobile Phone'
-                  type='tel'
-                  value={mobilePhone}
-                  name='mobilePhone'
-                  onChange={this.inputChange}
-                >
-                  Mobile Phone:
-                </Input>
-                <Input
-                  isError={skypeErr}
-                  errorMessage={engMessage}
-                  placeholder='Skype Nickname'
-                  value={skype}
-                  name='skype'
-                  onChange={this.inputChange}
-                >
-                  Skype:
-                </Input>
-                <Input
-                  isError={emailErr}
-                  errorMessage={emailMessage}
-                  placeholder='E-mail'
-                  type='email'
-                  value={email}
-                  name='email'
-                  onChange={this.inputChange}
-                >
-                  E-mail:
-                </Input>
-                <Input
-                  isError={startDateErr}
-                  errorMessage={dateMessage}
-                  onFocus={onFocusDate}
-                  onBlur={onBlurDate}
-                  placeholder={convertDate(getCurrentDate())}
-                  type='date'
-                  max='2999-12-31'
-                  value={startDate}
-                  valueAsDate={new Date()}
-                  name='startDate'
-                  onChange={this.inputChange}
-                >
-                  Start Date:
-                </Input>
-                <Select
-                  isError={directionErr}
-                  options={directions}
-                  value={direction}
-                  name='direction'
-                  onChange={this.inputChange}
-                >
-                  Direction:
-                </Select>
-                <Select isError={roleErr} options={roles} value={role} name='role' onChange={this.inputChange}>
-                  Role:
-                </Select>
-              </div>
+  const {
+    directionErr,
+    nameErr,
+    emailErr,
+    lastNameErr,
+    sexErr,
+    educationErr,
+    birthDateErr,
+    universityAverageScoreErr,
+    mathScoreErr,
+    addressErr,
+    mobilePhoneErr,
+    skypeErr,
+    startDateErr,
+    roleErr,
+    textMessage,
+    phoneMessage,
+    dateMessage,
+    emailMessage,
+    engMessage,
+  } = validation;
+
+  return (
+    <div className='modal'>
+      <div className={`${theme} members modal-content`}>
+        <Button onClick={close} className='close'>
+          <span>&times;</span>
+        </Button>
+        <form>
+          <div className='new-member'>
+            <div className='column'>
+              <Input
+                isError={nameErr}
+                errorMessage={textMessage}
+                placeholder='Name'
+                value={name}
+                name='name'
+                onChange={inputChange}
+              >
+                Name:
+              </Input>
+              <Input
+                isError={lastNameErr}
+                errorMessage={textMessage}
+                placeholder='Surname'
+                value={lastName}
+                name='lastName'
+                onChange={inputChange}
+                required
+              >
+                Surname:
+              </Input>
+              <Select isError={sexErr} options={['male', 'female']} value={sex} name='sex' onChange={inputChange}>
+                Sex:
+              </Select>
+              <Input
+                isError={birthDateErr}
+                errorMessage={dateMessage}
+                onFocus={onFocusDate}
+                onBlur={onBlurDate}
+                placeholder={convertDate(birthDate)}
+                type='date'
+                max='2999-12-31'
+                value={birthDate}
+                name='birthDate'
+                onChange={inputChange}
+              >
+                Birth Date:
+              </Input>
+              <Input
+                isError={educationErr}
+                errorMessage={textMessage}
+                placeholder='Education'
+                value={education}
+                name='education'
+                onChange={inputChange}
+              >
+                Education:
+              </Input>
+              <Select
+                isError={universityAverageScoreErr}
+                options={scoreScale}
+                value={universityAverageScore}
+                name='universityAverageScore'
+                onChange={inputChange}
+              >
+                University Average Score:
+              </Select>
+              <Select
+                isError={mathScoreErr}
+                options={scoreScale}
+                value={mathScore}
+                name='mathScore'
+                onChange={inputChange}
+              >
+                Math Score:
+              </Select>
             </div>
-            {edit ? (
-              <Button onClick={this.saveMember} className='submit'>
-                Edit
-              </Button>
-            ) : (
-              <Button onClick={this.addMember} className='submit'>
-                Register
-              </Button>
-            )}
-          </form>
-        </div>
+            <div className='column'>
+              <Input
+                isError={addressErr}
+                errorMessage={textMessage}
+                placeholder='Address'
+                value={address}
+                name='address'
+                onChange={inputChange}
+              >
+                Address:
+              </Input>
+              <Input
+                isError={mobilePhoneErr}
+                errorMessage={phoneMessage}
+                placeholder='Mobile Phone'
+                type='tel'
+                value={mobilePhone}
+                name='mobilePhone'
+                onChange={inputChange}
+              >
+                Mobile Phone:
+              </Input>
+              <Input
+                isError={skypeErr}
+                errorMessage={engMessage}
+                placeholder='Skype Nickname'
+                value={skype}
+                name='skype'
+                onChange={inputChange}
+              >
+                Skype:
+              </Input>
+              <Input
+                isError={emailErr}
+                errorMessage={emailMessage}
+                placeholder='E-mail'
+                type='email'
+                value={email}
+                name='email'
+                onChange={inputChange}
+              >
+                E-mail:
+              </Input>
+              <Input
+                isError={startDateErr}
+                errorMessage={dateMessage}
+                onFocus={onFocusDate}
+                onBlur={onBlurDate}
+                placeholder={convertDate(getCurrentDate())}
+                type='date'
+                max='2999-12-31'
+                value={startDate}
+                valueAsDate={new Date()}
+                name='startDate'
+                onChange={inputChange}
+              >
+                Start Date:
+              </Input>
+              <Select
+                isError={directionErr}
+                options={directions}
+                value={direction}
+                name='direction'
+                onChange={inputChange}
+              >
+                Direction:
+              </Select>
+              <Select isError={roleErr} options={roles} value={role} name='role' onChange={inputChange}>
+                Role:
+              </Select>
+            </div>
+          </div>
+          {edit ? (
+            <Button onClick={saveMember} className='submit'>
+              Edit
+            </Button>
+          ) : (
+            <Button onClick={addMember} className='submit'>
+              Register
+            </Button>
+          )}
+        </form>
       </div>
-    );
-  }
+    </div>
+  );
 }
-
-MemberManager.propTypes = {
-  members: PropTypes.instanceOf(Array).isRequired,
-  close: PropTypes.func.isRequired,
-  save: PropTypes.func.isRequired,
-  edit: PropTypes.bool.isRequired,
-  selected: PropTypes.number.isRequired,
-  theme: PropTypes.string.isRequired,
-};

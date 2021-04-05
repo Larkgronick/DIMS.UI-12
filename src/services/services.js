@@ -1,5 +1,5 @@
 import firebase, { db } from './firebase';
-import { getIndex } from './helpers';
+import { convertDate, getIndex, getCurrentDate } from './helpers';
 
 export const signInFirebase = async (email, password) => {
   try {
@@ -87,8 +87,8 @@ export const addUserTasks = (taskId, assigners) => {
     track.userId = id;
     track.taskId = taskId;
     track.trackName = ['My first track...'];
-    track.date = ['23.03.11'];
-    track.note = ['23.03.11'];
+    track.date = [convertDate(getCurrentDate())];
+    track.note = ['My first note...'];
     track.status = 'active';
     tracks = tracks.concat([track]);
   });

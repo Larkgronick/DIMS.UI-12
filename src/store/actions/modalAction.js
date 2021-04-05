@@ -1,13 +1,15 @@
 import { OPEN_EDIT, CLOSE_EDIT, SELECT_ITEM } from '../types';
 import { getIndex } from '../../services/helpers';
 
-export const openEdit = (e, field) => {
+export const openEdit = (e, isNew, field) => {
   const payload = {
     openModal: true,
   };
   if (field) {
-    payload.edit = true;
     payload[field] = getIndex(e);
+  }
+  if (isNew) {
+    payload.edit = true;
   }
   return {
     type: OPEN_EDIT,

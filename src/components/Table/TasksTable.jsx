@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { openEdit } from '../../store/actions/modalAction';
 import { deleteData } from '../../store/actions/mainDataAction';
 import { Button } from '../Buttons/Button/Button';
+import { convertDate } from '../../services/helpers';
 
 export function TasksTable() {
   const dispatch = useDispatch();
@@ -9,8 +10,8 @@ export function TasksTable() {
     main: { tasks },
   } = useSelector((state) => state);
 
-  const edit = (selected) => {
-    return (e) => dispatch(openEdit(e, selected));
+  const edit = (isNew, selected) => {
+    return (e) => dispatch(openEdit(e, isNew, selected));
   };
 
   const deleteTask = (page) => {
@@ -22,10 +23,10 @@ export function TasksTable() {
       {tasks.map(({ id, name, start, deadline }) => (
         <tr key={id} className='row'>
           <td className='name'>{name}</td>
-          <td className='attention'>{start}</td>
-          <td>{deadline}</td>
+          <td className='attention'>{convertDate(start)}</td>
+          <td>{convertDate(deadline)}</td>
           <td className='actions'>
-            <Button onClick={edit('selected')} className='button dev'>
+            <Button onClick={edit(true, 'selected')} className='button dev'>
               Edit
             </Button>
             <Button onClick={deleteTask('tasks')} className='button danger'>

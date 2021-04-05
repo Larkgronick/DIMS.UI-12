@@ -13,10 +13,8 @@ export default function Header(props) {
     main: { isLoading },
   } = useSelector((state) => state);
 
-  const edit = (isNew) => {
-    return (e) => {
-      dispatch(openEdit(e, isNew));
-    };
+  const edit = (isNew, selected) => {
+    return (e) => dispatch(openEdit(e, isNew, selected));
   };
 
   return (
@@ -30,7 +28,7 @@ export default function Header(props) {
             </Button>
           ) : null}
         </div>
-        <Button onClick={logOutFirebase} className='button danger'>
+        <Button onClick={logOutFirebase} className='button danger circle'>
           Log Out
         </Button>
       </header>

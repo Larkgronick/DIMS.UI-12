@@ -14,8 +14,8 @@ export function MembersTable() {
 
   const isAdmin = role === 'Admin';
 
-  const edit = (selected) => {
-    return (e) => dispatch(openEdit(e, selected));
+  const edit = (isNew, selected) => {
+    return (e) => dispatch(openEdit(e, isNew, selected));
   };
 
   const show = (e) => {
@@ -51,7 +51,7 @@ export function MembersTable() {
             </Link>
             {isAdmin ? (
               <span>
-                <Button onClick={edit('selected')} className='button edit'>
+                <Button onClick={edit(true, 'selected')} className='button edit'>
                   Edit
                 </Button>
                 <Button onClick={deleteMember('members')} className='button danger'>
