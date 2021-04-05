@@ -15,15 +15,7 @@ export const signInFirebase = async (email, password) => {
 
 export const signInWithGoogle = () => {
   const provider = new firebase.auth.GoogleAuthProvider();
-  firebase
-    .auth()
-    .signInWithPopup(provider)
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  firebase.auth().signInWithPopup(provider).catch(console.error);
 };
 
 export const logOutFirebase = async () => {
@@ -40,7 +32,7 @@ export const registerNewUser = async (email, password) => {
     await firebase.auth().sendPasswordResetEmail(email);
     return response;
   } catch (error) {
-    console.log('Error with registration:', error);
+    console.error('Error with registration:', error);
     return null;
   }
 };
@@ -55,10 +47,10 @@ export const setData = async (field, value) => {
       { merge: true },
     )
     .then(() => {
-      console.log(`${field} data is written!`);
+      console.error(`${field} data is written!`);
     })
     .catch((error) => {
-      console.log('Error with saving:', error);
+      console.error('Error with saving:', error);
     });
 };
 
@@ -71,12 +63,12 @@ export const loadData = async (field) => {
       if (doc.exists) {
         return Object.values(doc.data())[0];
       }
-      console.log(`Cannot find ${field} data`);
+      console.error(`Cannot find ${field} data`);
 
       return null;
     })
     .catch((error) => {
-      console.log('Error with data loading:', error);
+      console.error('Error with data loading:', error);
     });
 };
 
@@ -105,10 +97,10 @@ export const setUserTracks = async (field, value) => {
       { merge: true },
     )
     .then(() => {
-      console.log(`${field} data is written!`);
+      console.error(`${field} data is written!`);
     })
     .catch((error) => {
-      console.log('Error with saving:', error);
+      console.error('Error with saving:', error);
     });
 };
 
@@ -119,7 +111,7 @@ export const clearUserTracks = (field) => {
       [field]: firebase.firestore.FieldValue.delete(),
     })
     .then(() => {
-      console.log(`${field} tracks successfully deleted!`);
+      console.error(`${field} tracks successfully deleted!`);
     });
 };
 
@@ -161,12 +153,12 @@ export const loadUserTracks = async (id) => {
         tasks = tasks.filter((el) => el);
         return tasks;
       }
-      console.log(`Cannot find ${id} data`);
+      console.error(`Cannot find ${id} data`);
 
       return null;
     })
     .catch((error) => {
-      console.log('Error with data loading:', error);
+      console.error('Error with data loading:', error);
     });
 };
 
@@ -180,10 +172,10 @@ export const saveUserTrack = async (track, value) => {
       { merge: true },
     )
     .then(() => {
-      console.log(`${track} data is written!`);
+      console.error(`${track} data is written!`);
     })
     .catch((error) => {
-      console.log('Error with saving:', error);
+      console.error('Error with saving:', error);
     });
 };
 
