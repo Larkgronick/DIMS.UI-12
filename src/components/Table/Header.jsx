@@ -7,15 +7,12 @@ import { logOutFirebase } from '../../services/services';
 
 export default function Header(props) {
   const { children, role, text } = props;
+
   const dispatch = useDispatch();
 
-  const {
-    main: { isLoading },
-  } = useSelector((state) => state);
+  const { isLoading } = useSelector((state) => state.main);
 
-  const edit = (isNew, selected) => {
-    return (e) => dispatch(openEdit(e, isNew, selected));
-  };
+  const edit = (isNew, selected) => (e) => dispatch(openEdit(e, isNew, selected));
 
   return (
     <>

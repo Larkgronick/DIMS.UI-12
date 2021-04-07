@@ -8,6 +8,7 @@ export function Settings() {
   const {
     main: { name, lastName },
   } = useSelector((state) => state);
+
   return (
     <article>
       <Header>

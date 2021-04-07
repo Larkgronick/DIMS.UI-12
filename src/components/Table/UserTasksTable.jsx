@@ -13,21 +13,13 @@ export function UserTasksTable() {
     main: { role },
   } = useSelector((state) => state);
 
-  const select = (track) => {
-    return (e) => dispatch(selectItem(e, track));
-  };
-
-  const edit = (isNew, selected) => {
-    return (e) => {
-      dispatch(openEdit(e, isNew, selected));
-    };
-  };
-
-  const set = (status, index) => {
-    return (e) => dispatch(setTaskStatus(getIndex(e), status, index, userTracks));
-  };
-
   const isMember = role === 'Member';
+
+  const select = (track) => (e) => dispatch(selectItem(e, track));
+
+  const edit = (isNew, selected) => (e) => dispatch(openEdit(e, isNew, selected));
+
+  const set = (status, index) => (e) => dispatch(setTaskStatus(getIndex(e), status, index, userTracks));
 
   const renderActions = (memberRole, i) => {
     if (!memberRole) {

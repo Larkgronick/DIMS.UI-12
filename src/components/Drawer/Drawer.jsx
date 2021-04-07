@@ -6,7 +6,7 @@ import { showUserTasks } from '../../store/actions/userDataAction';
 import { menuItems } from '../../services/constants';
 import devLogo from '../../assets/images/devLogo.png';
 
-export default function Drawer() {
+export function Drawer() {
   const dispatch = useDispatch();
 
   const {
@@ -14,32 +14,28 @@ export default function Drawer() {
     main: { role },
   } = useSelector((state) => state);
 
-  const toggle = () => {
-    dispatch(drawerToggle());
-  };
+  const toggle = () => dispatch(drawerToggle());
 
-  const open = (isNew) => {
+  const open = (isNew) => () => {
+    toggle();
     if (isNew) {
-      return () => {
-        toggle();
-        return dispatch(showUserTasks());
-      };
+      dispatch(showUserTasks());
     }
-    return () => toggle();
   };
 
   return (
     <div className={`side-drawer ${drawerOpen ? 'open' : ''}`}>
       <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
-      {menuItems[`drawer${role}`].map(({ name, path, load, img }) => {
-        return (
-          <Link onClick={open(load)} to={path} key={name} className='drawer-item'>
-            <img alt='img' src={img} />
-            <span className='drawer-item-name'>{name}</span>
-          </Link>
-        );
-      })}
-      <div className={`main-page ${drawerOpen ? 'show' : ''}`} onClick={toggle} aria-hidden='true' />
+      {role &&
+        menuItems[`drawer${role}`].map(({ name, path, load, img }) => {
+          return (
+            <Link onClick={open(load)} to={path} key={name} className='drawer-item'>
+              <img alt='img' src={img} />
+              <span className='drawer-item-name'>{name}</span>
+            </Link>
+          );
+        })}
+      <div className={drawerOpen ? 'show' : ''} onClick={toggle} aria-hidden='true' />
     </div>
   );
 }

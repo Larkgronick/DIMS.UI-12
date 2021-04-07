@@ -1,3 +1,5 @@
+/* eslint-disable no-debugger */
+
 import './styles/Main.scss';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +9,7 @@ import { PrivateRoute } from '../components/PrivateRoute/PrivateRoute';
 import Login from './Login';
 import { Members } from './Members';
 import { Tasks } from './Tasks';
-import { DrawerRouter } from '../components/Drawer/DrawerRouter';
+import { Drawer } from '../components/Drawer/Drawer';
 import { UserTasks } from './UserTasks';
 import { TaskTrack } from './TaskTrack';
 import { Progress } from './Progress';
@@ -37,9 +39,10 @@ export function Main() {
       listener?.();
     };
   }, []);
+
   return (
     <>
-      <DrawerRouter />
+      <Drawer />
       <Spinner />
       <main className={isLoading ? `${theme} drop-shadow` : theme}>
         <Switch>

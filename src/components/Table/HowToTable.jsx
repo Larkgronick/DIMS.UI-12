@@ -6,9 +6,7 @@ import { buttons, images } from '../../services/constants';
 
 export function HowToTable() {
   const dispatch = useDispatch();
-  const {
-    main: { role },
-  } = useSelector((state) => state);
+  const { role } = useSelector((state) => state.main);
 
   const open = (isNew) => {
     if (isNew) {

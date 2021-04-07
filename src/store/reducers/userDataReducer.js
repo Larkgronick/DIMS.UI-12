@@ -17,7 +17,7 @@ export default function userDataReducer(state = initialState, action) {
     case SHOW_LOADER:
       return {
         ...state,
-        isLoading: true,
+        ...action.payload,
       };
 
     case SAVE_TRACK_DATA:

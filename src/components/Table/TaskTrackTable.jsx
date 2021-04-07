@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { openEdit } from '../../store/actions/modalAction';
-import { saveTrackData } from '../../store/actions/userDataAction';
+import { openEdit, selectItem, openConfirmation } from '../../store/actions/modalAction';
 import { Button } from '../Buttons/Button/Button';
-import { getIndex, convertDate } from '../../services/helpers';
+import { convertDate } from '../../services/helpers';
 
 export function TaskTrackTable() {
   const dispatch = useDispatch();
@@ -13,15 +12,11 @@ export function TaskTrackTable() {
 
   const { trackName, note, date } = userTracks[track];
 
-  const edit = (isNew, selected) => {
-    return (e) => dispatch(openEdit(e, isNew, selected));
-  };
+  const edit = (isNew, selected) => (e) => dispatch(openEdit(e, isNew, selected));
 
-  const deleteTrack = (e) => {
-    if (window.confirm('Are you sure you wish to delete this item?')) {
-      return dispatch(saveTrackData(userTracks, {}, track, getIndex(e), 'delete'));
-    }
-    return null;
+  const confirm = (page) => (e) => {
+    dispatch(selectItem(e, 'subtask'));
+    dispatch(openConfirmation(page));
   };
 
   return (
@@ -35,7 +30,7 @@ export function TaskTrackTable() {
             <Button onClick={edit(true, 'subtask')} className='button edit'>
               Edit
             </Button>
-            <Button onClick={deleteTrack} className='button danger'>
+            <Button onClick={confirm('user-tracks')} className='button danger'>
               Delete
             </Button>
           </td>

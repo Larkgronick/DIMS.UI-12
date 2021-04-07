@@ -3,34 +3,41 @@ import { loadMemberData, saveChanges } from '../../services/services';
 
 export const showUserTasks = (e) => {
   return async (dispatch) => {
-    dispatch(showLoader());
-    const { userData, userTasks, userTracks } = await loadMemberData(e);
-    const payload = {
-      memberData: userData,
-      userTasks,
-      userTracks,
-      isLoading: false,
-    };
-    return dispatch({
-      type: SHOW_USER_TASKS,
-      payload,
-    });
+    try {
+      dispatch(showLoader(true));
+      const { userData, userTasks, userTracks } = await loadMemberData(e);
+      const payload = {
+        memberData: userData,
+        userTasks,
+        userTracks,
+        isLoading: false,
+      };
+      return dispatch({
+        type: SHOW_USER_TASKS,
+        payload,
+      });
+    } catch (err) {
+      console.err(err);
+    }
+    return dispatch(showLoader(false));
   };
 };
 
-export const showLoader = () => {
+export const showLoader = (isLoading) => {
   return {
     type: SHOW_LOADER,
+    payload: { isLoading },
   };
 };
 
 export const saveTrackData = (userTracks, data, track, subtask, action) => {
   const { trackName, note, date, taskId, status, userId } = userTracks[track];
-  const newTrack = {};
+  const newTrack = {
+    taskId,
+    status,
+    userId,
+  };
   const newUserTracks = { ...userTracks };
-  newTrack.taskId = taskId;
-  newTrack.status = status;
-  newTrack.userId = userId;
   if (action === 'save') {
     newTrack.trackName = trackName.concat([data.trackName]);
     newTrack.note = note.concat([data.note]);

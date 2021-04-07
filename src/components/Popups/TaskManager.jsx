@@ -17,7 +17,7 @@ export function TaskManager() {
   const dispatch = useDispatch();
   const [data, setData] = useState(taskInit);
   const [validation, setValidation] = useState(taskInitVal);
-  let inputRef = useRef(null);
+  const inputRef = useRef(null);
   const {
     main: { members, theme, tasks },
     modal: { edit, selected },
@@ -29,17 +29,11 @@ export function TaskManager() {
     }
   }, []);
 
-  const close = () => {
-    return dispatch(closeEdit());
-  };
+  const close = () => dispatch(closeEdit());
 
-  const save = (newData, isNew) => {
-    return dispatch(saveData(tasks, 'tasks', newData, selected, isNew));
-  };
+  const save = (newData, isNew) => dispatch(saveData(tasks, 'tasks', newData, selected, isNew));
 
-  const load = () => {
-    return dispatch(loadUserData());
-  };
+  const load = () => dispatch(loadUserData());
 
   const validateData = (length) => {
     const validateResult = validateCategory('tasks', data);
@@ -47,17 +41,14 @@ export function TaskManager() {
     return validateValues(validateResult, length);
   };
 
-  const saveTask = (isNew) => {
-    return () => {
+  const saveTask = (isNew) => () => {
+    if (validateData(TASK_VALIDATIONS)) {
       const { id, assigners } = data;
-
-      if (validateData(TASK_VALIDATIONS)) {
-        addUserTasks(id, assigners);
-        load();
-        save(data, isNew);
-        close();
-      }
-    };
+      addUserTasks(id, assigners);
+      load();
+      save(data, isNew);
+      close();
+    }
   };
 
   const inputChange = (event) => {
@@ -78,7 +69,7 @@ export function TaskManager() {
   };
 
   const saveAssigner = () => {
-    const field = inputRef;
+    const field = inputRef.current;
     const checkBoxes = [...field.querySelectorAll("input[type='checkbox']")];
     const assigners = checkBoxes.map(({ checked, name }) => (checked ? name : null)).filter((el) => el !== null);
     setData(() => {
@@ -87,10 +78,6 @@ export function TaskManager() {
         assigners,
       };
     });
-  };
-
-  const setRef = (ref) => {
-    inputRef = ref;
   };
 
   const { name, description, start, deadline, assigners } = data;
@@ -152,7 +139,7 @@ export function TaskManager() {
             Deadline:
           </Input>
           <List
-            inputRef={setRef}
+            inputRef={inputRef}
             items={members}
             elements={assigners}
             className='assigner'

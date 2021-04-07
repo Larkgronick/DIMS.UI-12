@@ -41,13 +41,9 @@ export function MemberManager() {
     }
   }, []);
 
-  const close = () => {
-    return dispatch(closeEdit());
-  };
+  const close = () => dispatch(closeEdit());
 
-  const save = (newData, isNew) => {
-    return dispatch(saveData(members, 'members', newData, selected, isNew));
-  };
+  const save = (newData, isNew) => dispatch(saveData(members, 'members', newData, selected, isNew));
 
   const validateData = (length) => {
     const validateResult = validateCategory('members', data);
@@ -63,8 +59,8 @@ export function MemberManager() {
   };
 
   const addMember = () => {
-    const { email } = data;
     if (validateData(MEMBERS_VALIDATIONS)) {
+      const { email } = data;
       save(data, true);
       close();
       registerNewUser(email, generateID());

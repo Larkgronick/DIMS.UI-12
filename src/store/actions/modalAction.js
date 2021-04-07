@@ -1,4 +1,4 @@
-import { OPEN_EDIT, CLOSE_EDIT, SELECT_ITEM } from '../types';
+import { OPEN_EDIT, CLOSE_EDIT, SELECT_ITEM, OPEN_CONFIRM } from '../types';
 import { getIndex } from '../../services/helpers';
 
 export const openEdit = (e, isNew, field) => {
@@ -17,10 +17,17 @@ export const openEdit = (e, isNew, field) => {
   };
 };
 
+export const openConfirmation = (page) => {
+  return {
+    type: OPEN_CONFIRM,
+    payload: { page, openConfirm: true },
+  };
+};
+
 export const closeEdit = () => {
   return {
     type: CLOSE_EDIT,
-    payload: { edit: false, openModal: false },
+    payload: { edit: false, openModal: false, openConfirm: false },
   };
 };
 

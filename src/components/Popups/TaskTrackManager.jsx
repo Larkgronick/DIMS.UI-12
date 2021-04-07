@@ -15,14 +15,6 @@ export function TaskTrackManager() {
   const [data, setData] = useState(taskTrackInit);
   const [validation, setValidation] = useState(taskTrackInitVal);
 
-  const close = () => {
-    return dispatch(closeEdit());
-  };
-
-  const save = (newData, action) => {
-    return dispatch(saveTrackData(userTracks, newData, track, subtask, action));
-  };
-
   const {
     main: { theme },
     user: { userTasks, userTracks },
@@ -49,6 +41,10 @@ export function TaskTrackManager() {
       });
     }
   }, []);
+
+  const close = () => dispatch(closeEdit());
+
+  const save = (newData, action) => dispatch(saveTrackData(userTracks, newData, track, subtask, action));
 
   const validateData = (length) => {
     const validateResult = validateCategory('taskTracks', data);

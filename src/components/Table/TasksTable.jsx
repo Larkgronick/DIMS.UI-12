@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { openEdit } from '../../store/actions/modalAction';
-import { deleteData } from '../../store/actions/mainDataAction';
+import { openEdit, openConfirmation, selectItem } from '../../store/actions/modalAction';
 import { Button } from '../Buttons/Button/Button';
 import { convertDate } from '../../services/helpers';
 
@@ -10,12 +9,11 @@ export function TasksTable() {
     main: { tasks },
   } = useSelector((state) => state);
 
-  const edit = (isNew, selected) => {
-    return (e) => dispatch(openEdit(e, isNew, selected));
-  };
+  const edit = (isNew, selected) => (e) => dispatch(openEdit(e, isNew, selected));
 
-  const deleteTask = (page) => {
-    return (e) => dispatch(deleteData(tasks, e, page));
+  const confirm = (page) => (e) => {
+    dispatch(selectItem(e, 'selected'));
+    dispatch(openConfirmation(page));
   };
 
   return (
@@ -29,7 +27,7 @@ export function TasksTable() {
             <Button onClick={edit(true, 'selected')} className='button dev'>
               Edit
             </Button>
-            <Button onClick={deleteTask('tasks')} className='button danger'>
+            <Button onClick={confirm('tasks')} className='button danger'>
               Delete
             </Button>
           </td>

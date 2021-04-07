@@ -4,6 +4,7 @@ export const SELECT_ITEM = 'SELECT_ITEM';
 export const OPEN_EDIT = 'OPEN_EDIT';
 export const CLOSE_EDIT = 'CLOSE_EDIT';
 export const EDIT_TRACK = 'EDIT_TRACK';
+export const OPEN_CONFIRM = 'OPEN_CONFIRM';
 
 export const SHOW_USER_TASKS = 'SHOW_USER_TASKS';
 export const SHOW_LOADER = 'SHOW_LOADER';

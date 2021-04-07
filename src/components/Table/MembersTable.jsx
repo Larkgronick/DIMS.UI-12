@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { openEdit } from '../../store/actions/modalAction';
+import { openEdit, selectItem, openConfirmation } from '../../store/actions/modalAction';
 import { showUserTasks } from '../../store/actions/userDataAction';
-import { deleteData } from '../../store/actions/mainDataAction';
 import { Button } from '../Buttons/Button/Button';
 import { convertDate } from '../../services/helpers';
 
@@ -14,16 +13,13 @@ export function MembersTable() {
 
   const isAdmin = role === 'Admin';
 
-  const edit = (isNew, selected) => {
-    return (e) => dispatch(openEdit(e, isNew, selected));
-  };
+  const edit = (isNew, selected) => (e) => dispatch(openEdit(e, isNew, selected));
 
-  const show = (e) => {
-    return dispatch(showUserTasks(e));
-  };
+  const show = (e) => dispatch(showUserTasks(e));
 
-  const deleteMember = (page) => {
-    return (e) => dispatch(deleteData(members, e, page));
+  const confirm = (page) => (e) => {
+    dispatch(selectItem(e, 'subtask'));
+    dispatch(openConfirmation(page));
   };
 
   return (
@@ -54,7 +50,7 @@ export function MembersTable() {
                 <Button onClick={edit(true, 'selected')} className='button edit'>
                   Edit
                 </Button>
-                <Button onClick={deleteMember('members')} className='button danger'>
+                <Button onClick={confirm('members')} className='button danger'>
                   Delete
                 </Button>
               </span>

@@ -1,4 +1,4 @@
-import { OPEN_EDIT, CLOSE_EDIT, SELECT_ITEM } from '../types';
+import { OPEN_EDIT, CLOSE_EDIT, SELECT_ITEM, OPEN_CONFIRM } from '../types';
 
 const initialState = {
   openModal: false,
@@ -6,6 +6,8 @@ const initialState = {
   selected: 0,
   track: 0,
   subtask: 0,
+  openConfirm: false,
+  page: '',
 };
 
 export default function modalReducer(state = initialState, action) {
@@ -25,6 +27,12 @@ export default function modalReducer(state = initialState, action) {
         ...state,
         ...action.payload,
       };
+    case OPEN_CONFIRM:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
     default:
       return state;
   }

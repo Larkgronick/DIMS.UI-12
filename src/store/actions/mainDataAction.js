@@ -1,6 +1,5 @@
 import { SET_THEME, LOGIN, SWITCH_THEME, SAVE_DATA, DELETE_DATA } from '../types';
 import { loadData, loadMemberData, setData, clearUserTracks } from '../../services/services';
-import { getIndex } from '../../services/helpers';
 
 export const setTheme = (theme) => {
   return {
@@ -9,24 +8,23 @@ export const setTheme = (theme) => {
   };
 };
 
-export const login = (user) => {
-  return async (dispatch) => {
-    if (user) {
-      const { userData } = await loadMemberData();
-      const { role, name, lastName, email } = userData;
-      const members = await loadUsersData('members');
-      const tasks = await loadUsersData('tasks');
-
-      return dispatch({
-        type: LOGIN,
-        payload: { isLogged: true, role, name, lastName, email, members, tasks },
-      });
-    }
+export const login = (user) => async (dispatch) => {
+  if (user) {
+    const data = await Promise.all([loadMemberData(), loadUsersData('members'), loadUsersData('tasks')]);
+    const [userInfo, members, tasks] = data;
+    const {
+      userData: { role, name, lastName, email },
+    } = userInfo;
+    const payload = { isLogged: true, role, name, lastName, email, members, tasks };
     return dispatch({
       type: LOGIN,
-      payload: { isLogged: false },
+      payload,
     });
-  };
+  }
+  return dispatch({
+    type: LOGIN,
+    payload: { isLogged: false },
+  });
 };
 
 export const loadUsersData = (field) => {
@@ -36,27 +34,18 @@ export const loadUsersData = (field) => {
 };
 
 export const switchTheme = (isLight) => {
-  console.log(isLight);
-  if (isLight) {
-    return {
-      type: SWITCH_THEME,
-      payload: { theme: 'light' },
-    };
-  }
-
   return {
     type: SWITCH_THEME,
-    payload: { theme: 'dark' },
+    payload: { theme: isLight ? 'light' : 'dark' },
   };
 };
 
 export const saveData = (category, field, value, selected, isNew) => {
-  const current = category;
   let newState;
   if (isNew) {
-    newState = [...current].concat([value]);
+    newState = [...category].concat([value]);
   } else {
-    newState = [...current];
+    newState = [...category];
     newState[selected] = value;
   }
 
@@ -68,20 +57,15 @@ export const saveData = (category, field, value, selected, isNew) => {
   };
 };
 
-export const deleteData = (category, e, field) => {
-  const current = category;
-  const { name } = current[getIndex(e)];
-  if (window.confirm('Are you sure you wish to delete this item?')) {
-    const removed = current.filter((item, index) => index !== getIndex(e));
-
-    if (field === 'tasks') {
-      clearUserTracks(name);
-    }
-    setData(field, removed);
-    return {
-      type: DELETE_DATA,
-      payload: { [field]: removed },
-    };
+export const deleteData = (category, selected, field) => {
+  const { name } = category[selected];
+  const removed = category.filter((item, index) => index !== selected);
+  if (field === 'tasks') {
+    clearUserTracks(name);
   }
-  return { type: DELETE_DATA, payload: [field] };
+  setData(field, removed);
+  return {
+    type: DELETE_DATA,
+    payload: { [field]: removed },
+  };
 };
