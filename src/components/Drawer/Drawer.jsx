@@ -35,7 +35,7 @@ export function Drawer() {
             </Link>
           );
         })}
-      <div className={drawerOpen ? 'show' : ''} onClick={toggle} aria-hidden='true' />
+      <div className={`main-page ${drawerOpen ? 'show' : ''}`} onClick={toggle} aria-hidden='true' />
     </div>
   );
 }

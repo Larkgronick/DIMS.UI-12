@@ -24,9 +24,9 @@ export function TaskTrackManager() {
   useEffect(() => {
     const { name } = userTasks[track];
     const { trackName, date, note } = userTracks[track];
-    setData(() => {
+    setData((prevState) => {
       return {
-        ...data,
+        ...prevState,
         name,
       };
     });

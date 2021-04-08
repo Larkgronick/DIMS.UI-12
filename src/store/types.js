@@ -1,4 +1,5 @@
 export const DRAWER_TOGGLE = 'DRAWER_TOGGLE';
+export const DRAWER_CLOSE = 'DRAWER_CLOSE';
 
 export const SELECT_ITEM = 'SELECT_ITEM';
 export const OPEN_EDIT = 'OPEN_EDIT';

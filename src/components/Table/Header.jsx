@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { openEdit } from '../../store/actions/modalAction';
+import { drawerClose } from '../../store/actions/drawerAction';
 import { Hamburger } from '../Buttons/Hamburger/Hamburger';
 import { Button } from '../Buttons/Button/Button';
 import { logOutFirebase } from '../../services/services';
@@ -14,6 +15,11 @@ export default function Header(props) {
 
   const edit = (isNew, selected) => (e) => dispatch(openEdit(e, isNew, selected));
 
+  const logOut = () => {
+    dispatch(drawerClose());
+    logOutFirebase();
+  };
+
   return (
     <>
       <header className='header'>
@@ -25,7 +31,7 @@ export default function Header(props) {
             </Button>
           ) : null}
         </div>
-        <Button onClick={logOutFirebase} className='button danger circle'>
+        <Button onClick={logOut} className='button danger circle'>
           Log Out
         </Button>
       </header>

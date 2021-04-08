@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { convertDate, generateID } from '../../services/helpers';
 
 export function ProgressTable() {
   const {
@@ -19,12 +20,12 @@ export function ProgressTable() {
             </td>
             <td>
               {note.map((el) => (
-                <p key={el}>{el}</p>
+                <p key={generateID()}>{el}</p>
               ))}
             </td>
             <td>
               {date.map((el) => (
-                <p key={el}>{el}</p>
+                <p key={generateID()}>{convertDate(el)}</p>
               ))}
             </td>
           </tr>

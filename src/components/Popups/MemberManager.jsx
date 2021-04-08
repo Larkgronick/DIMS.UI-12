@@ -70,15 +70,15 @@ export function MemberManager() {
   const inputChange = (event) => {
     const { name, value } = event.target;
     const error = `${name}Err`;
-    setData(() => {
+    setData((prevState) => {
       return {
-        ...data,
+        ...prevState,
         [name]: value,
       };
     });
-    setValidation(() => {
+    setValidation((prevState) => {
       return {
-        ...validation,
+        ...prevState,
         [error]: validateField(name, value),
       };
     });

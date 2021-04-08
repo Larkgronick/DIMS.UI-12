@@ -54,15 +54,15 @@ export function TaskManager() {
   const inputChange = (event) => {
     const { name, value } = event.target;
     const error = `${name}Err`;
-    setData(() => {
+    setData((prevState) => {
       return {
-        ...data,
+        ...prevState,
         [name]: value,
       };
     });
-    setValidation(() => {
+    setValidation((prevState) => {
       return {
-        ...validation,
+        ...prevState,
         [error]: validateField(name, value),
       };
     });
@@ -72,9 +72,9 @@ export function TaskManager() {
     const field = inputRef.current;
     const checkBoxes = [...field.querySelectorAll("input[type='checkbox']")];
     const assigners = checkBoxes.map(({ checked, name }) => (checked ? name : null)).filter((el) => el !== null);
-    setData(() => {
+    setData((prevState) => {
       return {
-        ...data,
+        ...prevState,
         assigners,
       };
     });

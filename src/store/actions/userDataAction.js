@@ -81,7 +81,7 @@ export const loadUserData = () => {
       const { userData } = res;
       payload.memberData = userData;
     })
-    .catch(console.log);
+    .catch(console.err);
   return {
     type: LOAD_USER_DATA,
     payload,

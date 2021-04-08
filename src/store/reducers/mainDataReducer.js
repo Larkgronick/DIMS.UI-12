@@ -14,33 +14,14 @@ const initialState = {
 export default function mainDataReducer(state = initialState, action) {
   switch (action.type) {
     case SET_THEME:
-      return {
-        ...state,
-        ...action.payload,
-      };
     case LOGIN:
-      return {
-        ...state,
-        ...action.payload,
-      };
     case SWITCH_THEME:
-      return {
-        ...state,
-        ...action.payload,
-      };
-
     case SAVE_DATA:
-      return {
-        ...state,
-        ...action.payload,
-      };
-
     case DELETE_DATA:
       return {
         ...state,
-        isLoading: true,
+        ...action.payload,
       };
-
     default:
       return state;
   }

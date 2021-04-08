@@ -10,28 +10,9 @@ const initialState = {
 export default function userDataReducer(state = initialState, action) {
   switch (action.type) {
     case SHOW_USER_TASKS:
-      return {
-        ...state,
-        ...action.payload,
-      };
     case SHOW_LOADER:
-      return {
-        ...state,
-        ...action.payload,
-      };
-
     case SAVE_TRACK_DATA:
-      return {
-        ...state,
-        ...action.payload,
-      };
-
     case SET_TASK_STATUS:
-      return {
-        ...state,
-        ...action.payload,
-      };
-
     case LOAD_USER_DATA:
       return {
         ...state,
