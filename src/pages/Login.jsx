@@ -7,6 +7,7 @@ import { GoogleButton } from '../components/Buttons/GoogleButton/GoogleButton';
 import { Spinner } from '../components/Loader/Spinner';
 import { validateEmail } from '../services/validation';
 import { signInFirebase, signInWithGoogle } from '../services/services';
+import { eggs } from '../services/constants';
 import devLogo from '../assets/images/devLogo.png';
 
 class Login extends Component {
@@ -104,6 +105,11 @@ class Login extends Component {
             <Spinner visible={isLoading} />
           </form>
         </main>
+        <ul className='bg-bubbles'>
+          {eggs.map((el) => (
+            <li key={el} />
+          ))}
+        </ul>
       </div>
     );
   }

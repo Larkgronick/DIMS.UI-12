@@ -23,10 +23,10 @@ export function TaskTrackTable() {
     <tbody className='table-body'>
       {trackName.map((el, i) => (
         <tr key={el} className='row'>
-          <td>{trackName[i]}</td>
-          <td>{note[i]}</td>
-          <td>{convertDate(date[i])}</td>
-          <td>
+          <td className='task-tracks-adapt'>{trackName[i]}</td>
+          <td className='task-tracks-adapt'>{note[i]}</td>
+          <td className='task-tracks-adapt'>{convertDate(date[i])}</td>
+          <td className='task-tracks-adapt actions'>
             <Button onClick={edit(true, 'subtask')} className='button edit'>
               Edit
             </Button>

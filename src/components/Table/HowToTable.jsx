@@ -34,11 +34,13 @@ export function HowToTable() {
             Or <b>jump to work</b> right now:
           </p>
           <img src={images.birdIcon} alt='bird-in-egg' />
-          {buttons[role].map(({ name, className, load, path }) => (
-            <Link onClick={open(load)} key={name} to={path}>
-              <Button className={className}>{name}</Button>
-            </Link>
-          ))}
+          <div className='jump-to'>
+            {buttons[role].map(({ name, className, load, path }) => (
+              <Link onClick={open(load)} key={name} to={path}>
+                <Button className={className}>{name}</Button>
+              </Link>
+            ))}
+          </div>
           <img src={images.birdIcon} alt='bird-in-egg' />
         </td>
       </tr>

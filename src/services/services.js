@@ -37,6 +37,18 @@ export const registerNewUser = async (email, password) => {
   }
 };
 
+export const updateData = async (data, field) => {
+  db.collection('data')
+    .doc(field)
+    .set({ data })
+    .then(() => {
+      console.error(`${field} was updated!`);
+    })
+    .catch((error) => {
+      console.error('Error with updating:', error);
+    });
+};
+
 export const setData = async (field, value) => {
   db.collection('data')
     .doc(field)

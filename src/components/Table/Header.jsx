@@ -11,7 +11,7 @@ export default function Header(props) {
 
   const dispatch = useDispatch();
 
-  const { isLoading } = useSelector((state) => state.main);
+  const { isLoading } = useSelector((state) => state.user);
 
   const edit = (isNew, selected) => (e) => dispatch(openEdit(e, isNew, selected));
 

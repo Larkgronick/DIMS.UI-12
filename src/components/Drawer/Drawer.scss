@@ -16,6 +16,10 @@ $input-line: #dadee7;
   box-shadow: 1px 0px 7px $line-shadow;
   transform: translateX(-100%);
   transition: transform 0.3s ease-out;
+  span {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .main-page {
@@ -37,7 +41,8 @@ $input-line: #dadee7;
 }
 
 .dev-logo {
-  margin: 10px 0 30px 0;
+  margin: 10px 0;
+  height: 50px;
 }
 
 .drawer-item {
@@ -47,14 +52,12 @@ $input-line: #dadee7;
   padding: 15px;
   margin: 5px auto;
   cursor: pointer;
-}
-
-.drawer-item img {
-  width: 30px;
-}
-
-.drawer-item-name {
-  color: $text;
-  font-size: 25px;
-  padding-left: 5px;
+  img {
+    width: 30px;
+  }
+  span {
+    color: $text;
+    font-size: 20px;
+    padding-left: 10px;
+  }
 }

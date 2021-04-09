@@ -5,17 +5,19 @@ $text-thead: #8492af;
 $table-line: #dadee7;
 $dev-color: #008f02;
 $danger: #da514b;
+$drag: #e5edf1;
 
 .table {
-  width: 95vw;
+  width: 88vw;
   font-family: $roboto-regular;
+  font-size: 15px;
   border-collapse: collapse;
   text-align: center;
   margin: 0 auto 30px auto;
 }
 
 .settings {
-  width: 80%;
+  width: 70%;
 }
 
 header {
@@ -23,6 +25,12 @@ header {
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
+  div {
+    width: 185px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
 }
 
 .table-head {
@@ -31,11 +39,14 @@ header {
 }
 
 .actions {
-  width: 400px;
+  width: 35%;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .attention {
   color: $text-thead;
+  padding-left: 10px;
 }
 
 .logo {
@@ -44,11 +55,11 @@ header {
 
 .row {
   height: 60px;
-  border: 2px solid $table-line;
 }
 
 td {
   text-align: center;
+  padding: 3px;
   border: 2px solid $table-line;
 }
 .progress {
@@ -93,5 +104,149 @@ td {
 .description {
   text-align: justify;
   padding: 0px 30px;
-  line-height: 40px;
+  line-height: 28px;
+}
+
+.jump-to {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-icon {
+  display: block;
+  margin: auto;
+}
+
+.index {
+  font-style: initial;
+  color: $text-thead;
+  text-align: initial;
+}
+
+.progress-adapt p {
+  padding: 2px;
+  margin: 6px;
+  font-size: 12px;
+  border: 1px solid $table-line;
+}
+
+.name {
+  text-align: start;
+}
+
+.drag-icon {
+  width: 15px;
+  padding-right: 10px;
+}
+
+.dragged {
+  td {
+    background-color: $drag;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  th {
+    display: none;
+  }
+
+  tr {
+    border: 2px solid $table-line;
+  }
+
+  td {
+    width: 90%;
+    display: block;
+    border: none;
+    padding: 10px;
+  }
+
+  .members-adapt,
+  .tasks-adapt,
+  .my-tasks-adapt,
+  .task-tracks-adapt {
+    display: flex;
+  }
+
+  .progress-adapt {
+    display: block;
+  }
+
+  .members-adapt::before,
+  .tasks-adapt::before,
+  .my-tasks-adapt::before,
+  .task-tracks-adapt::before,
+  .progress-adapt::before {
+    font-style: italic;
+    padding-right: 10px;
+    color: $text-thead;
+  }
+
+  .members-adapt:nth-of-type(1):before,
+  .tasks-adapt:nth-of-type(1):before,
+  .my-tasks-adapt:nth-of-type(1):before,
+  .task-tracks-adapt:nth-of-type(1):before {
+    content: 'Name:';
+  }
+
+  .members-adapt:nth-of-type(2):before {
+    content: 'Email:';
+  }
+
+  .members-adapt:nth-of-type(3):before {
+    content: 'Education:';
+  }
+
+  .members-adapt:nth-of-type(4):before {
+    content: 'Phone:';
+  }
+
+  .members-adapt:nth-of-type(5):before,
+  .tasks-adapt:nth-of-type(2):before {
+    content: 'Start date:';
+  }
+
+  .tasks-adapt:nth-of-type(3):before,
+  .my-tasks-adapt:nth-of-type(3):before {
+    content: 'Deadline:';
+  }
+
+  .progress-adapt:nth-of-type(1):before {
+    content: 'Task Name:';
+  }
+
+  .progress-adapt:nth-of-type(2):before {
+    content: 'Tracks:';
+  }
+
+  .progress-adapt:nth-of-type(3):before {
+    content: 'Notes:';
+  }
+
+  .progress-adapt:nth-of-type(4):before {
+    content: 'Dates:';
+  }
+
+  .my-tasks-adapt:nth-of-type(2):before {
+    content: 'Start date:';
+  }
+
+  .my-tasks-adapt:nth-of-type(4):before,
+  .progress-adapt:nth-of-type(5):before {
+    content: 'Status:';
+  }
+
+  .task-tracks-adapt:nth-of-type(2):before {
+    content: 'Note:';
+  }
+
+  .task-tracks-adapt:nth-of-type(3):before {
+    content: 'Date:';
+  }
+
+  .actions {
+    width: 90%;
+  }
 }

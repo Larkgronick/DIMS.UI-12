@@ -25,13 +25,15 @@ export function Drawer() {
 
   return (
     <div className={`side-drawer ${drawerOpen ? 'open' : ''}`}>
-      <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
+      <span>
+        <img className='dev-logo' src={devLogo} alt='dev-incubator-logo' />
+      </span>
       {role &&
         menuItems[`drawer${role}`].map(({ name, path, load, img }) => {
           return (
             <Link onClick={open(load)} to={path} key={name} className='drawer-item'>
               <img alt='img' src={img} />
-              <span className='drawer-item-name'>{name}</span>
+              <span>{name}</span>
             </Link>
           );
         })}

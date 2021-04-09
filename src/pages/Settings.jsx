@@ -5,17 +5,13 @@ import { Table } from '../components/Table/Table';
 import { images } from '../services/constants';
 
 export function Settings() {
-  const {
-    main: { name, lastName },
-  } = useSelector((state) => state);
+  const { name, lastName } = useSelector((state) => state.main);
 
   return (
     <article>
-      <Header>
-        <img src={images.userIcon} alt='members-icon' />
-        {`${name} ${lastName}`}
-      </Header>
+      <Header>{`${name} ${lastName}`}</Header>
       <Table>settings</Table>
+      <img className='settings-icon' src={images.userIcon} alt='members-icon' />
     </article>
   );
 }

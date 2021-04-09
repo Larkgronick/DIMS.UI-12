@@ -22,11 +22,11 @@ $drop-shadow: rgba(202, 200, 200, 0.3);
   margin: auto;
   padding: 20px;
   border: 1px solid $border;
-  width: 45%;
+  width: 380px;
 }
 
 .members {
-  width: 45%;
+  width: 65%;
 }
 
 .new-member {
@@ -100,4 +100,10 @@ textarea,
 
 .warning {
   background-color: $danger;
+}
+
+@media only screen and (max-width: 768px) {
+  .modal-content {
+    width: 200px;
+  }
 }

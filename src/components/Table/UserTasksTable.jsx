@@ -44,7 +44,7 @@ export function UserTasksTable() {
     <tbody className='table-body'>
       {userTasks.map(({ id, name, start, deadline }, i) => (
         <tr key={id} className='row'>
-          <td>
+          <td className='my-tasks-adapt'>
             {isMember ? (
               <Link to='/task-track'>
                 <Button onClick={select('track')} className='link'>
@@ -55,21 +55,19 @@ export function UserTasksTable() {
               <span>{name}</span>
             )}
           </td>
-          <td>
-            <span className='attention'>{convertDate(start)}</span>
-          </td>
-          <td>{convertDate(deadline)}</td>
-          <td>
+          <td className='my-tasks-adapt'>{convertDate(start)}</td>
+          <td className='my-tasks-adapt'>{convertDate(deadline)}</td>
+          <td className='my-tasks-adapt'>
             <span className={userTracks[i].status}>{userTracks[i].status}</span>
           </td>
           {isMember ? (
-            <td>
+            <td className='my-tasks-adapt actions'>
               <Button onClick={edit(false, 'track')} className='button edit'>
                 Track
               </Button>
             </td>
           ) : null}
-          {!isMember ? <td className='actions'>{renderActions(isMember, i)}</td> : null}
+          {!isMember ? <td className='my-tasks-adapt actions'>{renderActions(isMember, i)}</td> : null}
         </tr>
       ))}
     </tbody>

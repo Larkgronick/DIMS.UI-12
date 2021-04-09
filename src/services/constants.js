@@ -123,7 +123,7 @@ export const buttons = {
 export const menuItems = {
   members: ['Name / Direction', 'Email', 'Education', 'Mobile phone', 'Start date', 'Actions'],
   tasks: ['Name', 'Start', 'Deadline', 'Actions'],
-  progress: ['Task Name', 'Track', 'Note', 'Date'],
+  progress: ['Task Name', 'Track', 'Note', 'Date', 'Status'],
   users: ['Name', 'Start', 'Deadline', 'Status'],
   taskTracks: ['Track Name', 'Note', 'Date'],
   settings: ['Role', 'Email', 'Password', 'Theme'],
@@ -168,3 +168,5 @@ export const messages = {
 };
 
 export const scoreScale = new Array(100).fill().map((el, i) => (i + 1).toString());
+
+export const eggs = new Array(10).fill().map((el, i) => i.toString());

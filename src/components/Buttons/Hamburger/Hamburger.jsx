@@ -17,7 +17,7 @@ export function Hamburger() {
 
   return (
     <Button onClick={toggle} className={`bt-menu-trigger ${theme} ${drawerOpen && 'bt-menu-open'}`}>
-      <span />
+      <span className={`${theme}-burger`} />
     </Button>
   );
 }

@@ -40,7 +40,7 @@ export function SettingsTable() {
           <Button onClick={changePassword(email)} className='button dev'>
             Change
           </Button>
-          <p className={isError ? 'error-message' : 'success'}>{message}</p>
+          <p className={isError ? 'error-message send' : 'success send'}>{message}</p>
         </td>
         <td>
           <ThemeSwitcher />
