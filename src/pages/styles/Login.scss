@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-$roboto-regular: 'Roboto Regular', serif;
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
 
 $text: #fff;
 $line-bg: #000;
@@ -36,7 +38,7 @@ $error: red;
   color: $text;
   background-color: $line-bg;
   outline: none;
-  font-family: $roboto-regular;
+  font-family: 'Roboto', sans-serif;
   font-size: 16pt;
   width: 100px;
   height: 100%;
@@ -50,7 +52,7 @@ $error: red;
 .login-form {
   position: relative;
   top: 10%;
-  font-family: $roboto-regular;
+  font-family: 'Roboto', sans-serif;
   text-align: center;
   z-index: 3;
   h2 {
@@ -93,7 +95,7 @@ $error: red;
 }
 
 .button {
-  font-family: $roboto-regular;
+  font-family: 'Roboto', sans-serif;
 }
 
 .error-message {

@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-$roboto-regular: 'Roboto Regular', serif;
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
 
 $text-thead: #8492af;
 $table-line: #dadee7;
@@ -9,7 +11,7 @@ $drag: #e5edf1;
 
 .table {
   width: 88vw;
-  font-family: $roboto-regular;
+  font-family: 'Roboto', sans-serif;
   font-size: 15px;
   border-collapse: collapse;
   text-align: center;
