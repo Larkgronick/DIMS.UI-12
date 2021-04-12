@@ -55,10 +55,14 @@ export function generateID() {
 }
 
 export const onFocusDate = (e) => {
-  e.currentTarget.type = 'date';
+  if (e) {
+    e.currentTarget.type = 'date';
+  }
 };
 
 export const onBlurDate = (e) => {
-  e.currentTarget.type = 'text';
-  e.currentTarget.value = e.currentTarget.placeholder;
+  if (e) {
+    e.currentTarget.type = 'text';
+    e.currentTarget.value = e.currentTarget.placeholder;
+  }
 };

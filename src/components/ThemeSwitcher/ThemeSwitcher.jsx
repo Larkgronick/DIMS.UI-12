@@ -1,20 +1,27 @@
 import './ThemeSwitcher.scss';
-import { MainDataContext } from '../../contexts/MainDataContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { switchTheme } from '../../store/actions/mainDataAction';
 
 export function ThemeSwitcher() {
+  const dispatch = useDispatch();
+  const {
+    main: { theme },
+  } = useSelector((state) => state);
+
+  const move = (e) => {
+    if (theme === 'light') {
+      localStorage.setItem('theme', 'dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
+
+    return dispatch(switchTheme(e.target.checked));
+  };
+
   return (
-    <MainDataContext.Consumer>
-      {({ switchTheme, theme }) => (
-        <label htmlFor='slider' id='switch' className='switch'>
-          <input
-            type='checkbox'
-            onChange={(e) => switchTheme(e.target.checked)}
-            id='slider'
-            checked={theme === 'light'}
-          />
-          <span className='slider round' />
-        </label>
-      )}
-    </MainDataContext.Consumer>
+    <label htmlFor='slider' id='switch' className='switch'>
+      <input type='checkbox' onChange={move} id='slider' checked={theme === 'light'} />
+      <span className='slider round' />
+    </label>
   );
 }

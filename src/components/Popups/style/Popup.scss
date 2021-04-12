@@ -2,6 +2,7 @@ $window-back: #000;
 $shadow: #a5ce86;
 $border: #888;
 $dev-color: #008f02;
+$danger: #da514b;
 $submit-text: #fff;
 $drop-shadow: rgba(202, 200, 200, 0.3);
 
@@ -95,4 +96,8 @@ textarea,
 
 .hide-error {
   display: none;
+}
+
+.warning {
+  background-color: $danger;
 }

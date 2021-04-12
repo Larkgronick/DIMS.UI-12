@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { onFocusDate, onBlurDate } from '../../services/helpers';
 
 export function Input({
   children,
@@ -26,7 +27,7 @@ export function Input({
         max={max}
         placeholder={placeholder}
         value={value}
-        valueAsDate={valueAsDate}
+        valueasdate={valueAsDate}
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
@@ -41,16 +42,16 @@ Input.propTypes = {
   isError: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   children: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string,
   min: PropTypes.string,
   max: PropTypes.string,
-  valueAsDate: PropTypes.string,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  valueAsDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
 };
 
 Input.defaultProps = {
@@ -58,4 +59,6 @@ Input.defaultProps = {
   min: '',
   max: '',
   valueAsDate: '',
+  onFocus: () => onFocusDate(),
+  onBlur: () => onBlurDate(),
 };
