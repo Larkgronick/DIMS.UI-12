@@ -1,6 +1,6 @@
+import './Button.scss';
 import PropTypes from 'prop-types';
 import noop from '../../../shared/noop';
-import './Button.scss';
 
 export function Button({ children, onClick, className }) {
   return (

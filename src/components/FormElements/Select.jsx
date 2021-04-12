@@ -5,7 +5,7 @@ export function Select({ children, isError, options, value, onChange, name }) {
     <label htmlFor={name}>
       {children}
       <select className={isError ? 'error-border' : null} name={name} value={value} onChange={onChange}>
-        <option value='' disabled selected hidden>
+        <option value='' disabled hidden>
           Choose...
         </option>
         {options.map((el) => (
@@ -19,7 +19,7 @@ export function Select({ children, isError, options, value, onChange, name }) {
 Select.propTypes = {
   isError: PropTypes.bool.isRequired,
   options: PropTypes.instanceOf(Array).isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   children: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,

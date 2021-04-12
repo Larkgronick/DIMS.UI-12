@@ -8,8 +8,6 @@ import { TaskTrackTable } from './TaskTrackTable';
 import { SettingsTable } from './SettingsTable';
 import { AboutTable } from './AboutTable';
 import { HowToTable } from './HowToTable';
-import { Spinner } from '../Loader/Spinner';
-import { UserTasksContext } from '../../contexts/UserTasksContext';
 
 const table = {
   members: <MembersTable />,
@@ -28,23 +26,16 @@ export function Table({ children }) {
   };
 
   return (
-    <UserTasksContext.Consumer>
-      {({ isLoading }) => (
-        <>
-          <Spinner visible={isLoading} />
-          <table className='table'>
-            <thead className='table-head'>
-              <tr>
-                {menuItems[children].map((item) => (
-                  <th key={item}>{item}</th>
-                ))}
-              </tr>
-            </thead>
-            {renderTable(children)}
-          </table>
-        </>
-      )}
-    </UserTasksContext.Consumer>
+    <table className={children === 'settings' ? 'table settings' : 'table'}>
+      <thead className='table-head'>
+        <tr>
+          {menuItems[children].map((item) => (
+            <th key={item}>{item}</th>
+          ))}
+        </tr>
+      </thead>
+      {renderTable(children)}
+    </table>
   );
 }
 

@@ -21,7 +21,7 @@ export function List({ children, inputRef, items, elements, className, listId, o
 
 List.propTypes = {
   items: PropTypes.instanceOf(Array).isRequired,
-  inputRef: PropTypes.func.isRequired,
+  inputRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
   elements: PropTypes.instanceOf(Array).isRequired,
   className: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,

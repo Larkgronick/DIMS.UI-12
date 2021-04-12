@@ -9,6 +9,7 @@ import birdIcon from '../assets/images/birdIcon.png';
 import larkgronickIcon from '../assets/images/larkgronickIcon.png';
 import incubatorIcon from '../assets/images/incubatorIcon.png';
 import userIcon from '../assets/images/userIcon.png';
+import { generateID, getCurrentDate } from './helpers';
 
 export const MEMBERS_VALIDATIONS = 14;
 export const TASK_VALIDATIONS = 4;
@@ -16,6 +17,79 @@ export const TASK_TRACK_VALIDATIONS = 3;
 
 export const directions = ['JAVA', '.NET', 'Frontend'];
 export const roles = ['Member', 'Mentor', 'Admin'];
+
+export const memberInit = {
+  id: generateID(),
+  direction: '',
+  name: '',
+  email: '',
+  lastName: '',
+  sex: '',
+  education: '',
+  birthDate: '2000-01-01',
+  universityAverageScore: 50,
+  mathScore: 50,
+  address: '',
+  mobilePhone: '',
+  skype: '',
+  startDate: getCurrentDate(),
+  role: '',
+};
+
+export const memberInitVal = {
+  directionErr: false,
+  nameErr: false,
+  emailErr: false,
+  lastNameErr: false,
+  sexErr: false,
+  educationErr: false,
+  birthDateErr: false,
+  universityAverageScoreErr: false,
+  mathScoreErr: false,
+  addressErr: false,
+  mobilePhoneErr: false,
+  skypeErr: false,
+  startDateErr: false,
+  roleErr: false,
+  textMessage: 'This field must have at least one character',
+  phoneMessage: 'Input phone number in this format: +375290000000',
+  emailMessage: "Email must be in valid format, for example 'username@mailbox.com'",
+  engMessage: 'This value must consist only english letters',
+  dateMessage: 'Date cannot be greater than current or lesser than 01 January 1970',
+};
+
+export const taskInit = {
+  id: generateID(),
+  name: '',
+  description: '',
+  start: getCurrentDate(),
+  deadline: getCurrentDate(),
+  assigners: [],
+};
+
+export const taskInitVal = {
+  nameErr: false,
+  descriptionErr: false,
+  startErr: false,
+  deadlineErr: false,
+  textMessage: 'This field must have at least one character',
+  deadlineMessage: 'Date cannot be lower than current',
+};
+
+export const taskTrackInit = {
+  name: '',
+  trackName: '',
+  date: getCurrentDate(),
+  note: '',
+};
+
+export const taskTrackInitVal = {
+  trackNameErr: false,
+  dateErr: false,
+  noteErr: false,
+  textMessage: 'This field must have at least one character',
+  dateMessage: 'Date cannot be greater than current or lesser than 01 January 1970',
+};
 
 export const images = {
   burgerIcon,

@@ -1,173 +1,143 @@
-import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
 import './style/Popup.scss';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeEdit } from '../../store/actions/modalAction';
+import { saveTrackData } from '../../store/actions/userDataAction';
 import { Button } from '../Buttons/Button/Button';
 import { Input } from '../FormElements/Input';
 import { Textarea } from '../FormElements/Textarea';
-import { TASK_TRACK_VALIDATIONS } from '../../services/constants';
-import { getCurrentDate, onFocusDate, onBlurDate, validateValues, convertDate } from '../../services/helpers';
+import { TASK_TRACK_VALIDATIONS, taskTrackInit, taskTrackInitVal } from '../../services/constants';
+import { onFocusDate, onBlurDate, validateValues, convertDate } from '../../services/helpers';
 import { validateCategory, validateField } from '../../services/validation';
 
-export class TaskTrackManager extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: {
-        name: '',
-        trackName: '',
-        date: getCurrentDate(),
-        note: '',
-      },
-      validation: {
-        trackNameErr: false,
-        dateErr: false,
-        noteErr: false,
-        textMessage: 'This field must have at least one character',
-        dateMessage: 'Date cannot be greater than current or lesser than 01 January 1970',
-      },
-    };
-  }
+export function TaskTrackManager() {
+  const dispatch = useDispatch();
+  const [data, setData] = useState(taskTrackInit);
+  const [validation, setValidation] = useState(taskTrackInitVal);
 
-  componentDidMount() {
-    const { edit, userTasks, userTracks, track, subtask } = this.props;
+  const {
+    main: { theme },
+    user: { userTasks, userTracks },
+    modal: { track, subtask, edit },
+  } = useSelector((state) => state);
+
+  useEffect(() => {
     const { name } = userTasks[track];
     const { trackName, date, note } = userTracks[track];
-
-    this.setState(({ data }) => ({
-      data: {
-        ...data,
+    setData((prevState) => {
+      return {
+        ...prevState,
         name,
-      },
-    }));
+      };
+    });
     if (edit) {
-      this.setState({
-        data: {
+      setData(() => {
+        return {
           name,
           trackName: trackName[subtask],
           date: date[subtask],
           note: note[subtask],
-        },
+        };
       });
     }
-  }
+  }, []);
 
-  validateData = (length) => {
-    const { data } = this.state;
-    const test = validateCategory('taskTracks', data);
-    this.setState({ validation: test });
-    return validateValues(test, length);
+  const close = () => dispatch(closeEdit());
+
+  const save = (newData, action) => dispatch(saveTrackData(userTracks, newData, track, subtask, action));
+
+  const validateData = (length) => {
+    const validateResult = validateCategory('taskTracks', data);
+    setValidation(validateResult);
+    return validateValues(validateResult, length);
   };
 
-  saveTrack = (action) => {
-    const { closeEdit, track, subtask, saveTrackData } = this.props;
-    const { data } = this.state;
-
-    if (this.validateData(TASK_TRACK_VALIDATIONS)) {
-      saveTrackData(data, track, subtask, action);
-      closeEdit();
-    }
+  const saveTrack = (action) => {
+    return () => {
+      if (validateData(TASK_TRACK_VALIDATIONS)) {
+        save(data, action);
+        close();
+      }
+    };
   };
 
-  inputChange = (event) => {
+  const inputChange = (event) => {
     const { name, value } = event.target;
-
     const error = `${name}Err`;
-    this.setState(({ data, validation }) => ({
-      data: {
+
+    setData(() => {
+      return {
         ...data,
         [name]: value,
-      },
-      validation: {
+      };
+    });
+    setValidation(() => {
+      return {
         ...validation,
         [error]: validateField(name, value),
-      },
-    }));
+      };
+    });
   };
 
-  render() {
-    const { closeEdit, edit, theme } = this.props;
-    const { data, validation } = this.state;
-    const { name, trackName, date, note } = data;
-    const { trackNameErr, dateErr, noteErr, textMessage, dateMessage } = validation;
+  const { name, trackName, date, note } = data;
+  const { trackNameErr, dateErr, noteErr, textMessage, dateMessage } = validation;
 
-    return (
-      <div className='modal'>
-        <div className={`${theme} modal-content`}>
-          <Button onClick={closeEdit} className='close'>
-            <span>&times;</span>
-          </Button>
-          <form>
-            <p htmlFor='name-field'>
-              Track for Task:
-              <span className='attention'>{` ${name}`}</span>
-            </p>
-            <Input
-              isError={dateErr}
-              errorMessage={dateMessage}
-              onFocus={onFocusDate}
-              onBlur={onBlurDate}
-              placeholder={convertDate(date)}
-              type='date'
-              max='2999-12-31'
-              value={date}
-              name='date'
-              onChange={this.inputChange}
-            >
-              Date:
-            </Input>
-            <Input
-              isError={trackNameErr}
-              errorMessage={textMessage}
-              placeholder='Track Name'
-              value={trackName}
-              name='trackName'
-              onChange={this.inputChange}
-            >
-              Track Name:
-            </Input>
-            <Textarea
-              isError={noteErr}
-              errorMessage={textMessage}
-              placeholder='Track Description'
-              value={note}
-              name='note'
-              onChange={this.inputChange}
-            >
-              Note:
-            </Textarea>
-            {edit ? (
-              <Button onClick={() => this.saveTrack('edit')} className='submit'>
-                Edit
-              </Button>
-            ) : (
-              <Button onClick={() => this.saveTrack('save')} className='submit'>
-                Save
-              </Button>
-            )}
-          </form>
-        </div>
+  return (
+    <div className='modal'>
+      <div className={`${theme} modal-content`}>
+        <Button onClick={close} className='close'>
+          <span>&times;</span>
+        </Button>
+        <form>
+          <p htmlFor='name-field'>
+            Track for Task:
+            <span className='attention'>{` ${name}`}</span>
+          </p>
+          <Input
+            isError={dateErr}
+            errorMessage={dateMessage}
+            onFocus={onFocusDate}
+            onBlur={onBlurDate}
+            placeholder={convertDate(date)}
+            type='date'
+            max='2999-12-31'
+            value={date}
+            name='date'
+            onChange={inputChange}
+          >
+            Date:
+          </Input>
+          <Input
+            isError={trackNameErr}
+            errorMessage={textMessage}
+            placeholder='Track Name'
+            value={trackName}
+            name='trackName'
+            onChange={inputChange}
+          >
+            Track Name:
+          </Input>
+          <Textarea
+            isError={noteErr}
+            errorMessage={textMessage}
+            placeholder='Track Description'
+            value={note}
+            name='note'
+            onChange={inputChange}
+          >
+            Note:
+          </Textarea>
+          {edit ? (
+            <Button onClick={saveTrack('edit')} className='submit'>
+              Edit
+            </Button>
+          ) : (
+            <Button onClick={saveTrack('save')} className='submit'>
+              Save
+            </Button>
+          )}
+        </form>
       </div>
-    );
-  }
+    </div>
+  );
 }
-
-TaskTrackManager.propTypes = {
-  userTasks: PropTypes.instanceOf(Array).isRequired,
-  userTracks: PropTypes.instanceOf(Array).isRequired,
-  date: PropTypes.string,
-  note: PropTypes.string,
-  trackName: PropTypes.string,
-  saveTrackData: PropTypes.func.isRequired,
-  closeEdit: PropTypes.func.isRequired,
-  track: PropTypes.number.isRequired,
-  subtask: PropTypes.number,
-  edit: PropTypes.bool,
-  theme: PropTypes.string.isRequired,
-};
-TaskTrackManager.defaultProps = {
-  date: getCurrentDate,
-  note: 'note',
-  trackName: 'track name',
-  subtask: 0,
-  edit: false,
-};

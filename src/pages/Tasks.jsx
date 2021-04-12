@@ -1,40 +1,22 @@
 import './styles/Table.scss';
-import { Header } from '../components/Table/Header';
+import { useSelector } from 'react-redux';
+import Header from '../components/Table/Header';
 import { Table } from '../components/Table/Table';
 import { TaskManager } from '../components/Popups/TaskManager';
-import { MainDataContext } from '../contexts/MainDataContext';
-import { ModalContext } from '../contexts/ModalContext';
-import { UserTasksContext } from '../contexts/UserTasksContext';
+import { Confirm } from '../components/Popups/Confirm';
 
 export function Tasks() {
+  const {
+    modal: { openModal, openConfirm },
+    main: { role, tasks },
+  } = useSelector((state) => state);
+
   return (
-    <MainDataContext.Consumer>
-      {({ role, members, tasks, saveData, theme }) => (
-        <ModalContext.Consumer>
-          {({ edit, openModal, closeEdit, selected }) => (
-            <UserTasksContext.Consumer>
-              {({ addUserTasks }) => (
-                <article>
-                  {openModal ? (
-                    <TaskManager
-                      tasks={tasks}
-                      members={members}
-                      closeEdit={closeEdit}
-                      saveData={saveData}
-                      addUserTasks={addUserTasks}
-                      edit={edit}
-                      selected={selected}
-                      theme={theme}
-                    />
-                  ) : null}
-                  <Header role={role} text='Create'>{`Dev Incubator Tasks (${tasks.length})`}</Header>
-                  <Table>tasks</Table>
-                </article>
-              )}
-            </UserTasksContext.Consumer>
-          )}
-        </ModalContext.Consumer>
-      )}
-    </MainDataContext.Consumer>
+    <article>
+      {openModal ? <TaskManager /> : null}
+      {openConfirm ? <Confirm /> : null}
+      <Header role={role} text='Create'>{`Dev Incubator Tasks (${tasks.length})`}</Header>
+      <Table>tasks</Table>
+    </article>
   );
 }

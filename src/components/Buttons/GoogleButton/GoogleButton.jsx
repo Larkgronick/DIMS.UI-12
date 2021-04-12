@@ -1,6 +1,6 @@
+import './GoogleButton.scss';
 import PropTypes from 'prop-types';
 import noop from '../../../shared/noop';
-import './GoogleButton.scss';
 import { images } from '../../../services/constants';
 
 export function GoogleButton({ children, onClick }) {
