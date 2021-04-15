@@ -25,10 +25,15 @@ export function TasksTable() {
     setDragged(false);
     if (result.destination) {
       const items = Array.from(rows);
-      const [reorderedItem] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, reorderedItem);
-      updateRows(items);
-      updateData(items, 'tasks');
+      const newItem = items[result.source.index];
+      const removed = [...items.slice(0, result.source.index), ...items.slice(result.source.index + 1)];
+      const insert = [
+        ...removed.slice(0, result.destination.index),
+        newItem,
+        ...removed.slice(result.destination.index),
+      ];
+      updateRows(insert);
+      updateData(insert, 'tasks');
     }
   };
 
@@ -49,13 +54,20 @@ export function TasksTable() {
                     ref={dragProvided.innerRef}
                     {...dragProvided.draggableProps}
                   >
-                    <td className='tasks-adapt name'>
+                    <td className='name'>
                       <img className='drag-icon' src={dragIcon} {...dragProvided.dragHandleProps} alt='drag-icon' />
+                      <p className='adapt'>Task:</p>
                       {name}
                     </td>
-                    <td className='tasks-adapt'>{convertDate(start)}</td>
-                    <td className='tasks-adapt'>{convertDate(deadline)}</td>
-                    <td className='tasks-adapt actions'>
+                    <td>
+                      <p className='adapt'>Start:</p>
+                      {convertDate(start)}
+                    </td>
+                    <td>
+                      <p className='adapt'>Deadline:</p>
+                      {convertDate(deadline)}
+                    </td>
+                    <td className='actions'>
                       <Button onClick={edit(true, 'selected')} className='button dev'>
                         Edit
                       </Button>

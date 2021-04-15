@@ -125,7 +125,7 @@ export const menuItems = {
   tasks: ['Name', 'Start', 'Deadline', 'Actions'],
   progress: ['Task Name', 'Track', 'Note', 'Date', 'Status'],
   users: ['Name', 'Start', 'Deadline', 'Status'],
-  taskTracks: ['Track Name', 'Note', 'Date'],
+  taskTracks: ['Track Name', 'Note', 'Date', 'Actions'],
   settings: ['Role', 'Email', 'Password', 'Theme'],
   howto: ["What's next?"],
   about: ['DIMS-UI-12'],

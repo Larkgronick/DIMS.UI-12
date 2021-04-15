@@ -31,10 +31,15 @@ export function MembersTable() {
     setDragged(false);
     if (result.destination) {
       const items = Array.from(rows);
-      const [reorderedItem] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, reorderedItem);
-      updateRows(items);
-      updateData(items, 'members');
+      const newItem = items[result.source.index];
+      const removed = [...items.slice(0, result.source.index), ...items.slice(result.source.index + 1)];
+      const insert = [
+        ...removed.slice(0, result.destination.index),
+        newItem,
+        ...removed.slice(result.destination.index),
+      ];
+      updateRows(insert);
+      updateData(insert, 'members');
     }
   };
 
@@ -55,16 +60,30 @@ export function MembersTable() {
                     ref={dragProvided.innerRef}
                     {...dragProvided.draggableProps}
                   >
-                    <td className='name members-adapt'>
+                    <td className='name'>
                       <img className='drag-icon' src={dragIcon} {...dragProvided.dragHandleProps} alt='drag-icon' />
+                      <p className='adapt'>Name:</p>
                       <span>{`${name} ${lastName}`}</span>
                       <span className='attention'>{` ${direction}`}</span>
                     </td>
-                    <td className='members-adapt'>{email}</td>
-                    <td className='members-adapt'>{education}</td>
-                    <td className='members-adapt'>{mobilePhone}</td>
-                    <td className='members-adapt'>{convertDate(startDate)}</td>
-                    <td className='members-adapt actions'>
+                    <td>
+                      <p className='adapt'>Email:</p>
+                      {email}
+                    </td>
+                    <td>
+                      <p className='adapt'>Education:</p>
+                      {education}
+                    </td>
+                    <td>
+                      <p className='adapt'>Phone:</p>
+                      {mobilePhone}
+                    </td>
+
+                    <td>
+                      <p className='adapt'>Start:</p>
+                      {convertDate(startDate)}
+                    </td>
+                    <td className='actions'>
                       <Link to='/progress'>
                         <Button onClick={show} className='button dev'>
                           Progress

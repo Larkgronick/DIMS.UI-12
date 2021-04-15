@@ -44,30 +44,39 @@ export function UserTasksTable() {
     <tbody className='table-body'>
       {userTasks.map(({ id, name, start, deadline }, i) => (
         <tr key={id} className='row'>
-          <td className='my-tasks-adapt'>
+          <td>
             {isMember ? (
-              <Link to='/task-track'>
-                <Button onClick={select('track')} className='link'>
-                  {name}
-                </Button>
-              </Link>
+              <>
+                <p className='adapt'>Task:</p>
+                <Link to='/task-track'>
+                  <Button onClick={select('track')} className='link'>
+                    {name}
+                  </Button>
+                </Link>
+              </>
             ) : (
               <span>{name}</span>
             )}
           </td>
-          <td className='my-tasks-adapt'>{convertDate(start)}</td>
-          <td className='my-tasks-adapt'>{convertDate(deadline)}</td>
-          <td className='my-tasks-adapt'>
+          <td>
+            <p className='adapt'>Start:</p>
+            {convertDate(start)}
+          </td>
+          <td>
+            <p className='adapt'>Deadline:</p>
+            {convertDate(deadline)}
+          </td>
+          <td>
             <span className={userTracks[i].status}>{userTracks[i].status}</span>
           </td>
           {isMember ? (
-            <td className='my-tasks-adapt actions'>
+            <td className='actions'>
               <Button onClick={edit(false, 'track')} className='button edit'>
                 Track
               </Button>
             </td>
           ) : null}
-          {!isMember ? <td className='my-tasks-adapt actions'>{renderActions(isMember, i)}</td> : null}
+          {!isMember ? <td className=' actions'>{renderActions(isMember, i)}</td> : null}
         </tr>
       ))}
     </tbody>

@@ -41,7 +41,6 @@ header {
 }
 
 .actions {
-  width: 35%;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -63,9 +62,6 @@ td {
   text-align: center;
   padding: 3px;
   border: 2px solid $table-line;
-}
-.progress {
-  vertical-align: initial;
 }
 
 .link {
@@ -127,20 +123,17 @@ td {
   text-align: initial;
 }
 
-.progress-adapt p {
-  padding: 2px;
-  margin: 6px;
-  font-size: 12px;
-  border: 1px solid $table-line;
-}
-
 .name {
   text-align: start;
 }
 
+.adapt {
+  display: none;
+}
+
 .drag-icon {
   width: 15px;
-  padding-right: 10px;
+  padding-right: 5px;
 }
 
 .dragged {
@@ -150,6 +143,12 @@ td {
 }
 
 @media only screen and (max-width: 768px) {
+  .table {
+    font-size: 13px;
+  }
+}
+
+@media only screen and (max-width: 576px) {
   th {
     display: none;
   }
@@ -159,96 +158,19 @@ td {
   }
 
   td {
-    width: 90%;
     display: block;
     border: none;
     padding: 10px;
   }
 
-  .members-adapt,
-  .tasks-adapt,
-  .my-tasks-adapt,
-  .task-tracks-adapt {
-    display: flex;
+  .name {
+    text-align: center;
   }
 
-  .progress-adapt {
-    display: block;
-  }
-
-  .members-adapt::before,
-  .tasks-adapt::before,
-  .my-tasks-adapt::before,
-  .task-tracks-adapt::before,
-  .progress-adapt::before {
+  .adapt {
+    display: inline;
     font-style: italic;
     padding-right: 10px;
     color: $text-thead;
-  }
-
-  .members-adapt:nth-of-type(1):before,
-  .tasks-adapt:nth-of-type(1):before,
-  .my-tasks-adapt:nth-of-type(1):before,
-  .task-tracks-adapt:nth-of-type(1):before {
-    content: 'Name:';
-  }
-
-  .members-adapt:nth-of-type(2):before {
-    content: 'Email:';
-  }
-
-  .members-adapt:nth-of-type(3):before {
-    content: 'Education:';
-  }
-
-  .members-adapt:nth-of-type(4):before {
-    content: 'Phone:';
-  }
-
-  .members-adapt:nth-of-type(5):before,
-  .tasks-adapt:nth-of-type(2):before {
-    content: 'Start date:';
-  }
-
-  .tasks-adapt:nth-of-type(3):before,
-  .my-tasks-adapt:nth-of-type(3):before {
-    content: 'Deadline:';
-  }
-
-  .progress-adapt:nth-of-type(1):before {
-    content: 'Task Name:';
-  }
-
-  .progress-adapt:nth-of-type(2):before {
-    content: 'Tracks:';
-  }
-
-  .progress-adapt:nth-of-type(3):before {
-    content: 'Notes:';
-  }
-
-  .progress-adapt:nth-of-type(4):before {
-    content: 'Dates:';
-  }
-
-  .my-tasks-adapt:nth-of-type(2):before {
-    content: 'Start date:';
-  }
-
-  .my-tasks-adapt:nth-of-type(4):before,
-  .progress-adapt:nth-of-type(5):before {
-    content: 'Status:';
-  }
-
-  .task-tracks-adapt:nth-of-type(2):before {
-    content: 'Note:';
-  }
-
-  .task-tracks-adapt:nth-of-type(3):before {
-    content: 'Date:';
-  }
-
-  .actions {
-    width: 90%;
   }
 }
