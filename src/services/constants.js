@@ -9,7 +9,7 @@ import birdIcon from '../assets/images/birdIcon.png';
 import larkgronickIcon from '../assets/images/larkgronickIcon.png';
 import incubatorIcon from '../assets/images/incubatorIcon.png';
 import userIcon from '../assets/images/userIcon.png';
-import { generateID, getCurrentDate } from './helpers';
+import { getCurrentDate } from './helpers';
 
 export const MEMBERS_VALIDATIONS = 14;
 export const TASK_VALIDATIONS = 4;
@@ -19,7 +19,7 @@ export const directions = ['JAVA', '.NET', 'Frontend'];
 export const roles = ['Member', 'Mentor', 'Admin'];
 
 export const memberInit = {
-  id: generateID(),
+  id: '',
   direction: '',
   name: '',
   email: '',
@@ -59,7 +59,7 @@ export const memberInitVal = {
 };
 
 export const taskInit = {
-  id: generateID(),
+  id: '',
   name: '',
   description: '',
   start: getCurrentDate(),

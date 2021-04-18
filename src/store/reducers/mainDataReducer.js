@@ -1,4 +1,4 @@
-import { SET_THEME, LOGIN, SWITCH_THEME, SAVE_DATA, DELETE_DATA } from '../types';
+import { SET_THEME, LOGIN, SWITCH_THEME, SAVE_DATA, DELETE_DATA, UPDATE_DATA } from '../types';
 
 const initialState = {
   isLogged: false,
@@ -18,6 +18,7 @@ export default function mainDataReducer(state = initialState, action) {
     case SWITCH_THEME:
     case SAVE_DATA:
     case DELETE_DATA:
+    case UPDATE_DATA:
       return {
         ...state,
         ...action.payload,

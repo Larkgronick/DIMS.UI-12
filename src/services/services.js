@@ -37,10 +37,10 @@ export const registerNewUser = async (email, password) => {
   }
 };
 
-export const updateData = async (data, field) => {
+export const updateCategory = async (data, field) => {
   db.collection('data')
     .doc(field)
-    .set({ data })
+    .set({ [field]: data })
     .then(() => {
       console.error(`${field} was updated!`);
     })

@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { openEdit, openConfirmation, selectItem } from '../../store/actions/modalAction';
+import { updateData } from '../../store/actions/mainDataAction';
 import { Button } from '../Buttons/Button/Button';
-import { updateData } from '../../services/services';
-import { convertDate } from '../../services/helpers';
+import { convertDate, getNewOrder } from '../../services/helpers';
 import dragIcon from '../../assets/images/dragIcon.png';
 
 export function TasksTable() {
@@ -16,24 +16,21 @@ export function TasksTable() {
 
   const edit = (isNew, selected) => (e) => dispatch(openEdit(e, isNew, selected));
 
+  const update = (newData, field) => dispatch(updateData(newData, field));
+
   const confirm = (page) => (e) => {
     dispatch(selectItem(e, 'selected'));
     dispatch(openConfirmation(page));
   };
 
+  useEffect(() => {
+    updateRows(tasks);
+  }, [tasks]);
+
   const handleOnDragEnd = (result) => {
     setDragged(false);
     if (result.destination) {
-      const items = Array.from(rows);
-      const newItem = items[result.source.index];
-      const removed = [...items.slice(0, result.source.index), ...items.slice(result.source.index + 1)];
-      const insert = [
-        ...removed.slice(0, result.destination.index),
-        newItem,
-        ...removed.slice(result.destination.index),
-      ];
-      updateRows(insert);
-      updateData(insert, 'tasks');
+      update(getNewOrder(rows, result), 'tasks');
     }
   };
 

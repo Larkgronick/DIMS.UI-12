@@ -9,7 +9,7 @@ import { Input } from '../FormElements/Input';
 import { Textarea } from '../FormElements/Textarea';
 import { List } from '../FormElements/List';
 import { TASK_VALIDATIONS, taskInit, taskInitVal } from '../../services/constants';
-import { onFocusDate, onBlurDate, validateValues, convertDate } from '../../services/helpers';
+import { onFocusDate, onBlurDate, validateValues, convertDate, generateID } from '../../services/helpers';
 import { addUserTasks } from '../../services/services';
 import { validateCategory, validateField } from '../../services/validation';
 
@@ -42,6 +42,9 @@ export function TaskManager() {
   };
 
   const saveTask = (isNew) => () => {
+    if (isNew) {
+      data.id = generateID();
+    }
     if (validateData(TASK_VALIDATIONS)) {
       const { id, assigners } = data;
       addUserTasks(id, assigners);

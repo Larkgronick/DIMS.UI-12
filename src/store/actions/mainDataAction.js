@@ -1,5 +1,5 @@
-import { SET_THEME, LOGIN, SWITCH_THEME, SAVE_DATA, DELETE_DATA } from '../types';
-import { loadData, loadMemberData, setData, clearUserTracks } from '../../services/services';
+import { SET_THEME, LOGIN, SWITCH_THEME, SAVE_DATA, DELETE_DATA, UPDATE_DATA } from '../types';
+import { loadData, loadMemberData, setData, clearUserTracks, updateCategory } from '../../services/services';
 
 export const setTheme = (theme) => {
   return {
@@ -67,5 +67,13 @@ export const deleteData = (category, selected, field) => {
   return {
     type: DELETE_DATA,
     payload: { [field]: removed },
+  };
+};
+
+export const updateData = (data, field) => {
+  updateCategory(data, field);
+  return {
+    type: UPDATE_DATA,
+    payload: { [field]: data },
   };
 };

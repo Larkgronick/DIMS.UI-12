@@ -15,6 +15,7 @@ export const SAVE_TRACK_DATA = 'SAVE_TRACK_DATA';
 
 export const SET_THEME = 'SET_THEME';
 export const LOGIN = 'LOGIN';
-export const DELETE_DATA = 'LOAD_DATA';
+export const DELETE_DATA = 'DELETE_DATA';
 export const SAVE_DATA = 'LOAD_DATA';
 export const SWITCH_THEME = 'SWITCH_THEME';
+export const UPDATE_DATA = 'UPDATE_DATA';

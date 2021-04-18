@@ -59,6 +59,7 @@ export function MemberManager() {
   };
 
   const addMember = () => {
+    data.id = generateID();
     if (validateData(MEMBERS_VALIDATIONS)) {
       const { email } = data;
       save(data, true);

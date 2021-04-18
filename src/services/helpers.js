@@ -66,3 +66,11 @@ export const onBlurDate = (e) => {
     e.currentTarget.value = e.currentTarget.placeholder;
   }
 };
+
+export const getNewOrder = (rows, result) => {
+  const items = Array.from(rows);
+  const newItem = items[result.source.index];
+  const removed = [...items.slice(0, result.source.index), ...items.slice(result.source.index + 1)];
+  const insert = [...removed.slice(0, result.destination.index), newItem, ...removed.slice(result.destination.index)];
+  return insert;
+};
