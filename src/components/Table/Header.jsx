@@ -25,7 +25,7 @@ export default function Header(props) {
       <header className='header'>
         <div>
           <Hamburger />
-          {role === 'Admin' ? (
+          {role === 'Admin' || (role === 'Mentor' && text === 'Create') ? (
             <Button onClick={edit(false)} className='button dev'>
               {text}
             </Button>
