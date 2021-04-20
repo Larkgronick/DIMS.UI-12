@@ -1,10 +1,16 @@
-import { Component } from 'react';
 import './styles/Login.scss';
-import devLogo from '../assets/images/devLogo.png';
+import PropTypes from 'prop-types';
+import { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Button } from '../components/Buttons/Button/Button';
-import { signInFirebase } from '../services/services';
+import { GoogleButton } from '../components/Buttons/GoogleButton/GoogleButton';
+import { Spinner } from '../components/Loader/Spinner';
+import { validateEmail } from '../services/validation';
+import { signInFirebase, signInWithGoogle } from '../services/services';
+import { eggs } from '../services/constants';
+import devLogo from '../assets/images/devLogo.png';
 
-export class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,53 +18,107 @@ export class Login extends Component {
       password: '',
       emailError: '',
       passwordError: '',
+      isLoading: false,
     };
-    this.inputChange = this.inputChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
   }
 
-  async handleClick() {
+  handleClick = async () => {
     const { email, password } = this.state;
+    this.setState({ isLoading: true });
     const response = await signInFirebase(email, password);
-    if (response) {
-      console.log(response);
+    if (response.code) {
+      this.validateLogin(response.code, email);
     }
-  }
+    this.setState({ isLoading: false });
+  };
 
-  inputChange(event) {
+  validateLogin = (res, email) => {
+    const { history } = this.props;
+    if (validateEmail(email)) {
+      this.setState({ emailError: "Email must be in valid format, for example 'username@mailbox.com'" });
+    } else {
+      switch (res) {
+        case 'auth/invalid-email':
+          this.setState({ emailError: 'The email address is badly formatted' });
+          break;
+        case 'auth/user-not-found':
+          this.setState({ emailError: "This email doesn't exist in DIMS system" });
+
+          break;
+        case 'auth/wrong-password':
+          this.setState({ passwordError: 'Invalid password' });
+          break;
+        default:
+          history.push('/my-tasks');
+          break;
+      }
+    }
+  };
+
+  inputChange = (event) => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
-  }
+
+    this.setState({
+      [name]: value,
+      emailError: '',
+      passwordError: '',
+    });
+  };
 
   render() {
-    const { emailError, passwordError } = this.state;
-
+    const { emailError, passwordError, isLoading } = this.state;
     return (
       <div className='login'>
         <header className='header-login'>
           <img className='dev-logo-login' src={devLogo} alt='dev-incubator-logo' />
         </header>
-        <main className='login-form'>
-          <h2>
-            Welcome<span>back!</span>
-          </h2>
-          <input id='email-field' name='email' onChange={this.inputChange} type='email' placeholder='Login' />
-          <input
-            id='password-field'
-            name='password'
-            onChange={this.inputChange}
-            type='password'
-            placeholder='Password'
-          />
-          <label className='error-message' htmlFor='email-field'>
-            {emailError}
-          </label>
-          <label className='error-message' htmlFor='password-field'>
-            {passwordError}
-          </label>
-          <Button name='Sign In' action={this.handleClick} styles='button dev' />
+        <main className={isLoading ? `drop-shadow login-form` : `login-form`}>
+          <p className='welcome'>
+            Welcome to <span>Dev Incubator!</span>
+          </p>
+          <form className='input-fields'>
+            <input
+              id='email-field'
+              name='email'
+              onChange={this.inputChange}
+              autoComplete='off'
+              type='email'
+              placeholder='Email'
+            />
+            <label className='error-message' htmlFor='email-field'>
+              {emailError}
+            </label>
+            <input
+              id='password-field'
+              name='password'
+              onChange={this.inputChange}
+              type='password'
+              placeholder='Password'
+            />
+            <label className='error-message' htmlFor='password-field'>
+              {passwordError}
+            </label>
+            <Button onClick={this.handleClick} className='button dev'>
+              Sign In
+            </Button>
+            <GoogleButton onClick={signInWithGoogle}>Sign in with Google</GoogleButton>
+            <Spinner visible={isLoading} />
+          </form>
         </main>
+        <ul className='bg-bubbles'>
+          {eggs.map((el) => (
+            <li key={el} />
+          ))}
+        </ul>
       </div>
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default withRouter(Login);

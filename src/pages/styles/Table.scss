@@ -1,18 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-$roboto-regular: 'Roboto Regular', serif;
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
 
 $text-thead: #8492af;
 $table-line: #dadee7;
+$dev-color: #008f02;
+$danger: #da514b;
+$drag: #e5edf1;
 
 .table {
-  width: 90vw;
-  font-family: $roboto-regular;
+  width: 88vw;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
   border-collapse: collapse;
+  text-align: center;
+  margin: 0 auto 30px auto;
+}
+
+.settings {
+  width: 70%;
 }
 
 header {
+  width: 85vw;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin: 0 auto;
+  div {
+    width: 185px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
 }
 
 .table-head {
@@ -20,14 +40,14 @@ header {
   margin-bottom: 10px;
 }
 
-.name {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 10px;
+.actions {
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .attention {
   color: $text-thead;
+  padding-left: 10px;
 }
 
 .logo {
@@ -36,9 +56,121 @@ header {
 
 .row {
   height: 60px;
-  border: 2px solid $table-line;
 }
 
 td {
   text-align: center;
+  padding: 3px;
+  border: 2px solid $table-line;
+}
+
+.link {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.subtask {
+  margin: 30px 0;
+}
+
+.success {
+  color: $dev-color;
+}
+
+.failed {
+  color: $danger;
+}
+
+.error-caption {
+  padding: 45px 0;
+  font-size: 30px;
+  font-style: italic;
+}
+
+.error-border {
+  border: 2px solid $danger;
+}
+
+.hide {
+  display: none;
+}
+
+.description {
+  text-align: justify;
+  padding: 0px 30px;
+  line-height: 28px;
+}
+
+.jump-to {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-icon {
+  display: block;
+  margin: auto;
+}
+
+.index {
+  font-style: initial;
+  color: $text-thead;
+  text-align: initial;
+}
+
+.name {
+  text-align: start;
+}
+
+.adapt {
+  display: none;
+}
+
+.drag-icon {
+  width: 15px;
+  padding-right: 5px;
+}
+
+.dragged {
+  td {
+    background-color: $drag;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .table {
+    font-size: 13px;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  th {
+    display: none;
+  }
+
+  tr {
+    border: 2px solid $table-line;
+  }
+
+  td {
+    display: block;
+    border: none;
+    padding: 10px;
+  }
+
+  .name {
+    text-align: center;
+  }
+
+  .adapt {
+    display: inline;
+    font-style: italic;
+    padding-right: 10px;
+    color: $text-thead;
+  }
 }

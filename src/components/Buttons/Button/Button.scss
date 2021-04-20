@@ -3,39 +3,85 @@ $dev-color: #008f02;
 $danger: #da514b;
 $tasks-color: #009afb;
 $edit-color: #50c4df;
+$reset-color: #cacaca;
+$opacity: 15%;
 
 .button {
-  border: 2px solid white;
-  width: 130px;
-}
-
-.button {
-  border: 2px solid $text;
-  width: 150px;
-  height: 50px;
-  margin-left: 15px;
-  font-size: 18px;
+  width: 80px;
+  height: 40px;
+  margin: 2px 8px;
+  font-size: 14px;
   color: $text;
-  background-color: $dev-color;
   border-radius: 50px;
   outline: none;
   cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  border: none;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10rem;
+    z-index: -2;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    transition: all 0.3s;
+    border-radius: 10rem;
+    z-index: -1;
+  }
+  &:hover {
+    color: #fff;
+    &:before {
+      width: 100%;
+    }
+  }
 }
 
 .dev {
   background-color: $dev-color;
+  &:before {
+    background-color: darken($dev-color, $opacity);
+  }
 }
 
 .tasks {
   background-color: $tasks-color;
+  &:before {
+    background-color: darken($tasks-color, $opacity);
+  }
 }
 
 .danger {
   background-color: $danger;
+  &:before {
+    background-color: darken($danger, $opacity);
+  }
 }
 
 .edit {
   background-color: $edit-color;
+  &:before {
+    background-color: darken($edit-color, $opacity);
+  }
+}
+
+.reset {
+  background-color: $reset-color;
+  &:before {
+    background-color: darken($reset-color, $opacity);
+  }
 }
 
 .submit {
@@ -47,4 +93,25 @@ $edit-color: #50c4df;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.circle {
+  font-size: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+  .button {
+    width: 70px;
+    height: 40px;
+    font-size: 13px;
+  }
+
+  .circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
 }

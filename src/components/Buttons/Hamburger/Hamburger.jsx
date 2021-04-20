@@ -1,12 +1,23 @@
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { drawerToggle } from '../../../store/actions/drawerAction';
 import { Button } from '../Button/Button';
+
 import './Hamburger.scss';
 
-export function Hamburger({ showDrawer, toggle }) {
-  return <Button name={<span />} action={toggle} styles={`bt-menu-trigger ${showDrawer && 'bt-menu-open'}`} />;
-}
+export function Hamburger() {
+  const dispatch = useDispatch();
+  const {
+    drawer: { drawerOpen },
+    main: { theme },
+  } = useSelector((state) => state);
 
-Hamburger.propTypes = {
-  showDrawer: PropTypes.bool.isRequired,
-  toggle: PropTypes.bool.isRequired,
-};
+  const toggle = () => {
+    dispatch(drawerToggle());
+  };
+
+  return (
+    <Button onClick={toggle} className={`bt-menu-trigger ${theme} ${drawerOpen && 'bt-menu-open'}`}>
+      <span className={`${theme}-burger`} />
+    </Button>
+  );
+}
