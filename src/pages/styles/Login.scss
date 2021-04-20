@@ -118,7 +118,7 @@ $error: red;
   z-index: 2;
 
   .bubble {
-    opacity: 20% !important;
+    opacity: 0.2;
     position: absolute;
     list-style: none;
     display: block;
@@ -162,8 +162,6 @@ $error: red;
       height: 70px;
 
       animation-duration: 22s;
-
-      background-color: fade(white, 25%);
     }
 
     &:nth-child(5) {
@@ -176,7 +174,6 @@ $error: red;
       width: 120px;
       height: 150px;
       animation-delay: 3s;
-      background-color: fade(white, 20%);
     }
 
     &:nth-child(7) {
@@ -201,7 +198,6 @@ $error: red;
       height: 15px;
       animation-delay: 2s;
       animation-duration: 60s;
-      background-color: fade(white, 30%);
     }
 
     &:nth-child(10) {
