@@ -107,7 +107,7 @@ class Login extends Component {
         </main>
         <ul className='bg-bubbles'>
           {eggs.map((el) => (
-            <li key={el} />
+            <li className='bubble' key={el} />
           ))}
         </ul>
       </div>
