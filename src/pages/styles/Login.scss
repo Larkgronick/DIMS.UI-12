@@ -118,6 +118,7 @@ $error: red;
   z-index: 2;
 
   .bubble {
+    opacity: 20% !important;
     position: absolute;
     list-style: none;
     display: block;
@@ -125,7 +126,6 @@ $error: red;
     height: 40px;
     background-color: $dev-color;
     bottom: -180px;
-    opacity: 20%;
     border-bottom-left-radius: 50% 40%;
     border-bottom-right-radius: 50% 40%;
     border-top-left-radius: 50% 60%;
